@@ -6,6 +6,7 @@ The repository has the following file structure:
 - `api` &mdash; folder to store the api setup.
 - `db` &mdash; folder to database config files and any extra docker setup we need for testing.
 - `frontend` &mdash; folder for UI.
+- `docs` &mdash; this is the folder for our API documentation. Please add the documentation for new API routes here.
 
 # How to edit code in the repository
 Here is a guide on how to create an edit in the code. 
