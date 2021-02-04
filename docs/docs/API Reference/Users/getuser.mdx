@@ -1,0 +1,42 @@
+---
+name: Get user
+menu: Users
+---
+
+# Get user
+
+Get the user with the id, `:id`.
+- URL: `/user/:id`
+- Method: `GET`
+- Auth required: NO
+
+## Parameters
+|Parameter|Description                                            |
+|---------|-------------------------------------------------------|
+|id       | The id of the user you would like to get the data for.|
+
+## Success Response
+Code: `200 OK`
+### Example Response
+This is the case where the id is `1234567`.
+```json
+{
+  "user": {
+    "_id": 1234567,
+    ...
+  }
+}
+```
+
+## Errors
+- `404`, in the case the user is not found. This would look like `{code: 404, error_msg: 'Could not find a user with that id'}`.
+- OR in the case of a server error you would get a `5xx` error in the form of `{code: 5xx, error_msg: 'Oh snap, something went wrong on our end.'}`
+
+## Example request
+```js
+axios.get('/api/users/1234567').then(res => {
+    console.log(res.body)
+}).catch(err => {
+    console.log(err)
+})
+```
