@@ -12,5 +12,9 @@
     "prop-types": "^15.7.2",
     "react": "^16.11.0",
     "react-dom": "^16.11.0"
+  },
+  "resolutions": {
+    "@babel/preset-env": "7.12.11",
+    "@babel/plugin-transform-spread": "7.12.1"
   }
 }
