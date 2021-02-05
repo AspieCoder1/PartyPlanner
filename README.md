@@ -2,6 +2,8 @@
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/a8270273-c66b-419e-9906-53700823fa34/deploy-status)](https://app.netlify.com/sites/pedantic-volhard-92b910/deploys)
 
+Link the [backend docs](https://pedantic-volhard-92b910.netlify.app)
+
 Team X1 COMP10120 project.
 The repository has the following file structure:
 
