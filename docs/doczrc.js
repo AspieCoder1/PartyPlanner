@@ -4,6 +4,6 @@ export default {
         initialColorMode: 'dark',
     },
     src: './docs/',
-    menu: ['Getting Started', {name: 'API Reference', menu: ['Users']}],
+    menu: ['Getting Started', 'Users'],
     dest: './build'
 }
