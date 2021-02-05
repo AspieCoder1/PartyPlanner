@@ -1,41 +1,29 @@
-# Basic Docz example
+# Documentation Service
 
-## Using `create-docz-app`
+Team X1 backend service documentation app made with Docz.
+When adding an entry to the file please create the `.mdx` file in the following format.
+This ensures consistency.
+```markdown
+---
+name: Name of page
+menu: which menu you want to page to go in, see the list on the getting started page.
+---
+# What the request does goes here (e.g. get current user)
+A more detailed description of what the method does
+- url
+- method
+- authentication
 
-```sh
-npx create-docz-app docz-app-basic
-# or
-yarn create docz-app docz-app-basic
-```
-
-## Download manually
-
-```sh
-curl https://codeload.github.com/doczjs/docz/tar.gz/master | tar -xz --strip=2 docz-master/examples/basic
-mv basic docz-basic-example
-cd docz-basic-example
-```
-
-## Setup
-
-```sh
-yarn # npm i
-```
-
-## Run
-
-```sh
-yarn dev # npm run dev
-```
-
-## Build
-
-```sh
-yarn build # npm run build
-```
-
-## Serve built app
-
-```sh
-yarn serve # npm run serve
+## Parameters
+Table to show all parameters the endpoint has
+## Headers
+Any headers needed. In our case it is empty or an authentication header
+## Success Response
+- Code: `200 OK`
+### Example success response
+details about request used and example response goes here
+## Error
+Error codes and messages goes here
+## Notes
+Any important notes about the endpoint
 ```
