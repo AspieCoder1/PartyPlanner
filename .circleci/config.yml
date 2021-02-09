@@ -1,0 +1,61 @@
+version: 2
+general:
+  branches:
+    only:
+      - master
+jobs:
+  test:
+    docker:
+      # specify the version you desire here
+      - image: circleci/node:10.16.3
+
+      # Specify service dependencies here if necessary
+      # CircleCI maintains a library of pre-built images
+      # documented at https://circleci.com/docs/2.0/circleci-images/
+      # - image: circleci/mongo:3.4.4
+
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "frontend-service/package.json" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
+
+      - run:
+          name: Building front-end
+          command: cd ./frontend-service && yarn install
+
+      - save_cache:
+          paths:
+            - /frontend-service/node_modules
+          key: v1-dependencies-{{ checksum "frontend-service/package.json" }}
+
+      # run tests!
+      - run:
+          name: Front-end tests
+          command: cd ./frontend-service && yarn test
+
+      - setup_remote_docker:
+          docker_layer_caching: false
+      - run:
+          name: Install Docker client
+          command: |
+            set -x
+            VER="17.03.0-ce"
+            curl -L -o /tmp/docker-$VER.tgz https://download.docker.com/linux/static/stable/x86_64/docker-$VER.tgz
+            tar -xz -C /tmp -f /tmp/docker-$VER.tgz
+            sudo mv /tmp/docker/* /usr/bin
+      - run:
+          name: Install Docker Compose
+          command: |
+            curl -L https://github.com/docker/compose/releases/download/1.19.0/docker-compose-`uname -s`-`uname -m` > ~/docker-compose
+            chmod +x ~/docker-compose
+            sudo mv ~/docker-compose /usr/local/bin/docker-compose
+      - run:
+          name: Backend tests
+          command: cd backend-service && docker-compose -f docker-compose.test.yml up --build --exit-code-from backend
