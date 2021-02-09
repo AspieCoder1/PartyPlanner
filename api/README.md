@@ -21,3 +21,9 @@ To do this you run,
 > docker-compose down
 ```
 _Please note that when you close down the container all the contents of the database is wiped._
+
+## Running the test cases
+To run the test code please run the following command from your terminal
+```shell
+> docker-compose -f docker-compose.test.yml up --build --exit-code-from backend
+```
