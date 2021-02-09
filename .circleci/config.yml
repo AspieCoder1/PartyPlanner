@@ -22,23 +22,23 @@ jobs:
       # Download and cache dependencies
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "frontend-service/package.json" }}
+            - v1-dependencies-{{ checksum "frontend/package.json" }}
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
 
       - run:
           name: Building front-end
-          command: cd ./frontend-service && yarn install
+          command: cd ./frontend && yarn install
 
       - save_cache:
           paths:
-            - /frontend-service/node_modules
-          key: v1-dependencies-{{ checksum "frontend-service/package.json" }}
+            - /frontend/node_modules
+          key: v1-dependencies-{{ checksum "frontend/package.json" }}
 
       # run tests!
       - run:
           name: Front-end tests
-          command: cd ./frontend-service && yarn test
+          command: cd ./frontend && yarn test
 
       - setup_remote_docker:
           docker_layer_caching: false
@@ -58,7 +58,7 @@ jobs:
             sudo mv ~/docker-compose /usr/local/bin/docker-compose
       - run:
           name: Backend tests
-          command: cd backend-service && docker-compose -f docker-compose.test.yml up --build --exit-code-from backend
+          command: cd api && docker-compose -f docker-compose.test.yml up --build --exit-code-from backend
 
 workflows:
   version: 2
