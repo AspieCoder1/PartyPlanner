@@ -6,7 +6,7 @@ RUN yarn build
 
 FROM node:lts-alpine
 WORKDIR /app
-COPY --from=builder  /app/dist/ .
+COPY --from=builder  ./app/dist/ .
 COPY package.json yarn.lock ./
 RUN yarn install --production
 CMD yarn start
