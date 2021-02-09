@@ -59,3 +59,9 @@ jobs:
       - run:
           name: Backend tests
           command: cd backend-service && docker-compose -f docker-compose.test.yml up --build --exit-code-from backend
+
+workflows:
+  version: 2
+  test:
+    jobs:
+      - test
