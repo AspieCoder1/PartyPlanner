@@ -9,6 +9,7 @@
     "validator": "^13.5.2"
   },
   "devDependencies": {
+    "@babel/preset-env": "^7.12.13",
     "@babel/preset-typescript": "^7.12.13",
     "@types/express": "^4.17.11",
     "@types/jest": "^26.0.20",
