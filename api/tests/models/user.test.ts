@@ -106,8 +106,27 @@ describe('User model tests', () => {
       error = e;
     }
     expect(error).not.toBeNull();
-    expect(error.errors.email.properties.message).toBe(
-      'e-mail is required'
+    expect(error.errors.email.properties.message).toBe('e-mail is required');
+  });
+
+  it('should raise error if password less than 7 characters', async () => {
+    const newUser = {
+      email: 'test@example.com',
+      password: '243a',
+      username: 'test',
+    };
+
+    let error;
+
+    try {
+      const user: IUser = new User(newUser);
+      await user.validate();
+    } catch (e) {
+      error = e;
+    }
+
+    expect(error.errors.password.message).toEqual(
+      'password must have length of 7'
     );
   });
 });

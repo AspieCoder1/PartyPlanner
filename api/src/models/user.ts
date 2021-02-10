@@ -26,7 +26,7 @@ const userSchema: Schema = new Schema<any>({
   password: {
     type: String,
     required: [true, 'password is required'],
-    minlength: 7,
+    minlength: [7, 'password must have length of 7'],
   },
   username: {
     type: String,
