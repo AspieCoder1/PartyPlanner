@@ -14,7 +14,7 @@ export interface IUser extends Document {
 const userSchema: Schema = new Schema<any>({
     email: {
         type: String,
-        required: [true, 'e-mail must be defined'],
+        required: [true, 'e-mail is required'],
         trim: true,
         minlength: 1,
         unique: [true, 'that e-mail is already taken'],
@@ -22,9 +22,14 @@ const userSchema: Schema = new Schema<any>({
             validator: validator.isEmail,
         },
     },
+    password: {
+        type: String,
+        required: [true, 'password is required'],
+        minlength: 7,
+    },
     username: {
         type: String,
-        required: true,
+        required: [true, 'username is required'],
         minlength: 1,
         unique: [true, 'that username is already taken']
     },
