@@ -90,4 +90,24 @@ describe('User model tests', () => {
     expect(error).not.toBeNull();
     expect(error.errors.email.properties.message).toBe('email is invalid');
   });
+
+  it('should throw error if email is empty string', async () => {
+    const newUser = {
+      email: '',
+      password: '24355365644faf',
+      username: 'test',
+    };
+    let error;
+
+    try {
+      const user: IUser = new User(newUser);
+      await user.validate();
+    } catch (e) {
+      error = e;
+    }
+    expect(error).not.toBeNull();
+    expect(error.errors.email.properties.message).toBe(
+      'email is required'
+    );
+  });
 });

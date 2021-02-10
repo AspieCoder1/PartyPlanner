@@ -31,13 +31,13 @@ const userSchema: Schema = new Schema<any>({
   username: {
     type: String,
     required: [true, 'username is required'],
-    minlength: 1,
+    minlength: [1, 'email cannot be empty'],
     unique: [true, 'that username is already taken'],
   },
   phone_num: {
     type: String,
     required: false,
-    minlength: 1,
+    minlength: [1, 'phone number cannot be empty'],
     validate: {
       validator: validator.isMobilePhone,
     },
