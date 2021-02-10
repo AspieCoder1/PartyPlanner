@@ -25,21 +25,25 @@ const userSchema: Schema = new Schema<any>({
   },
   password: {
     type: String,
+    trim: true,
     required: [true, 'password is required'],
     minlength: [7, 'password must have length of 7'],
   },
   username: {
     type: String,
+    trim: true,
     required: [true, 'username is required'],
     minlength: [1, 'email cannot be empty'],
     unique: [true, 'that username is already taken'],
   },
   phone_num: {
     type: String,
+    trim: true,
     required: false,
     minlength: [1, 'phone number cannot be empty'],
     validate: {
       validator: validator.isMobilePhone,
+      message: 'phone number is invalid',
     },
   },
   groups: {
@@ -48,11 +52,13 @@ const userSchema: Schema = new Schema<any>({
     required: false,
   },
   dietary_requirements: {
+    trim: true,
     type: String,
     required: false,
   },
   accessibility_requirements: {
     type: String,
+    trim: true,
     required: false,
   },
 });

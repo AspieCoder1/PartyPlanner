@@ -129,4 +129,106 @@ describe('User model tests', () => {
       'password must have length of 7'
     );
   });
+
+  it('Should save user for DB if dietary requirements set', async () => {
+    const newUser = {
+      email: 'test@example.com',
+      password: '24355365644faf',
+      username: 'test',
+      dietary_requirements: 'veggie',
+    };
+
+    const user: IUser = new User(newUser);
+    const savedUser = await user.save();
+    expect(user).toEqual(savedUser);
+  });
+
+  it('Should save user for DB if accessibility requirements set', async () => {
+    const newUser = {
+      email: 'test@example.com',
+      password: '24355365644faf',
+      username: 'test',
+      accessibility_requirements: 'wheelchair user',
+    };
+
+    const user: IUser = new User(newUser);
+    const savedUser = await user.save();
+    expect(user).toEqual(savedUser);
+  });
+
+  it('Should raise error if email is not unique', async () => {
+    const newUser1 = {
+      email: 'test@example.com',
+      password: '24355365644faf',
+      username: 'test',
+      accessibility_requirements: 'wheelchair user',
+    };
+
+    const newUser2 = {
+      email: 'test@example.com',
+      password: '24355365644faf',
+      username: 'test1',
+      accessibility_requirements: 'wheelchair user',
+    };
+
+    const user1: IUser = new User(newUser1);
+    await user1.save();
+
+    let error;
+    try {
+      const user2: IUser = new User(newUser2);
+      await user2.save();
+    } catch (err) {
+      error = err;
+    }
+    expect(error).not.toBeNull();
+  });
+
+  it('Should raise error if username is not unique', async () => {
+    const newUser1 = {
+      email: 'test@example.com',
+      password: '24355365644faf',
+      username: 'test',
+      accessibility_requirements: 'wheelchair user',
+    };
+
+    const newUser2 = {
+      email: 'test1@example.com',
+      password: '24355365644faf',
+      username: 'test',
+      accessibility_requirements: 'wheelchair user',
+    };
+
+    const user1: IUser = new User(newUser1);
+    await user1.save();
+
+    let error;
+    try {
+      const user2: IUser = new User(newUser2);
+      await user2.save();
+    } catch (err) {
+      error = err;
+    }
+    expect(error).not.toBeNull();
+  });
+
+  it('Should raise error if invalid phone number', async () => {
+    const newUser1 = {
+      email: 'test@example.com',
+      password: '24355365644faf',
+      username: 'test',
+      accessibility_requirements: 'wheelchair user',
+      phone_num: '123',
+    };
+
+    let error;
+    try {
+      const user1: IUser = new User(newUser1);
+      await user1.validate();
+    } catch (err) {
+      error = err;
+    }
+    expect(error).not.toBeNull();
+    expect(error.errors.phone_num.message).toBe('phone number is invalid');
+  });
 });
