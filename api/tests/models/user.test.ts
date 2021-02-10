@@ -107,7 +107,7 @@ describe('User model tests', () => {
     }
     expect(error).not.toBeNull();
     expect(error.errors.email.properties.message).toBe(
-      'email is required'
+      'e-mail is required'
     );
   });
 });
