@@ -22,5 +22,10 @@
     "build": "tsc",
     "start": "node server.js",
     "test": "jest --config jest.config.js --forceExit"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
   }
 }

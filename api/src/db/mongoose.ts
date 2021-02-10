@@ -4,6 +4,6 @@ import * as mongoose from 'mongoose';
 (<any>mongoose).Promise = global.Promise;
 
 mongoose
-    .connect(process.env.DB_URL, { useNewUrlParser: true })
-    .then()
-    .catch(() => console.error('Unable to connect to MongoDB'));
+  .connect(process.env.DB_URL, { useNewUrlParser: true })
+  .then()
+  .catch(() => console.error('Unable to connect to MongoDB'));
