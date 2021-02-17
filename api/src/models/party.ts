@@ -18,10 +18,13 @@ const userSchema: Schema = new Schema<any>({
   },
   description: {
     type: String,
+    trim: true,
+    minlength: 7,
     required: true,
   },
   location: {
     type: String,
+    trim: true,
     required: [true, 'A location is required']
   },
   date: {
@@ -36,7 +39,7 @@ const userSchema: Schema = new Schema<any>({
     type: Boolean,
     required: [true, 'An age rating is required']
   },
-  attendeesIDs: {
+  attendeesID: {
     type: [Schema.Types.ObjectId],
     required: false,
     ref: 'User',
