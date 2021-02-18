@@ -43,10 +43,12 @@ header{
     width: 131px;
     transition: width 0.5s;
     color: #836886;
+    text-decoration: none;
   }
   a:hover{
     background-color: $light-blue;
     width: 160px;
+    text-decoration: underline;
   }
 }
 

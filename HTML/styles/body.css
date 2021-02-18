@@ -30,10 +30,12 @@ header {
     text-align: center;
     width: 131px;
     transition: width 0.5s;
-    color: #836886; }
+    color: #836886;
+    text-decoration: none; }
   .navbar a:hover {
     background-color: #e4e4fc;
-    width: 160px; }
+    width: 160px;
+    text-decoration: underline; }
 
 footer {
   width: 100%;
