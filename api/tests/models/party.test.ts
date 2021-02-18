@@ -14,7 +14,7 @@ describe('Party model tests', () => {
       description: 'This is a test party',
       location: 'This is a test location',
       date: '2021-04-04',
-      ageRate: 'False',
+      ageRate: false,
     };
 
     const party: IParty = new Party(newParty);
@@ -29,7 +29,7 @@ describe('Party model tests', () => {
       description: 'This is a test party',
       location: 'This is a test location',
       date: '2021-04-04',
-      ageRate: 'False',
+      ageRate: false,
     };
     let error;
 
@@ -48,7 +48,7 @@ describe('Party model tests', () => {
       organiser: 'test user',
       description: 'This is a test party',
       date: '2021-04-04',
-      ageRate: 'False',
+      ageRate: false,
     };
     let error;
 
@@ -69,7 +69,7 @@ describe('Party model tests', () => {
       organiser: 'test user',
       description: 'This is a test party',
       location: 'This is a test location',
-      ageRate: 'False',
+      ageRate: false,
     };
     let error;
 
@@ -91,7 +91,7 @@ describe('Party model tests', () => {
       description: 'This is a test party',
       location: 'This is a test location',
       date: 'next week',
-      ageRate: 'False',
+      ageRate: false,
     };
     let error;
 
@@ -111,7 +111,7 @@ describe('Party model tests', () => {
       description: '',
       location: 'This is a test location',
       date: '2021-04-04',
-      ageRate: 'False',
+      ageRate: false,
     };
     let error;
 
@@ -131,7 +131,7 @@ describe('Party model tests', () => {
       description: 'party',
       location: 'This is a test location',
       date: '2021-04-04',
-      ageRate: 'False',
+      ageRate: false,
     };
 
     let error;
@@ -155,7 +155,7 @@ describe('Party model tests', () => {
       description: 'This is a test party',
       location: 'This is a test location',
       date: '2021-04-04',
-      ageRate: 'False',
+      ageRate: false,
       attendeesID: ['aa11AA', 'bb22BB', 'cc33CC'],
     };
 
@@ -175,7 +175,7 @@ describe('Party model tests', () => {
       description: 'This is a test party',
       location: 'This is a test location',
       date: '2021-04-04',
-      ageRate: 'False',
+      ageRate: false,
       todoID: 'todo1',
     };
 
