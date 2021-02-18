@@ -156,7 +156,7 @@ describe('Party model tests', () => {
       location: 'This is a test location',
       date: '2021-04-04',
       ageRate: false,
-      attendeesID: ['aa11AA', 'bb22BB', 'cc33CC'],
+      attendeesID: [new ObjectId(), new ObjectId(), new ObjectId(),],
     };
 
     const party: IParty = new Party(newParty);
