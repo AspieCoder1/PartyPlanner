@@ -40,7 +40,7 @@ describe('Party model tests', () => {
       error = e;
     }
     expect(error).not.toBeNull();
-    expect(error.errors.description.properties.message).toBe('description is required');
+    expect(error.errors.description.properties.message).toBe('A description is required');
   });
 
   it('Should throw error if location is not provided', async () => {
@@ -60,7 +60,7 @@ describe('Party model tests', () => {
     }
     expect(error).not.toBeNull();
     expect(error.errors.location.properties.message).toBe(
-      'location is required'
+      'A location is required'
     );
   });
 
@@ -81,7 +81,7 @@ describe('Party model tests', () => {
     }
     expect(error).not.toBeNull();
     expect(error.errors.date.properties.message).toBe(
-      'date is required'
+      'A Date is required'
     );
   });
 
@@ -102,7 +102,7 @@ describe('Party model tests', () => {
       error = e;
     }
     expect(error).not.toBeNull();
-    expect(error.errors.date.properties.message).toBe('date is invalid');
+    expect(error.errors.date.properties.message).toBe('Invalid Date');
   });
 
   it('should throw error if description is empty string', async () => {
@@ -122,7 +122,7 @@ describe('Party model tests', () => {
       error = e;
     }
     expect(error).not.toBeNull();
-    expect(error.errors.description.properties.message).toBe('description is required');
+    expect(error.errors.description.properties.message).toBe('A description is required');
   });
 
   it('should raise error if description is less than 7 characters', async () => {
@@ -144,7 +144,7 @@ describe('Party model tests', () => {
     }
 
     expect(error.errors.description.message).toEqual(
-      'description must have length of at least 7'
+      'Description length needs to be atleast 7'
     );
   });
 
@@ -165,7 +165,7 @@ describe('Party model tests', () => {
 
     const foundParty = await Party.findById(newParty._id).lean();
     expect(foundParty).toBeTruthy();
-    expect(foundParty.attendeesID).toBe(newParty.attendeesID);
+    expect(foundParty.attendeesID).toStrictEqual(newParty.attendeesID);
   });
 
   it('Should save user for DB if todo list is set', async () => {
