@@ -19,8 +19,8 @@ const userSchema: Schema = new Schema<any>({
   description: {
     type: String,
     trim: true,
-    minlength: 7,
-    required: true,
+    minlength: [7,'Description length needs to be atleast 7'],
+    required:[true,'A description is required']
   },
   location: {
     type: String,
