@@ -163,7 +163,7 @@ describe('Party model tests', () => {
     const savedParty = await party.save();
     expect(party).toEqual(savedParty);
 
-    const foundParty = await Party.findById(newParty._id);
+    const foundParty = await Party.findById(newParty._id).lean();
     expect(foundParty).toBeTruthy();
     expect(foundParty.attendeesID).toBe(newParty.attendeesID);
   });
