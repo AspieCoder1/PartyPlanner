@@ -4,7 +4,35 @@ general:
     only:
       - master
 jobs:
-  test:
+  test-backend:
+    docker:
+      - image: circleci/node:10.16.3
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "api/package.json" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
+
+      - run:
+          name: Backend install
+          command: cd api && yarn install
+
+      - save_cache:
+          paths:
+            - /api/node_modules
+          key: v1-dependencies-{{ checksum "api/package.json" }}
+
+      # run tests!
+      - run:
+          name: Backend tests
+          command: cd api && yarn test
+  test-frontend:
     docker:
       # specify the version you desire here
       - image: circleci/node:10.16.3
@@ -39,22 +67,19 @@ jobs:
       - run:
           name: Front-end tests
           command: cd ./frontend && yarn test
-
-      - setup_remote_docker:
-          version: 19.03.13
-          docker_layer_caching: false
-      - run:
-          name: Install Docker Compose
-          command: |
-            curl -L https://github.com/docker/compose/releases/download/1.25.3/docker-compose-`uname -s`-`uname -m` > ~/docker-compose
-            chmod +x ~/docker-compose
-            sudo mv ~/docker-compose /usr/local/bin/docker-compose
-      - run:
-          name: Backend tests
-          command: cd api && docker-compose -f docker-compose.test.yml up --build --exit-code-from backend
+#      - setup_remote_docker:
+#          version: 19.03.13
+#          docker_layer_caching: false
+#      - run:
+#          name: Install Docker Compose
+#          command: |
+#            curl -L https://github.com/docker/compose/releases/download/1.25.3/docker-compose-`uname -s`-`uname -m` > ~/docker-compose
+#            chmod +x ~/docker-compose
+#            sudo mv ~/docker-compose /usr/local/bin/docker-compose
 
 workflows:
   version: 2
   test:
     jobs:
-      - test
+      - test-frontend
+      - test-backend
