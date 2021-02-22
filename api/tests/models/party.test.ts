@@ -40,7 +40,7 @@ describe('Party model tests', () => {
       error = e;
     }
     expect(error).not.toBeNull();
-    expect(error.errors.description.properties.message).toBe('A description is required');
+    expect(error.errors.organiser.properties.message).toBe('An organiser is required');
   });
 
   it('Should throw error if location is not provided', async () => {

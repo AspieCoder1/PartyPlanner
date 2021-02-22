@@ -14,7 +14,8 @@ export interface IParty extends Document {
 const userSchema: Schema = new Schema<any>({
   organiser: {
     type: String,
-    required: true
+    trim: true,
+    required: [true, 'An organiser is required']
   },
   description: {
     type: String,
