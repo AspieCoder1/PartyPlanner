@@ -12,6 +12,12 @@ export interface IParty extends Document {
 }
 
 const userSchema: Schema = new Schema<any>({
+  name: {
+    type: String,
+    trim: true,
+    minlength: [5, 'Party name length needs to be atleast 5'] ,
+    required: [true, 'A party name is required']
+  },
   organiser: {
     type: String,
     trim: true,
@@ -36,6 +42,11 @@ const userSchema: Schema = new Schema<any>({
         message: 'Invalid Date',
     }
   },
+  time: {
+    type: String,
+    trim: true,
+    required: [true, 'A Time is required']
+  },
   ageRate: {
     type: Boolean,
     required: [true, 'An age rating is required']
@@ -50,6 +61,11 @@ const userSchema: Schema = new Schema<any>({
     type: String,
     required: false,
     ref: 'Todo'
+  },
+  public: {
+    type: Boolean,
+    required: false,
+    default: false,
   }
 });
 
