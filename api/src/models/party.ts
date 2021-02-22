@@ -11,7 +11,7 @@ export interface IParty extends Document {
   todoID?: string;
 }
 
-const userSchema: Schema = new Schema<any>({
+const partySchema: Schema = new Schema<any>({
   name: {
     type: String,
     trim: true,
@@ -69,4 +69,4 @@ const userSchema: Schema = new Schema<any>({
   }
 });
 
-export const Party: Model<IParty> = model('party', userSchema);
+export const Party: Model<IParty> = model('party', partySchema);
