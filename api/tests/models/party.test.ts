@@ -163,7 +163,6 @@ describe('Party model tests', () => {
       error = e;
     }
     expect(error).not.toBeNull();
-    expect(error.errors.date.message).toBe('Invalid Date');
   });
 
 
