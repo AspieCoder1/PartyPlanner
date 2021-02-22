@@ -1,9 +1,27 @@
 import { Party, IParty } from '../../src/models/party';
-import '../../src/db/mongoose';
 import { ObjectId } from 'mongodb';
+import { MongoMemoryServer } from "mongodb-memory-server";
+import * as mongoose from "mongoose";
+
+let mongoServer: MongoMemoryServer;
+
+beforeAll(async () => {
+  mongoServer = new MongoMemoryServer();
+  const mongoUri = await mongoServer.getUri();
+  await mongoose
+    .connect(mongoUri, { useNewUrlParser: true, useUnifiedTopology: true })
+    .then()
+    .catch(() => console.error('Unable to connect to MongoDB'));
+});
+
+afterAll(async () => {
+  await mongoose.disconnect();
+  await mongoServer.stop();
+});
+
 
 afterEach(async () => {
-  await Party.remove({});
+  await Party.deleteMany({});
 });
 
 describe('Party model tests', () => {
