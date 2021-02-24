@@ -205,8 +205,6 @@ describe('POST /register', () => {
 });
 
 describe('POST /login', () => {
-  const email = 'example@example.com';
-  const password = '1234567aA%&';
   it('should send 200 if email and password are correct', async () => {
     const mockUser = {
       email: 'test@test.com',
@@ -222,4 +220,63 @@ describe('POST /login', () => {
     const res = await request(app).post('/login').send(loginUser);
     expect(res.status).toBe(200);
   });
+
+  it('should send 404 if email is not found', async () => {
+    const loginUser = {
+      email: 'test@test.com',
+      password: '1234567'
+    };
+    const res = await request(app).post('/login').send(loginUser);
+    expect(res.status).toBe(404);
+  })
+
+  it('should send 401 if password is incorrect', async () => {
+    const mockUser = {
+      email: 'test@test.com',
+      username: 'test',
+      password: 'abcdefghht',
+    };
+    await request(app).post('/register').send(mockUser);
+
+    const loginUser = {
+      email: mockUser.email,
+      password: '12345'
+    };
+    const res = await request(app).post('/login').send(loginUser);
+    expect(res.status).toBe(401);
+  })
+
+  it('should send 400 if password is empty', async () => {
+    const loginUser = {
+      email: 'test@test.com',
+      password: ''
+    };
+    const res = await request(app).post('/login').send(loginUser);
+    expect(res.status).toBe(400);
+  })
+
+  it('should send 400 if email is empty', async () => {
+    const loginUser = {
+      email: '',
+      password: '1234567'
+    };
+    const res = await request(app).post('/login').send(loginUser);
+    expect(res.status).toBe(400);
+  })
+
+  it('should send 400 if password not provided', async () => {
+    const loginUser = {
+      email: 'test@test.com',
+    };
+    const res = await request(app).post('/login').send(loginUser);
+    expect(res.status).toBe(400);
+  })
+
+  it('should send 400 if email is not provided', async () => {
+    const loginUser = {
+      password: '1234567'
+    };
+    const res = await request(app).post('/login').send(loginUser);
+    expect(res.status).toBe(400);
+  })
 });
