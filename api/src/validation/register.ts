@@ -15,7 +15,7 @@ interface Ierrors {
 const validateUserRegister = (newUser: registerObject): Ierrors => {
   let errors: Ierrors = {};
   if (!validator.isEmail(newUser.email)) {
-    errors.email = 'invalid e-mail';
+    errors.email = 'invalid email';
   }
 
   if (!validator.isAlphanumeric(newUser.username)) {

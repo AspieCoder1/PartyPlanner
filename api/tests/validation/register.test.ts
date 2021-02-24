@@ -15,7 +15,7 @@ describe('Register user request body validation', () => {
 
   it('Should return error if email is invalid', () => {
     const expectedErrors = {
-      email: 'invalid e-mail',
+      email: 'invalid email',
     };
 
     const mockUser = {

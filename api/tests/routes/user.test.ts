@@ -6,7 +6,6 @@ import * as bodyParser from 'body-parser';
 
 import userRouter from '../../src/routes/user';
 import { User } from '../../src/models/user';
-import mock = jest.mock;
 
 const app: express.Application = express();
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -156,5 +155,50 @@ describe('POST /register', () => {
 
     const res = await request(app).post('/register').send(mockUser);
     expect(res.status).toBe(400);
+  });
+
+  it('Should respond with 400 if email is invalid', async () => {
+    const expectedErrors = {
+      email: 'invalid email',
+    };
+
+    const mockUser = {
+      email: 'test',
+      username: 'test',
+      password: 'abcdefghht',
+    };
+    const res = await request(app).post('/register').send(mockUser);
+    expect(res.status).toBe(400);
+    expect(res.body).toEqual(expectedErrors);
+  });
+
+  it('Should respond with 400 if username is not alphanumeric', async () => {
+    const expectedErrors = {
+      username: 'username can only contain letters and numbers',
+    };
+
+    const mockUser = {
+      email: 'test@test.com',
+      username: 'test@',
+      password: 'abcdefghht',
+    };
+    const res = await request(app).post('/register').send(mockUser);
+    expect(res.status).toBe(400);
+    expect(res.body).toEqual(expectedErrors);
+  });
+
+  it('Should respond with 400 if password length < 8', async () => {
+    const expectedErrors = {
+      password: 'password must be at least 8 characters long',
+    };
+
+    const mockUser = {
+      email: 'test@test.com',
+      username: 'test',
+      password: 'abc',
+    };
+    const res = await request(app).post('/register').send(mockUser);
+    expect(res.status).toBe(400);
+    expect(res.body).toEqual(expectedErrors);
   });
 });
