@@ -11,7 +11,7 @@ export interface IUser extends Document {
 	accessibility_requirements?: string;
 }
 
-const userSchema: Schema = new Schema<any>({
+const userSchema: Schema = new Schema({
 	email: {
 		type: String,
 		required: [true, 'e-mail is required'],

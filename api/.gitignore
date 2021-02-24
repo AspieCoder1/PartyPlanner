@@ -1,4 +1,4 @@
 /node_modules/
 dist
 /coverage/
-yarn.lock.error
+yarn-error.log

@@ -11,7 +11,7 @@ export interface IParty extends Document {
 	todoID?: string;
 }
 
-const partySchema: Schema = new Schema<any>({
+const partySchema: Schema = new Schema({
 	name: {
 		type: String,
 		trim: true,
