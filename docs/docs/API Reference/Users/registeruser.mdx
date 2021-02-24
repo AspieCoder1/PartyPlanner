@@ -1,0 +1,57 @@
+---
+name: Register user
+menu: Users
+---
+
+# Register user
+Registers a new user
+- URL: `/register`
+- Method: `POST`
+- Auth required: NO
+
+## Parameters
+This endpoint does not have any query parameters
+
+## Request body
+|Key         |Description                                         |
+|------------|----------------------------------------------------|
+|email       | Email of the new user                              |
+|username    | Username of new user                               |
+|password    | Password of the new user                           |
+
+## Headers
+This endpoint does not require any custom headers to be set.
+
+## Success Response
+Code: `200 OK`
+### Example Response
+This is the case where the id is `1234567`.
+```json
+    {
+      "groups": [],
+      "_id": "6036b50bd562097c0bdf6ada",
+      "email": "test@test.com",
+      "password": "$2b$10$zQDPd4cURHTYwMSmGjUwXuttuxxQoOlwsuq/ka6FVRwlu5tDtP8D2",
+      "username": "test",
+      "__v": 0
+    }
+```
+
+## Errors
+- `400`, in the case the of an error in either validation or the email already exists.
+- OR in the case of a server error you would get a `5xx` error in the form of `{code: 5xx, body: 'Oh snap, something went wrong on our end.'}`
+
+## Example request
+```js
+const user = {
+      email: 'test@test.com',
+      username: 'test',
+      password: 'abcdefghht',
+};
+
+axios.post('/api/users/registers/', user).then(res => {
+    console.log(res.body);
+}).catch(err => {
+    console.log(err)
+})
+```
