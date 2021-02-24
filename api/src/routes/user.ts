@@ -1,7 +1,9 @@
 import * as express from 'express';
 import * as bcrypt from 'bcrypt';
+import * as _ from 'lodash';
 
 import { IUser, User } from '../models/user';
+import validateUserRegister from '../validation/register';
 
 const userRouter: express.Router = express.Router();
 
@@ -13,11 +15,19 @@ userRouter.get('/', (req: express.Request, res: express.Response) => {
 userRouter.post(
   '/register',
   async (req: express.Request, res: express.Response) => {
+    req.body.email = req.body.email ? req.body.email : '';
+    req.body.password = req.body.password ? req.body.password : '';
+    req.body.username = req.body.username ? req.body.username : '';
     const user = {
-      email: req.body.email ? req.body.email : '',
-      password: req.body.email ? req.body.email : '',
-      username: req.body.username ? req.body.username : '',
+      email: req.body.email,
+      password: req.body.password,
+      username: req.body.username,
     };
+
+    const errors = validateUserRegister(user);
+    if (!_.isEmpty(errors)) {
+      return res.status(400).json(errors);
+    }
 
     try {
       const foundUser = await User.findOne({ email: user.email });
@@ -45,7 +55,7 @@ userRouter.post(
         });
       }
     } catch (e) {
-      console.log('Something went wrong!');
+      res.status(500).json('Oops something went wrong');
     }
   }
 );

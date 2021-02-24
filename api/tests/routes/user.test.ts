@@ -1,10 +1,16 @@
-import userRouter from '../../src/routes/user';
 import * as express from 'express';
 import * as request from 'supertest';
-import { MongoMemoryServer } from "mongodb-memory-server";
-import * as mongoose from "mongoose";
+import { MongoMemoryServer } from 'mongodb-memory-server';
+import * as mongoose from 'mongoose';
+import * as bodyParser from 'body-parser';
+
+import userRouter from '../../src/routes/user';
+import { User } from '../../src/models/user';
+import mock = jest.mock;
 
 const app: express.Application = express();
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 app.use('/', userRouter);
 
 let mongoServer: MongoMemoryServer;
@@ -23,10 +29,132 @@ afterAll(async () => {
   await mongoServer.stop();
 });
 
+afterEach(async () => {
+  await User.deleteMany({});
+});
+
 describe('GET /', () => {
   it('Responds with 200', async () => {
     const res = await request(app).get('/');
     expect(res.status).toBe(200);
     expect(res.body).toBe('Hello from the userRouter');
+  });
+});
+
+describe('POST /register', () => {
+  it('Should respond with 200 and correctly register a user', async () => {
+    const mockUser = {
+      email: 'test@test.com',
+      username: 'test',
+      password: 'abcdefghht',
+    };
+    const res = await request(app).post('/register').send(mockUser);
+    expect(res.status).toBe(200);
+    const foundUser = await User.findOne({ email: mockUser.email });
+    expect(foundUser).toBeTruthy();
+  });
+
+  it('Should respond with 400 if email is empty', async () => {
+    const expectedErrors = {
+      email: 'email is required',
+    };
+
+    const mockUser = {
+      email: '',
+      username: 'test',
+      password: 'abcdefghht',
+    };
+    const res = await request(app).post('/register').send(mockUser);
+    expect(res.status).toBe(400);
+    expect(res.body).toEqual(expectedErrors);
+  });
+
+  it('Should respond with 400 if password is empty', async () => {
+    const expectedErrors = {
+      password: 'password is required',
+    };
+
+    const mockUser = {
+      email: 'test@test.com',
+      username: 'test',
+      password: '',
+    };
+    const res = await request(app).post('/register').send(mockUser);
+    expect(res.status).toBe(400);
+    expect(res.body).toEqual(expectedErrors);
+  });
+
+  it('Should respond with 400 if username is empty', async () => {
+    const expectedErrors = {
+      username: 'username is required',
+    };
+
+    const mockUser = {
+      email: 'test@test.com',
+      username: '',
+      password: 'asddfbsdfdfsgsdfg',
+    };
+    const res = await request(app).post('/register').send(mockUser);
+    expect(res.status).toBe(400);
+    expect(res.body).toEqual(expectedErrors);
+    const foundUser = await User.findOne({ email: mockUser.email });
+    expect(foundUser).toBeFalsy();
+  });
+
+  it('Should respond with 400 if email is not provided', async () => {
+    const expectedErrors = {
+      email: 'email is required',
+    };
+
+    const mockUser = {
+      username: 'test',
+      password: 'abcdefghht',
+    };
+    const res = await request(app).post('/register').send(mockUser);
+    expect(res.status).toBe(400);
+    expect(res.body).toEqual(expectedErrors);
+  });
+
+  it('Should respond with 400 if password is not provided', async () => {
+    const expectedErrors = {
+      password: 'password is required',
+    };
+
+    const mockUser = {
+      email: 'test@test.com',
+      username: 'test',
+    };
+    const res = await request(app).post('/register').send(mockUser);
+    expect(res.status).toBe(400);
+    expect(res.body).toEqual(expectedErrors);
+    const foundUser = await User.findOne({ email: mockUser.email });
+    expect(foundUser).toBeFalsy();
+  });
+
+  it('Should respond with 400 if username is not provided', async () => {
+    const expectedErrors = {
+      username: 'username is required',
+    };
+
+    const mockUser = {
+      email: 'test@test.com',
+      password: 'asddfbsdfdfsgsdfg',
+    };
+    const res = await request(app).post('/register').send(mockUser);
+    expect(res.status).toBe(400);
+    expect(res.body).toEqual(expectedErrors);
+  });
+
+  it('Should respond with 400 if email already exists', async () => {
+    const mockUser = {
+      email: 'test@test.com',
+      username: 'test',
+      password: 'abcdefghht',
+    };
+    const newUser1 = new User(mockUser);
+    await newUser1.save();
+
+    const res = await request(app).post('/register').send(mockUser);
+    expect(res.status).toBe(400);
   });
 });
