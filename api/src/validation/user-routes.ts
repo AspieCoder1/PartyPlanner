@@ -6,13 +6,18 @@ interface registerObject {
   username: string;
 }
 
+interface loginObject {
+  email: string;
+  password: string;
+}
+
 interface Ierrors {
   email?: string;
   password?: string;
   username?: string;
 }
 
-const validateUserRegister = (newUser: registerObject): Ierrors => {
+export const validateUserRegister = (newUser: registerObject): Ierrors => {
   let errors: Ierrors = {};
   if (!validator.isEmail(newUser.email)) {
     errors.email = 'invalid email';
@@ -41,4 +46,20 @@ const validateUserRegister = (newUser: registerObject): Ierrors => {
   return errors;
 };
 
-export default validateUserRegister;
+export const validateLogin = (loginUser: loginObject) => {
+  let errors: Ierrors = {};
+
+  if (!validator.isEmail(loginUser.email)) {
+    errors.email = 'invalid email'
+  }
+
+  if (validator.isEmpty(loginUser.password)) {
+    errors.password = 'password is required'
+  }
+
+  if (validator.isEmpty(loginUser.email)) {
+    errors.email = 'email is required'
+  }
+
+  return errors;
+}

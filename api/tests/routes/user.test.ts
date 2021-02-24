@@ -6,6 +6,7 @@ import * as bodyParser from 'body-parser';
 
 import userRouter from '../../src/routes/user';
 import { User } from '../../src/models/user';
+import '../config/config';
 
 const app: express.Application = express();
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -200,5 +201,25 @@ describe('POST /register', () => {
     const res = await request(app).post('/register').send(mockUser);
     expect(res.status).toBe(400);
     expect(res.body).toEqual(expectedErrors);
+  });
+});
+
+describe('POST /login', () => {
+  const email = 'example@example.com';
+  const password = '1234567aA%&';
+  it('should send 200 if email and password are correct', async () => {
+    const mockUser = {
+      email: 'test@test.com',
+      username: 'test',
+      password: 'abcdefghht',
+    };
+    await request(app).post('/register').send(mockUser);
+
+    const loginUser = {
+      email: mockUser.email,
+      password: mockUser.password
+    };
+    const res = await request(app).post('/login').send(loginUser);
+    expect(res.status).toBe(200);
   });
 });

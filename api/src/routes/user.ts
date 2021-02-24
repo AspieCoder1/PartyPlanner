@@ -1,9 +1,10 @@
 import * as express from 'express';
 import * as bcrypt from 'bcrypt';
 import * as _ from 'lodash';
+import * as jwt from 'jsonwebtoken';
 
 import { IUser, User } from '../models/user';
-import validateUserRegister from '../validation/register';
+import { validateUserRegister } from '../validation/user-routes';
 
 const userRouter: express.Router = express.Router();
 
@@ -55,6 +56,37 @@ userRouter.post(
         });
       }
     } catch (e) {
+      res.status(500).json('Oops something went wrong');
+    }
+  }
+);
+
+userRouter.post(
+  '/login',
+  async (req: express.Request, res: express.Response) => {
+    const userEmail = req.body.email ? req.body.email : '';
+    const userPassword = req.body.password ? req.body.password : '';
+
+    try {
+      const user: IUser = await User.findOne({ email: userEmail });
+      if (user) {
+        const match = await bcrypt.compare(userPassword, user.password);
+        if (match) {
+          const payload = { email: userEmail, is: user._id };
+          const token = jwt.sign(payload, process.env.jwt_key, {
+            expiresIn: 3600,
+          });
+          res
+            .status(200)
+            .json({ success: true, token: `Bearer ${token}`, id: user._id });
+        } else {
+          res.status(401).json({ password: 'password is incorrect' });
+        }
+      } else {
+        res.status(404).send({ email: 'User not found' });
+      }
+    } catch (e) {
+      console.log(e);
       res.status(500).json('Oops something went wrong');
     }
   }

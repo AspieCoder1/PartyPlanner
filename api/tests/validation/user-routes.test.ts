@@ -1,4 +1,7 @@
-import validateUserRegister from '../../src/validation/register';
+import {
+  validateUserRegister,
+  validateLogin,
+} from '../../src/validation/user-routes';
 
 describe('Register user request body validation', () => {
   it('Should return empty object if everything valid', () => {
@@ -70,4 +73,56 @@ describe('Register user request body validation', () => {
     const errors = validateUserRegister(mockUser);
     expect(errors).toEqual(expectedErrors);
   });
+});
+
+describe('Login user request body validation', () => {
+  it('Should return empty object if everything valid', () => {
+    const expectedErrors = {};
+    const mockUser = {
+      email: 'test@test.com',
+      password: '123244',
+    };
+
+    const errors = validateLogin(mockUser);
+    expect(errors).toEqual(expectedErrors);
+  });
+
+  it('Should return error object if email invalid', () => {
+    const expectedErrors = {
+      email: 'invalid email',
+    };
+    const mockUser = {
+      email: 'test',
+      password: '123244',
+    };
+
+    const errors = validateLogin(mockUser);
+    expect(errors).toEqual(expectedErrors);
+  });
+
+  it('Should return error if email is empty', () => {
+    const expectedErrors = {
+      email: 'email is required'
+    }
+    const mockUser = {
+      email: '',
+      password: '123244'
+    }
+
+    const errors = validateLogin(mockUser);
+    expect(errors).toEqual(expectedErrors)
+  })
+
+  it('Should return error if password is empty', () => {
+    const expectedErrors = {
+      password: 'password is required'
+    }
+    const mockUser = {
+      email: 'test@test.com',
+      password: ''
+    }
+
+    const errors = validateLogin(mockUser);
+    expect(errors).toEqual(expectedErrors)
+  })
 });
