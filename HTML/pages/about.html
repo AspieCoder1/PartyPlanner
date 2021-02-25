@@ -6,6 +6,48 @@
     <title>PartyPlanner</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+
+        input[type=text], input[type=password] {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #c4bdfc;
+            color: #836886;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            border-radius: 5px;
+
+        }
+        .popup {
+            display: none;
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+        .popup-content{
+            background-color: #fefefe;
+            margin: 15% auto 20% auto; /* 5% from the top, 15% from the bottom and centered */
+            border-radius: 5px;
+            padding: 20px;
+            width: 80%; /* Could be more or less, depending on screen size */
+        }
+
+    </style>
 </head>
 <body>
 
@@ -15,8 +57,48 @@
 </div>
 <div class="navbar">
     <a href="about.html">About</a>
-    <a href="home.html">Signup/Login</a>
+    <a onclick="document.getElementById('login-popup').style.display='block'">Login</a>
+    <a onclick="document.getElementById('signup-popup').style.display='block'">Sign Up</a>
     <a href="https://github.com/sai109/PartyPlanner">GitHub</a>
+</div>
+
+<!--Login popup-->
+<div id="login-popup" class="popup">
+    <form class="popup-content">
+        <div class="column_container" style="justify-content: space-between">
+            <div>
+                <h1 style="font-size: 50px">Login</h1>
+            </div>
+            <div>
+                <!--Cancel button-->
+                <button type="button" style="border-radius: 30px" onclick="document.getElementById('login-popup').style.display='none'">X</button>
+            </div>
+        </div>
+        <label>Username</label>
+        <input type="text" placeholder="Enter Username" required>
+        <label>Password</label>
+        <input type="password" placeholder="Enter Password" required>
+        <button type="submit">Login</button>
+    </form>
+</div>
+<!--Sign up popup-->
+<div id="signup-popup" class="popup">
+    <form class="popup-content">
+        <div class="column_container" style="justify-content: space-between">
+            <div>
+                <h1 style="font-size: 50px">Sign Up</h1>
+            </div>
+            <div>
+                <!--Cancel button-->
+                <button type="button" style="border-radius: 30px" onclick="document.getElementById('signup-popup').style.display='none'">X</button>
+            </div>
+        </div>
+        <label>Username</label>
+        <input type="text" placeholder="Enter Username" required>
+        <label>Password</label>
+        <input type="password" placeholder="Enter Password" required>
+        <button type="submit">Login</button>
+    </form>
 </div>
 
 <div class="column_container">
