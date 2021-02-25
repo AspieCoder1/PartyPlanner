@@ -1,0 +1,53 @@
+---
+name: Login user
+menu: Users
+---
+
+# Register user
+Registers a new user
+- URL: `/login`
+- Method: `POST`
+- Auth required: NO
+
+## Parameters
+This endpoint does not have any query parameters
+
+## Request body
+|Key         |Description                                         |
+|------------|----------------------------------------------------|
+|email       | Email of the new user                              |
+|password    | Password of the new user                           |
+
+## Headers
+This endpoint does not require any custom headers to be set.
+
+## Success Response
+Code: `200 OK`
+### Example Response
+This is the case where the id is `1234567`.
+```json
+    {
+      "success": true,
+      "token": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAdGVzdC5jb20iLCJpcyI6IjYwMzc3MjE1NjU1NGZiMzI5ODU4OWY2MCIsImlhdCI6MTYxNDI0NjQyMiwiZXhwIjoxNjE0MjUwMDIyfQ.xg2lF5pMJ6UdZn9Ckx-jpnmVqhhhY2YEjhvjmmEvGnA",
+      "id": "603772156554fb3298589f60"
+    }
+```
+
+## Errors
+- `400`, in the case the of an error in either validation or the email already exists.
+- OR in the case of a server error you would get a `500` error in the form of `{code: 5xx, body: 'Oh snap, something went wrong on our end.'}`
+
+## Example request
+```js
+var axios = require("axios");
+const user = {
+      email: 'test@test.com',
+      password: 'abcdefghht',
+};
+
+axios.post('/api/users/registers/', user).then(res => {
+    console.log(res.body);
+}).catch(err => {
+    console.log(err)
+})
+```

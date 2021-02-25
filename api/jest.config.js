@@ -3,4 +3,5 @@ module.exports = {
         '^.+\\.ts?$': 'ts-jest',
     },
     testEnvironment: "node",
+    // setupFiles: ['./tests/config'],
 }

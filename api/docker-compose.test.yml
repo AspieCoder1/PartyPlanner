@@ -9,7 +9,7 @@ services:
       - '3000:3000'
     depends_on:
       - mongo
-    env_file: test.env
+    env_file: tests/config/test.env
   mongo:
     image: mongo:latest
     ports:
