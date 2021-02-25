@@ -1,10 +1,36 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="../styles/body.css">
     <title>PartyPlanner - Home</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        .party {
+            height: 250px;
+            background-color: #6f3473;
+            border-radius: 25px;
+            padding: 20px 25px;
+            color: #ffffff;
+            transition: height 0.5s;
+            justify-content: center;
+            margin-bottom: 40px;
+        }
+        .party:hover{
+            background-color: #7179b5;
+            height: 270px;
+
+        }
+        .title{
+            font-size: 50px;
+        }
+        .dateandtime{
+            font-size: 25px;
+        }
+        .location{
+            font-size: 20px;
+        }
+    </style>
 </head>
 <body>
 
@@ -13,10 +39,45 @@
     <img src="../img/PartyPlanner.png" alt="PartyPlanner">
 </div>
 <div class="navbar">
-    <a href="home.html">Home</a>
-    <a href="parties.html">Parties</a>
-    <a href="search.html">Search Parties</a>
-    <a>Logout</a>
+    <a style="float: left; width: 200px; transition-duration: 0s; pointer-events: none; border-right: 5px hidden">
+        Luke Braithwaite</a>
+    <a href="viewparty.html">Home</a>
+    <a href="parties.html">View Parties</a>
+    <a href="search.html" >Search Parties</a>
+    <a href="settings.html">Settings</a>
+    <a href="about.html">Logout</a>
+</div>
+
+<h1 style="font-size: 80px">Attending Parties</h1>
+<!--Placeholder for JavaScript-->
+<div class="party">
+    <div class="title">
+    Jeremy's Party
+    </div>
+    <div class="dateandtime">
+        18:00<i>(GMT)</i>  20th January 2022<br>
+    </div>
+    <div class="location">
+        <br>
+        Flat xx, Tawny, Unsworth Park<br>
+        Fallowfield Campus<br>
+        Greater Manchester, UK
+    </div>
+</div>
+
+<div class="party">
+    <div class="title">
+        Radu's Party
+    </div>
+    <div class="dateandtime">
+        15:00<i>(EET)</i>  30th January 2022<br>
+    </div>
+    <div class="location">
+        <br>
+        123 fake street<br>
+        Somewhere fake<br>
+        Romania
+    </div>
 </div>
 
 </body>
