@@ -4,7 +4,8 @@
 
 header {
   display: flex;
-  height: 100px; }
+  height: 100px;
+  font-size: 50px; }
   header img {
     height: auto; }
 
@@ -21,20 +22,22 @@ header {
   padding: 20px; }
 
 .navbar {
-  display: flex;
   background-color: #c4bdfc;
   border-radius: 15px;
-  margin-bottom: 10px; }
+  margin-bottom: 10px;
+  justify-content: flex-start;
+  overflow: hidden; }
   .navbar a {
-    padding: 14px 20px;
     text-align: center;
-    width: 131px;
+    float: left;
+    padding: 14px 20px;
+    width: 160px;
     transition: width 0.5s;
     color: #836886;
     text-decoration: none; }
   .navbar a:hover {
     background-color: #e4e4fc;
-    width: 160px;
+    width: 200px;
     text-decoration: underline; }
 
 footer {
