@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
 
-        input[type=text], input[type=password] {
+        input[type=text], input[type=password], input[type=email] {
             width: 100%;
             padding: 12px 20px;
             margin: 8px 0;
@@ -75,15 +75,15 @@
             </div>
         </div>
         <label>Username</label>
-        <input type="text" placeholder="Enter Username" required>
+        <input type="text" placeholder="Enter Username..." required>
         <label>Password</label>
-        <input type="password" placeholder="Enter Password" required>
+        <input type="password" placeholder="Enter Password..." required>
         <button type="submit">Login</button>
     </form>
 </div>
 <!--Sign up popup-->
 <div id="signup-popup" class="popup">
-    <form class="popup-content">
+    <form class="popup-content" style="margin: 10% auto 20% auto">
         <div class="column_container" style="justify-content: space-between">
             <div>
                 <h1 style="font-size: 50px">Sign Up</h1>
@@ -93,10 +93,14 @@
                 <button type="button" style="border-radius: 30px" onclick="document.getElementById('signup-popup').style.display='none'">X</button>
             </div>
         </div>
+        <label>email</label>
+        <input type="email" placeholder="Enter Username..." required>
         <label>Username</label>
-        <input type="text" placeholder="Enter Username" required>
+        <input type="text" placeholder="Enter Username..." required>
         <label>Password</label>
-        <input type="password" placeholder="Enter Password" required>
+        <input type="password" placeholder="Enter Password..." required>
+        <label>Repeat Password</label>
+        <input type="password" placeholder="Enter again..." required>
         <button type="submit">Login</button>
     </form>
 </div>
