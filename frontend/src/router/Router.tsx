@@ -6,7 +6,7 @@ import Landing from "../components/Landing";
 const AppRouter = () => (
   <Router history={history}>
     <Switch>
-      <Route component={Landing} path="/" />
+      <Route component={Landing} path="/" exact={true} />
     </Switch>
   </Router>
 );
