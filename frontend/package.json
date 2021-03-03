@@ -3,14 +3,18 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "csstype": "^3.0.7",
+    "formik": "^2.2.6",
     "history": "^5.0.0",
     "node-sass": "^4.0.0",
     "normalize.css": "^8.0.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
+    "react-modal": "^3.12.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.1",
-    "web-vitals": "^0.2.4"
+    "web-vitals": "^0.2.4",
+    "yup": "^0.32.9"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.11.4",
@@ -21,8 +25,10 @@
     "@types/node": "^14.14.31",
     "@types/react": "^17.0.2",
     "@types/react-dom": "^17.0.1",
+    "@types/react-modal": "^3.12.0",
     "@types/react-router-dom": "^5.1.7",
     "@types/react-test-renderer": "^17.0.1",
+    "@types/yup": "^0.29.11",
     "react-test-renderer": "^17.0.1",
     "typescript": "^4.2.2"
   },
