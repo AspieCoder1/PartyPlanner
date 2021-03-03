@@ -36,10 +36,7 @@ export const LoginForm = (props: IProps) => {
 
   const LoginSchema = Yup.object().shape({
     email: Yup.string().email("Invalid Email").required("Required"),
-    password: Yup.string()
-      .min(7, "Password must have at least 7 characters")
-      .max(20, "Password can have at most 20 characters")
-      .required("Required"),
+    password: Yup.string().required("Required"),
   });
 
   const formik = useFormik({
@@ -73,7 +70,9 @@ export const LoginForm = (props: IProps) => {
           value={formik.values.email}
         />
         {formik.errors.email && formik.touched.email ? (
-          <p id="emailError" className={styles.error}>{formik.errors.email}</p>
+          <p id="emailError" className={styles.error}>
+            {formik.errors.email}
+          </p>
         ) : null}
         <input
           className={styles.input}
@@ -84,7 +83,9 @@ export const LoginForm = (props: IProps) => {
           value={formik.values.password}
         />
         {formik.errors.password && formik.touched.password ? (
-          <p id="passwordError" className={styles.error}>{formik.errors.password}</p>
+          <p id="passwordError" className={styles.error}>
+            {formik.errors.password}
+          </p>
         ) : null}
         <button style={submitButton} type="submit">
           Register
