@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Landing page component Should render component correctly 1`] = `
+<header
+  className="header"
+>
+  <div
+    className="container"
+  >
+    <h1
+      className="title"
+    >
+      PartyPlanner.io
+    </h1>
+    <div
+      className="headerButtons"
+    >
+      <button
+        className="loginButton"
+        onClick={[Function]}
+      >
+        Login
+      </button>
+      <button
+        className="registerButton"
+        onClick={[Function]}
+      >
+        Register
+      </button>
+    </div>
+  </div>
+</header>
+`;
