@@ -2,6 +2,7 @@ import { Schema, Document, Model, model } from 'mongoose';
 import validator from 'validator';
 
 export interface IParty extends Document {
+	name: string;
 	organiser: string;
 	description: string;
 	location: string;
