@@ -2,7 +2,7 @@
 
 .container {
   display: grid;
-  grid-template-columns: repeat(12, 1fr);
+  grid-template-columns: repeat(11, 1fr);
   column-gap: 16px;
   margin-left: 140px;
   margin-right: 140px;
@@ -37,6 +37,8 @@
 .img {
   grid-column-start: 5;
   grid-column-end: 12;
-  grid-row: 1 / span 6;
+  grid-row: 1 / 6;
+  width: 100%;
+  height: auto;
 }
 
