@@ -7,6 +7,7 @@ export interface IParty extends Document {
 	description: string;
 	location: string;
 	date: string;
+	time: string;
 	ageRate: boolean;
 	attendeesID?: string[];
 	todoID?: string;
