@@ -35,7 +35,7 @@ export const LoginForm = (props: IProps) => {
   };
 
   const LoginSchema = Yup.object().shape({
-    email: Yup.string().email("Invalid Email").required("Required"),
+    email: Yup.string().email("Invalid email").required("Required"),
     password: Yup.string().required("Required"),
   });
 
@@ -87,7 +87,7 @@ export const LoginForm = (props: IProps) => {
             {formik.errors.password}
           </p>
         ) : null}
-        <button style={submitButton} type="submit">
+        <button id="submit" style={submitButton} type="submit">
           Register
         </button>
       </form>
