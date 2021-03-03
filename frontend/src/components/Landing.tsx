@@ -40,6 +40,7 @@ export default class Landing extends React.Component<any, IState> {
           <button className={styles.button}>Get PartyPlanner</button>
           <img className={styles.img} src={img} alt="" />
         </div>
+        {/*TODO: add styling to ReactModal to make it smaller and fit better*/}
         <ReactModal isOpen={this.state.loginModalOpen}>
           <LoginForm  closeModal={this.onLoginModelClose}/>
         </ReactModal>
