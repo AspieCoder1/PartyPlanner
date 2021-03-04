@@ -17,7 +17,6 @@ exports[`Landing page component Should render component correctly 1`] = `
     >
       <button
         className="loginButton"
-        onClick={[Function]}
       >
         Login
       </button>
