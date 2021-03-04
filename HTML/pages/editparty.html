@@ -49,22 +49,42 @@
 <div class="column_container">
 
     <div class="flex_column" style="flex: 100%; background-color: #e6e5f5">
-        <h>Settings</h1>
+        <h>Edit Party</h1>
 
-        <h3>Email --></h3>
-        <p>partyplanneruser@gmail.com</p>
+        <h3>Party Type --></h3>
+        <form>
+            <label class="radio-inline">
+              <input type="radio" name="optradio" checked>Public
+            </label>
+            <label class="radio-inline">
+              <input type="radio" name="optradio">Private
+            </label> 
+        </form>
+        <br>
 
-        <h3>Username --></h3>
-        <p>@partyplanneruser</p>
+        <h3>Party Name --></h3>
+        <input style="width: 100%;" placeholder="Party Name" /><br>
 
-        <h3>Phone Number --></h3>
-        <input style="width: 100%;" placeholder="Phone Number" /><br>
+        <h3>Party Organizer --></h3>
+        <input style="width: 100%;" placeholder="Party Organizer" /><br>
 
-        <h3>Dietary Requirements --></h3>
-        <textarea style="width: 100%; height: 10%;" placeholder="Dietary Requirements" ></textarea><br>
+        <h3>Party Description --></h3>
+        <textarea style="width: 100%; height: 5%;" placeholder="Party Description" ></textarea><br>
 
-        <h3>Accessibility Requirements --></h3>
-        <textarea style="width: 100%; height: 10%;" placeholder="Accessibility Requirements" ></textarea><br>
+        <h3>Party Location --></h3>
+        <input style="width: 100%;" placeholder="Party Location" /><br>
+
+        <h3>Party Date & Time --></h3>
+        <input type="date" style="width: 49%;" placeholder="Party Date" />
+        <input type="date" style="width: 50%;" placeholder="Party Time" /><br>
+
+
+        <h3>Party Age Range --></h3>
+        <input type="int" style="width: 49%;" placeholder="Minimum Age" />
+        <input type="int" style="width: 50%;" placeholder="Maximum Age" /><br>
+
+        <h3>Party Attendees --></h3>
+        <input style="width: 100%;" placeholder="Party Attendees" /><br>
 
        <button style="float: right;width: 15%;">Submit</button>
     </div>
