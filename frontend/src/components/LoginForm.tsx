@@ -42,7 +42,9 @@ export const LoginForm = (props: IProps) => {
   const formik = useFormik({
     initialValues: initialValues,
     onSubmit: (values) => {
-      console.log(values);
+      setTimeout(() => {
+        console.log(values)
+      }, 500);
     },
     validationSchema: LoginSchema,
   });
@@ -50,7 +52,7 @@ export const LoginForm = (props: IProps) => {
   return (
     <div>
       <div className={styles.header}>
-        <h1>Login Form</h1>
+        <h1>Log In</h1>
         <button
           style={buttonStyles}
           className={styles.closeModal}
@@ -87,8 +89,8 @@ export const LoginForm = (props: IProps) => {
             {formik.errors.password}
           </p>
         ) : null}
-        <button id="submit" style={submitButton} type="submit">
-          Register
+        <button data-testid="submitButton" id="submit" style={submitButton} type="submit" disabled={formik.isSubmitting}>
+          Log In
         </button>
       </form>
     </div>
