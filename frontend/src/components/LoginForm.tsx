@@ -8,6 +8,7 @@ const buttonStyles: CSS.Properties = {
   color: "#ddd9da",
   border: "none",
   background: "none",
+  fontSize: "24px"
 };
 
 const submitButton: CSS.Properties = {
@@ -58,7 +59,7 @@ export const LoginForm = (props: IProps) => {
           className={styles.closeModal}
           onClick={props.closeModal}
         >
-          X
+          &times;
         </button>
       </div>
 
