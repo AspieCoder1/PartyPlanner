@@ -1,4 +1,5 @@
 import * as express from 'express';
+import { read } from 'fs/promises';
 import * as _ from 'lodash';
 import { IParty, Party } from '../models/party';
 import { validateNewParty } from '../validation/party-routes';
@@ -66,8 +67,6 @@ partyRouter.post('/create',
   }
 );
 
-
-
 partyRouter.delete('/:id',
   async (req: express.Request, res: express.Response) => {
     const partyID = req.params.id;
@@ -87,7 +86,7 @@ partyRouter.delete('/:id',
   }
 );
 
-partyRouter.post('/:id/update',
+partyRouter.post('/update/:id',
   async (req: express.Request, res: express.Response) => {
 
     const name = req.body.name ? req.body.name : '';
@@ -99,7 +98,7 @@ partyRouter.post('/:id/update',
     const ageRate = req.body.ageRate ? req.body.ageRate : '';
     const attendeesID = req.body.attendeesID ? req.body.attendeesID : [];  
     const todoID = req.body.todoID ? req.body.todoID : '';
-      
+    
     const party = {
       name,
       organiser,
@@ -146,7 +145,113 @@ partyRouter.post('/:id/update',
   }
 );
 
+//get party data to edit the party 
+partyRouter.get('/edit/:id',
+  async(req: express.Request, res: express.Response) => {
+    try {
+      const foundParty = await Party.findById(req.params.id);
+      if (foundParty == null) {
+        res
+          .status(400)
+          .send('An exact party like this already exists');
+      } else {
+        res
+          .status(200)
+          .render('/update', { party: foundParty }); // send to update party html page
+      }
+    }
+    catch (e) {
+      res.status(500).json('Oops something went wrong');
+    }
+  }
+);
 
+// get parties that they are the organiser/host of
+partyRouter.get('/my-parties/:id',
+  async(req: express.Request, res: express.Response) => {
+    try {
+      const foundHostingParties = await Party.find({organiser : req.params.id});
+      if (foundHostingParties == null) {
+        res
+          .status(400)
+          .send('An exact party like this already exists');
+      } else {
+        res
+          .status(200)
+          .render('/hosting', { parties: foundHostingParties }); // send to hosting party html page
+      }
+    }
+    catch (e) {
+      res.status(500).json('Oops something went wrong');
+    }
+  }
+);
+
+// gettning parties they are invited to
+partyRouter.get('/invited-parties/:id',
+  async(req: express.Request, res: express.Response) => {
+    try {
+      const foundHostingParties = await Party.find({​​​​attendeesID: [req.params.id]}​​​​);
+      if (foundHostingParties == null) {
+        res
+          .status(400)
+          .send('An exact party like this already exists');
+      } else {
+        res
+          .status(200)
+          .render('/invited', { parties: foundHostingParties }); // send to invited party html/react page
+      }
+    }
+    catch (e) {
+      res.status(500).json('Oops something went wrong');
+    }
+  }
+);
+
+// getting all public parties
+partyRouter.get('/public-parties',
+  async(req: express.Request, res: express.Response) => {
+    try {
+      const foundPublicParties = await Party.find({public : true}​​​​);
+      if (foundPublicParties == null) {
+        res
+          .status(400)
+          .send('An exact party like this already exists');
+      } else {
+        res
+          .status(200)
+          .render('/public', { parties: foundPublicParties }); // send to public party html/react page
+      }
+    }
+    catch (e) {
+      res.status(500).json('Oops something went wrong');
+    }
+  }
+);
+
+//join a party as an attendee, party id is a parameter
+partyRouter.post('/join/:id',
+  async (req: express.Request, res: express.Response) => {
+    try {
+      const attenderID = req.body.username;
+      const updatingPartyID = req.params.id;
+      const foundParty = await Party.findById(updatingPartyID);
+      if (foundParty) {
+        foundParty.update({ $addToSet: attenderID });
+        res
+          .status(200)
+          .send('Successfully Joined Party')
+      } else { 
+        res
+          .status(400)
+          .send('This party cannot be joined/does not exists.');}
+    }
+    catch (e) {
+      res.status(500).json('Oops something went wrong');
+    }
+
+  }
+);
 
 
 
