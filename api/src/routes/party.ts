@@ -1,6 +1,8 @@
 import * as express from 'express';
 import { read } from 'fs/promises';
 import * as _ from 'lodash';
+import { isNull } from 'lodash';
+import { Mongoose } from 'mongoose';
 import { IParty, Party } from '../models/party';
 import { validateNewParty } from '../validation/party-routes';
 import userRouter from './user';
@@ -51,7 +53,7 @@ partyRouter.post('/create',
         ageRate: party.ageRate,
         attendeesID: party.attendeesID,
         todoID: party.todoID,
-        public: party.publicParty,
+        publicParty: party.publicParty,
       });
       const foundParty = await Party.findOne(party);
       if (foundParty) {
@@ -64,6 +66,7 @@ partyRouter.post('/create',
       }
     }
     catch (e) {
+      console.log(e);
       res.status(500).json('Oops something went wrong');
     }
 

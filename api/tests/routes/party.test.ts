@@ -38,7 +38,7 @@ afterEach(async () => {
 describe('POST /create', () => {
   it('Should respond with 200 and correctly add a party', async () => {
     const mockParty = {
-      _id: mongoose.Types.ObjectId(),
+      //_id: mongoose.Types.ObjectId(),
       name: 'My Party',
       organiser: 'test user',
       description: 'This is a test party',
@@ -47,16 +47,17 @@ describe('POST /create', () => {
       ageRate: false,
       time: '11:30',
     };
-    const res = await request(app).post('/create').send(mockParty);
+		const res = await request(app).post('/create').send(mockParty);
+		console.log(res);
     expect(res.status).toBe(200);
-    const foundParty = await Party.findOne({ _id: mockParty._id });
+    const foundParty = await Party.findOne(mockParty);
     expect(foundParty).toBeTruthy();
   });
 
 
 	it('Should respond with 400 if party name is empty', async () => {
 		const expectedErrors = {
-			name: 'A party name is required',
+			name: 'Party name is required and must be at least 5 characters long',
 		};
 
 		const mockParty = {
@@ -76,7 +77,7 @@ describe('POST /create', () => {
   
   it('Should respond with 400 if party name is not provided', async () => {
 		const expectedErrors = {
-			name: 'A party name is required',
+			name: 'Party name is required and must be at least 5 characters long',
 		};
 
 		const mockParty = {
@@ -95,7 +96,7 @@ describe('POST /create', () => {
 
   it('Should respond with 400 if organiser name is empty', async () => {
 		const expectedErrors = {
-			organiser : 'An organiser is required',
+			organiser : 'An organiser is required and must be at least 5 characters long',
 		};
 
 		const mockParty = {
@@ -115,7 +116,7 @@ describe('POST /create', () => {
 
   it('Should respond with 400 if organiser name is not provided', async () => {
 		const expectedErrors = {
-			organiser : 'An organiser is required',
+			organiser : 'An organiser is required and must be at least 5 characters long',
 		};
 
 		const mockParty = {
@@ -135,7 +136,7 @@ describe('POST /create', () => {
 
   it('Should respond with 400 if description is empty', async () => {
 		const expectedErrors = {
-			description : 'A party description is required',
+			description : 'A party description is required and must be at least 7 characters long',
 		};
 
 		const mockParty = {
@@ -156,7 +157,7 @@ describe('POST /create', () => {
 
   it('Should respond with 400 if description is not provided', async () => {
 		const expectedErrors = {
-			description : 'A party description is required',
+			description : 'A party description is required and must be at least 7 characters long',
 		};
 
 		const mockParty = {
