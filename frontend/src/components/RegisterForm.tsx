@@ -20,30 +20,38 @@ const submitButton: CSS.Properties = {
 	padding: '8px',
 };
 
-type IProps = {
-	closeModal: () => void;
-	onSubmit: (user: LoginFormValues) => void;
-};
-
-interface LoginFormValues {
+interface RegisterFormValues {
 	email: string;
+	username: string;
 	password: string;
 }
 
-export const LoginForm = (props: IProps): JSX.Element => {
-	const initialValues: LoginFormValues = {
+type IProps = {
+	closeModal: () => void;
+	onSubmit: (user: RegisterFormValues) => void;
+};
+
+export const RegisterForm = (props: IProps): JSX.Element => {
+	const initialValues: RegisterFormValues = {
 		email: '',
+		username: '',
 		password: '',
 	};
 
 	const LoginSchema = Yup.object().shape({
 		email: Yup.string().email('Invalid email').required('Required'),
+		username: Yup.string()
+			.trim()
+			.min(5, 'username must have at least 5 characters')
+			.max(20, 'max username length is 20 characters')
+			.matches(/^[a-zA-Z0-9]+$/, 'Username must be alphanumeric')
+			.required('Required'),
 		password: Yup.string().required('Required'),
 	});
 
 	const formik = useFormik({
 		initialValues: initialValues,
-		onSubmit: (values: LoginFormValues) => {
+		onSubmit: (values: RegisterFormValues) => {
 			setTimeout(() => {
 				props.onSubmit(values);
 			}, 500);
@@ -54,7 +62,7 @@ export const LoginForm = (props: IProps): JSX.Element => {
 	return (
 		<div>
 			<div className={styles.header}>
-				<h1>Log In</h1>
+				<h1>Register</h1>
 				<button
 					style={buttonStyles}
 					className={styles.closeModal}
@@ -80,6 +88,19 @@ export const LoginForm = (props: IProps): JSX.Element => {
 				) : null}
 				<input
 					className={styles.input}
+					type='text'
+					name='username'
+					placeholder='username'
+					onChange={formik.handleChange}
+					value={formik.values.username}
+				/>
+				{formik.errors.password && formik.touched.password ? (
+					<p id='usernameError' className={styles.error}>
+						{formik.errors.username}
+					</p>
+				) : null}
+				<input
+					className={styles.input}
 					type='password'
 					name='password'
 					placeholder='password'
@@ -98,7 +119,7 @@ export const LoginForm = (props: IProps): JSX.Element => {
 					type='submit'
 					disabled={formik.isSubmitting}
 				>
-					Log In
+					Register
 				</button>
 			</form>
 		</div>

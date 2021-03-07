@@ -47,7 +47,7 @@
   display: flex;
   position: fixed;
   top: 0;
-  bottom:0;
+  bottom: 0;
   right: 0;
   left: 0;
   justify-content: center;
@@ -56,14 +56,8 @@
 }
 
 .modal {
-  //position: absolute;
-  //top: 40px;
-  //left: 40px;
-  //right: 40px;
-  //bottom: 40px;
   border: 1px solid $grey;
   background: #fff;
-  //overflow: auto;
   -webkit-overflow-scrolling: touch;
   border-radius: 4px;
   outline: none;

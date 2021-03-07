@@ -46,6 +46,7 @@ exports[`Landing page component Should render component correctly 1`] = `
     </p>
     <button
       className="button"
+      onClick={[Function]}
     >
       Get PartyPlanner
     </button>

@@ -1,43 +1,63 @@
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
-import { LoginForm } from "../../components/LoginForm";
+import * as React from 'react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { LoginForm } from '../../components/LoginForm';
 
-describe("LoginForm component", () => {
-  it("Should display error if email and password not provided", async () => {
-    const closeModel = jest.fn();
-    render(<LoginForm closeModal={closeModel} />);
+describe('LoginForm component', () => {
+	it('Should display error if email and password not provided', async () => {
+		const closeModel = jest.fn();
+		const onSubmit = jest.fn();
 
-    fireEvent.click(screen.getByTestId("submitButton"));
+		render(<LoginForm closeModal={closeModel} onSubmit={onSubmit} />);
 
-    await waitFor(() => {
-      expect(screen.getAllByText("Required").length).toBe(2);
-    });
-  });
+		fireEvent.click(screen.getByTestId('submitButton'));
 
-  it("Should display error if email is invalid", async () => {
-    const closeModel = jest.fn();
-    render(<LoginForm closeModal={closeModel} />);
+		await waitFor(() => {
+			expect(screen.getAllByText('Required').length).toBe(2);
+		});
+	});
 
-    userEvent.type(screen.getByPlaceholderText("e-mail"), "test");
-    fireEvent.click(screen.getByTestId("submitButton"));
+	it('Should display error if email is invalid', async () => {
+		const closeModel = jest.fn();
+		const onSubmit = jest.fn();
 
-    await waitFor(() => {
-      expect(screen.getAllByText("Required").length).toBe(1);
-      expect(screen.getByText("Invalid email")).toBeTruthy();
-    });
-  });
+		render(<LoginForm closeModal={closeModel} onSubmit={onSubmit} />);
 
-  it("Should display no errors if both inputs are valid", async () => {
-    const closeModel = jest.fn();
-    const { container } = render(<LoginForm closeModal={closeModel} />);
+		userEvent.type(screen.getByPlaceholderText('e-mail'), 'test');
+		fireEvent.click(screen.getByTestId('submitButton'));
 
-    userEvent.type(screen.getByPlaceholderText("e-mail"), "test@test.com");
-    userEvent.type(screen.getByPlaceholderText("password"), "2133qrerefdwf");
-    fireEvent.click(screen.getByTestId("submitButton"));
+		await waitFor(() => {
+			expect(screen.getAllByText('Required').length).toBe(1);
+			expect(screen.getByText('Invalid email')).toBeTruthy();
+		});
+	});
 
-    await waitFor(() => {
-      expect(container.querySelector("#emailError")).toBeNull();
-      expect(container.querySelector("#passwordError")).toBeNull();
-    });
-  });
+	it('Should handle submit correctly', async () => {
+		const closeModel = jest.fn();
+		const onSubmit = jest.fn();
+
+		render(<LoginForm closeModal={closeModel} onSubmit={onSubmit} />);
+
+		userEvent.type(screen.getByPlaceholderText('e-mail'), 'test@test.com');
+		userEvent.type(screen.getByPlaceholderText('password'), 'wfsdfgsdfgfsdgfdg');
+		fireEvent.click(screen.getByTestId('submitButton'));
+
+		await waitFor(() => {
+			expect(onSubmit).toHaveBeenCalledTimes(1);
+			expect(onSubmit).toHaveBeenLastCalledWith({
+				email: 'test@test.com',
+				password: 'wfsdfgsdfgfsdgfdg',
+			});
+		});
+	});
+
+	it('Should run close modal when close modal is clicked', () => {
+		const closeModel = jest.fn();
+		const onSubmit = jest.fn();
+
+		render(<LoginForm closeModal={closeModel} onSubmit={onSubmit} />);
+
+		fireEvent.click(screen.getByText('\u00D7'));
+		expect(closeModel).toHaveBeenCalledTimes(1);
+	});
 });
