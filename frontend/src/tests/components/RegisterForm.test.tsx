@@ -6,7 +6,9 @@ import { RegisterForm } from '../../components/RegisterForm';
 describe('RegisterForm component', () => {
 	it('Should display error if fields are not filled in', async () => {
 		const closeModel = jest.fn();
-		render(<RegisterForm closeModal={closeModel} />);
+		const onSubmit = jest.fn();
+
+		render(<RegisterForm closeModal={closeModel} onSubmit={onSubmit} />);
 
 		fireEvent.click(screen.getByTestId('submitButton'));
 		await waitFor(() => {
@@ -14,25 +16,34 @@ describe('RegisterForm component', () => {
 		});
 	});
 
-	it('Should display no errors if all fields are filled in and are valid', async () => {
+	it('Should handle form submit correctly', async () => {
 		const closeModel = jest.fn();
-		const { container } = render(<RegisterForm closeModal={closeModel} />);
+		const onSubmit = jest.fn();
 
-		userEvent.type(screen.getByPlaceholderText('e-mail'), 'test@test.com');
-		userEvent.type(screen.getByPlaceholderText('password'), '2133qrerefdwf');
-		userEvent.type(screen.getByPlaceholderText('username'), 'username');
+		render(<RegisterForm closeModal={closeModel} onSubmit={onSubmit} />);
+
+		const newUser = {
+			email: 'test@test.com',
+			password: '2133qrerefdwf',
+			username: 'username',
+		};
+
+		userEvent.type(screen.getByPlaceholderText('e-mail'), newUser.email);
+		userEvent.type(screen.getByPlaceholderText('password'), newUser.password);
+		userEvent.type(screen.getByPlaceholderText('username'), newUser.username);
 		fireEvent.click(screen.getByTestId('submitButton'));
 
 		await waitFor(() => {
-			expect(container.querySelector('#emailError')).toBeNull();
-			expect(container.querySelector('#passwordError')).toBeNull();
-			expect(container.querySelector('#usernameError')).toBeNull();
+			expect(onSubmit).toHaveBeenCalledTimes(1);
+			expect(onSubmit).toHaveBeenLastCalledWith(newUser);
 		});
 	});
 
 	it('Should display error if username is too short', async () => {
 		const closeModel = jest.fn();
-		render(<RegisterForm closeModal={closeModel} />);
+		const onSubmit = jest.fn();
+
+		render(<RegisterForm closeModal={closeModel} onSubmit={onSubmit} />);
 
 		userEvent.type(screen.getByPlaceholderText('username'), 'u');
 		fireEvent.click(screen.getByTestId('submitButton'));
@@ -47,7 +58,9 @@ describe('RegisterForm component', () => {
 
 	it('Should display error if username is too long', async () => {
 		const closeModel = jest.fn();
-		render(<RegisterForm closeModal={closeModel} />);
+		const onSubmit = jest.fn();
+
+		render(<RegisterForm closeModal={closeModel} onSubmit={onSubmit} />);
 
 		userEvent.type(
 			screen.getByPlaceholderText('username'),
@@ -65,7 +78,9 @@ describe('RegisterForm component', () => {
 
 	it('Should display error if email is invalid', async () => {
 		const closeModel = jest.fn();
-		render(<RegisterForm closeModal={closeModel} />);
+		const onSubmit = jest.fn();
+
+		render(<RegisterForm closeModal={closeModel} onSubmit={onSubmit} />);
 
 		userEvent.type(screen.getByPlaceholderText('e-mail'), 'test');
 		fireEvent.click(screen.getByTestId('submitButton'));
@@ -78,7 +93,9 @@ describe('RegisterForm component', () => {
 
 	it('Should run close modal when close modal is clicked', () => {
 		const closeModel = jest.fn();
-		render(<RegisterForm closeModal={closeModel} />);
+		const onSubmit = jest.fn();
+
+		render(<RegisterForm closeModal={closeModel} onSubmit={onSubmit} />);
 
 		fireEvent.click(screen.getByText('\u00D7'));
 		expect(closeModel).toHaveBeenCalledTimes(1);

@@ -11,21 +11,40 @@ type IState = {
 	registerModalOpen: boolean;
 };
 
+type userToRegister = {
+	email: string;
+	username: string;
+	password: string;
+};
+
+type userLoginObject = {
+	email: string;
+	password: string;
+};
+
 export default class Landing extends React.Component<any, IState> {
-	onLoginModelClose = () => {
+	onLoginModelClose = (): void => {
 		this.setState({ loginModalOpen: false });
 	};
 
-	openLoginModel = () => {
+	openLoginModel = (): void => {
 		this.setState({ loginModalOpen: true });
 	};
 
-	onRegisterModelClose = () => {
+	onRegisterModelClose = (): void => {
 		this.setState({ registerModalOpen: false });
 	};
 
-	openRegisterModel = () => {
+	openRegisterModel = (): void => {
 		this.setState({ registerModalOpen: true });
+	};
+
+	onRegisterSubmit = (userToRegister: userToRegister): void => {
+		console.log(userToRegister);
+	};
+
+	onLoginSubmit = (userToLogin: userLoginObject): void => {
+		console.log(userToLogin);
 	};
 
 	state: IState = {
@@ -33,7 +52,7 @@ export default class Landing extends React.Component<any, IState> {
 		registerModalOpen: false,
 	};
 
-	render() {
+	render(): React.ReactNode {
 		return (
 			<div>
 				<LandingHeader
@@ -60,14 +79,20 @@ export default class Landing extends React.Component<any, IState> {
 					className={styles.modal}
 					isOpen={this.state.loginModalOpen}
 				>
-					<LoginForm closeModal={this.onLoginModelClose} />
+					<LoginForm
+						closeModal={this.onLoginModelClose}
+						onSubmit={this.onLoginSubmit}
+					/>
 				</ReactModal>
 				<ReactModal
 					overlayClassName={styles.overlay}
 					className={styles.modal}
 					isOpen={this.state.registerModalOpen}
 				>
-					<RegisterForm closeModal={this.onRegisterModelClose} />
+					<RegisterForm
+						closeModal={this.onRegisterModelClose}
+						onSubmit={this.onRegisterSubmit}
+					/>
 				</ReactModal>
 			</div>
 		);

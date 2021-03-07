@@ -22,6 +22,7 @@ const submitButton: CSS.Properties = {
 
 type IProps = {
 	closeModal: () => void;
+	onSubmit: (user: LoginFormValues) => void;
 };
 
 interface LoginFormValues {
@@ -29,7 +30,7 @@ interface LoginFormValues {
 	password: string;
 }
 
-export const LoginForm = (props: IProps) => {
+export const LoginForm = (props: IProps): JSX.Element => {
 	const initialValues: LoginFormValues = {
 		email: '',
 		password: '',
@@ -42,9 +43,9 @@ export const LoginForm = (props: IProps) => {
 
 	const formik = useFormik({
 		initialValues: initialValues,
-		onSubmit: (values) => {
+		onSubmit: (values: LoginFormValues) => {
 			setTimeout(() => {
-				console.log(values);
+				props.onSubmit(values);
 			}, 500);
 		},
 		validationSchema: LoginSchema,
@@ -66,35 +67,35 @@ export const LoginForm = (props: IProps) => {
 			<form className={styles.form} onSubmit={formik.handleSubmit}>
 				<input
 					className={styles.input}
-					type="text"
-					name="email"
-					placeholder="e-mail"
+					type='text'
+					name='email'
+					placeholder='e-mail'
 					onChange={formik.handleChange}
 					value={formik.values.email}
 				/>
 				{formik.errors.email && formik.touched.email ? (
-					<p id="emailError" className={styles.error}>
+					<p id='emailError' className={styles.error}>
 						{formik.errors.email}
 					</p>
 				) : null}
 				<input
 					className={styles.input}
-					type="password"
-					name="password"
-					placeholder="password"
+					type='password'
+					name='password'
+					placeholder='password'
 					onChange={formik.handleChange}
 					value={formik.values.password}
 				/>
 				{formik.errors.password && formik.touched.password ? (
-					<p id="passwordError" className={styles.error}>
+					<p id='passwordError' className={styles.error}>
 						{formik.errors.password}
 					</p>
 				) : null}
 				<button
-					data-testid="submitButton"
-					id="submit"
+					data-testid='submitButton'
+					id='submit'
 					style={submitButton}
-					type="submit"
+					type='submit'
 					disabled={formik.isSubmitting}
 				>
 					Log In

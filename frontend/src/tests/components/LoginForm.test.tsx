@@ -6,7 +6,9 @@ import { LoginForm } from '../../components/LoginForm';
 describe('LoginForm component', () => {
 	it('Should display error if email and password not provided', async () => {
 		const closeModel = jest.fn();
-		render(<LoginForm closeModal={closeModel} />);
+		const onSubmit = jest.fn();
+
+		render(<LoginForm closeModal={closeModel} onSubmit={onSubmit} />);
 
 		fireEvent.click(screen.getByTestId('submitButton'));
 
@@ -17,7 +19,9 @@ describe('LoginForm component', () => {
 
 	it('Should display error if email is invalid', async () => {
 		const closeModel = jest.fn();
-		render(<LoginForm closeModal={closeModel} />);
+		const onSubmit = jest.fn();
+
+		render(<LoginForm closeModal={closeModel} onSubmit={onSubmit} />);
 
 		userEvent.type(screen.getByPlaceholderText('e-mail'), 'test');
 		fireEvent.click(screen.getByTestId('submitButton'));
@@ -28,23 +32,30 @@ describe('LoginForm component', () => {
 		});
 	});
 
-	it('Should display no errors if both inputs are valid', async () => {
+	it('Should handle submit correctly', async () => {
 		const closeModel = jest.fn();
-		const { container } = render(<LoginForm closeModal={closeModel} />);
+		const onSubmit = jest.fn();
+
+		render(<LoginForm closeModal={closeModel} onSubmit={onSubmit} />);
 
 		userEvent.type(screen.getByPlaceholderText('e-mail'), 'test@test.com');
-		userEvent.type(screen.getByPlaceholderText('password'), '2133qrerefdwf');
+		userEvent.type(screen.getByPlaceholderText('password'), 'wfsdfgsdfgfsdgfdg');
 		fireEvent.click(screen.getByTestId('submitButton'));
 
 		await waitFor(() => {
-			expect(container.querySelector('#emailError')).toBeNull();
-			expect(container.querySelector('#passwordError')).toBeNull();
+			expect(onSubmit).toHaveBeenCalledTimes(1);
+			expect(onSubmit).toHaveBeenLastCalledWith({
+				email: 'test@test.com',
+				password: 'wfsdfgsdfgfsdgfdg',
+			});
 		});
 	});
 
 	it('Should run close modal when close modal is clicked', () => {
 		const closeModel = jest.fn();
-		render(<LoginForm closeModal={closeModel} />);
+		const onSubmit = jest.fn();
+
+		render(<LoginForm closeModal={closeModel} onSubmit={onSubmit} />);
 
 		fireEvent.click(screen.getByText('\u00D7'));
 		expect(closeModel).toHaveBeenCalledTimes(1);
