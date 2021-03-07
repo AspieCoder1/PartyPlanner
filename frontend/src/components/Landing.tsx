@@ -22,7 +22,7 @@ type userLoginObject = {
 	password: string;
 };
 
-export default class Landing extends React.Component<any, IState> {
+export default class Landing extends React.Component<unknown, IState> {
 	onLoginModelClose = (): void => {
 		this.setState({ loginModalOpen: false });
 	};

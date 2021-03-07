@@ -1,15 +1,15 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import 'normalize.css/normalize.css';
-import './index.scss'
+import './index.scss';
 import reportWebVitals from './reportWebVitals';
-import AppRouter from "./router/Router";
+import AppRouter from './router/Router';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <AppRouter />
-  </React.StrictMode>,
-  document.getElementById('root')
+	<React.StrictMode>
+		<AppRouter />
+	</React.StrictMode>,
+	document.getElementById('root')
 );
 
 // If you want to start measuring performance in your app, pass a function
