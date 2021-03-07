@@ -11,6 +11,7 @@ export interface IParty extends Document {
 	ageRate: boolean;
 	attendeesID?: string[];
 	todoID?: string;
+	public?: boolean;
 }
 
 const partySchema: Schema = new Schema({

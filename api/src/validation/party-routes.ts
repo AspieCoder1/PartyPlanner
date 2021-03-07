@@ -6,6 +6,7 @@ interface newPartyObject {
 	description: string;
 	location: string;
 	date: string;
+	time: string;
 	ageRate: boolean;
 }
 
@@ -15,30 +16,31 @@ interface Ierrors {
 	description?: string;
 	location?: string;
 	date?: string;
+	time?: string;
 	ageRate?: string;
 }
 
 export const validateNewParty = (newParty: newPartyObject): Ierrors => {
   const errors: Ierrors = {};
   
-	if (newParty.name.length < 5) {
-		errors.name = 'Party name must be at least 5 characters long';
-	}
-
 	if (validator.isEmpty(newParty.name)) {
 		errors.name = 'A party name is required';
+	}
+
+	if (newParty.name.length < 5) {
+		errors.name = 'Party name must be at least 5 characters long';
 	}
 
 	if (validator.isEmpty(newParty.organiser)) {
 		errors.organiser = 'An organiser is required';
 	}
 
-	if (newParty.description.length < 7) {
-		errors.description = 'Party description must be at least 7 characters long';
-	}
-
 	if (validator.isEmpty(newParty.description)) {
 		errors.description = 'A party description is required';
+	}
+	
+	if (newParty.description.length < 7) {
+		errors.description = 'Party description must be at least 7 characters long';
 	}
 
 	if (validator.isEmpty(newParty.location)) {
@@ -47,6 +49,10 @@ export const validateNewParty = (newParty: newPartyObject): Ierrors => {
 
 	if (validator.isEmpty(newParty.date)) {
 		errors.date = 'A date is required';
+	}
+
+	if (validator.isEmpty(newParty.time)) {
+		errors.time = 'A time is required';
 	}
 
 	if (validator.isBoolean(newParty.ageRate.toString())) {

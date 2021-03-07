@@ -20,6 +20,7 @@ partyRouter.post('/create',
     const ageRate = req.body.ageRate ? req.body.ageRate : '';
     const attendeesID = req.body.attendeesID ? req.body.attendeesID : [];  
     const todoID = req.body.todoID ? req.body.todoID : '';
+    const publicParty = req.body.public ? req.body.public : false;
       
     const party = {
       name,
@@ -30,7 +31,8 @@ partyRouter.post('/create',
       time,
       ageRate,
       attendeesID,
-      todoID
+      todoID,
+      publicParty
     }
 
     const errors = validateNewParty(party);
@@ -48,7 +50,8 @@ partyRouter.post('/create',
         time: party.time,
         ageRate: party.ageRate,
         attendeesID: party.attendeesID,
-        todoID: party.todoID
+        todoID: party.todoID,
+        public: party.publicParty,
       });
       const foundParty = await Party.findOne(party);
       if (foundParty) {
@@ -98,6 +101,7 @@ partyRouter.post('/update/:id',
     const ageRate = req.body.ageRate ? req.body.ageRate : '';
     const attendeesID = req.body.attendeesID ? req.body.attendeesID : [];  
     const todoID = req.body.todoID ? req.body.todoID : '';
+    const publicParty = req.body.public ? req.body.public : false;
     
     const party = {
       name,
@@ -108,7 +112,8 @@ partyRouter.post('/update/:id',
       time,
       ageRate,
       attendeesID,
-      todoID
+      todoID,
+      publicParty
     }
 
     const errors = validateNewParty(party);
@@ -126,7 +131,8 @@ partyRouter.post('/update/:id',
         time: party.time,
         ageRate: party.ageRate,
         attendeesID: party.attendeesID,
-        todoID: party.todoID
+        todoID: party.todoID,
+        public: party.publicParty
       });
       const updatingPartyID = req.params.id;
       const foundParty = await Party.findById(updatingPartyID);
