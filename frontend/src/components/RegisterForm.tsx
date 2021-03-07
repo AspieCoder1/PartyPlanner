@@ -43,7 +43,8 @@ export const RegisterForm = (props: IProps) => {
       .trim()
       .min(5, "username must have at least 5 characters")
       .max(20, "max username length is 20 characters")
-      .matches(/^[a-zA-Z0-9]+$/, "Username must be alphanumeric"),
+      .matches(/^[a-zA-Z0-9]+$/, "Username must be alphanumeric")
+      .required("Required"),
     password: Yup.string().required("Required"),
   });
 
@@ -93,7 +94,7 @@ export const RegisterForm = (props: IProps) => {
           value={formik.values.username}
         />
         {formik.errors.password && formik.touched.password ? (
-          <p id="passwordError" className={styles.error}>
+          <p id="usernameError" className={styles.error}>
             {formik.errors.username}
           </p>
         ) : null}

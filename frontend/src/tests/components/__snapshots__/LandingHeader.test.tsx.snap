@@ -22,7 +22,6 @@ exports[`Landing page component Should render component correctly 1`] = `
       </button>
       <button
         className="registerButton"
-        onClick={[Function]}
       >
         Register
       </button>

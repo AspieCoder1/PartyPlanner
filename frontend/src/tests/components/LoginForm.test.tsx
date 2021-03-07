@@ -40,4 +40,12 @@ describe("LoginForm component", () => {
       expect(container.querySelector("#passwordError")).toBeNull();
     });
   });
+
+  it("Should run close modal when close modal is clicked", () => {
+    const closeModel = jest.fn();
+    render(<LoginForm closeModal={closeModel} />);
+
+    fireEvent.click(screen.getByText("\u00D7"));
+    expect(closeModel).toHaveBeenCalledTimes(1);
+  })
 });
