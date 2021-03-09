@@ -7,7 +7,6 @@ import * as bodyParser from 'body-parser';
 import partyRouter from '../../src/routes/party';
 import { Party } from '../../src/models/party';
 import '../config/config';
-//import { PassThrough } from 'node:stream';
 
 const app: express.Application = express();
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -293,48 +292,6 @@ describe('POST /create', () => {
 		expect(res.status).toBe(400);
 		expect(res.body).toEqual(expectedErrors);
   });
-  
-
-  it('Should respond with 400 if age rate is empty', async () => {
-		const expectedErrors = {
-			ageRate : 'An age rating is required',
-		};
-
-		const mockParty = {
-			_id: mongoose.Types.ObjectId(),
-      name: 'my party',
-      organiser: 'test user',
-      description: 'This is a test party',
-      location: 'this is a test location',
-      date: '2021-04-04',
-      ageRate: '',
-      time: '11:30',
-		};
-		const res = await request(app).post('/create').send(mockParty);
-		expect(res.status).toBe(400);
-		expect(res.body).toEqual(expectedErrors);
-  });
-
-
-  it('Should respond with 400 if age rate is not provided', async () => {
-		const expectedErrors = {
-			ageRate : 'An age rating is required',
-		};
-
-		const mockParty = {
-			_id: mongoose.Types.ObjectId(),
-      name: 'my party',
-      organiser: 'test user',
-      description: 'This is a test party',
-      location: 'this is a test location',
-      date: '2021-04-04',
-      time: '11:30',
-		};
-		const res = await request(app).post('/create').send(mockParty);
-		expect(res.status).toBe(400);
-		expect(res.body).toEqual(expectedErrors);
-  });
-
 });
 
 
