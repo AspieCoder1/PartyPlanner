@@ -19,7 +19,7 @@ partyRouter.post('/create',
     req.body.location = req.body.location ? req.body.location : '';
     req.body.date = Date.parse(req.body.date) ? req.body.date : '';
     req.body.time = req.body.time ? req.body.time : '';
-    req.body.ageRate = req.body.ageRate ? req.body.ageRate : '';
+    req.body.ageRate = req.body.ageRate ? req.body.ageRate : false;
     req.body.attendeesID = req.body.attendeesID ? req.body.attendeesID : [];  
     req.body.todoID = req.body.todoID ? req.body.todoID : '';
     req.body.publicParty = req.body.public ? req.body.public : false;
