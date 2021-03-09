@@ -298,7 +298,7 @@ describe('POST /create', () => {
 describe('GET /edit/:id', () => {
 	it('Responds with 200 and get a party', async () => {
 		const mockParty = {
-			_id: mongoose.Types.ObjectId(),
+			_id: new mongoose.Types.ObjectId(),
       name: 'My Party',
       organiser: 'test user',
       description: 'This is a test party',
