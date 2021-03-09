@@ -308,8 +308,8 @@ describe('GET /edit/:id', () => {
       time: '11:30',
     };
 		const res = await request(app).post('/create').send(mockParty);
-		console.log(res);
-		const delRes = await request(app).get('/edit/' + mockParty._id);
+		const delRes = await request(app).get(`/edit/${mockParty._id}`);
+		console.log(delRes.body);
 		expect(delRes.status).toBe(200);
 	});
 });
