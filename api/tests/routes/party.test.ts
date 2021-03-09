@@ -46,7 +46,6 @@ describe('POST /create', () => {
       time: '11:30',
     };
 		const res = await request(app).post('/create').send(mockParty);
-		console.log(res);
     expect(res.status).toBe(200);
     const foundParty = await Party.findOne(mockParty);
     expect(foundParty).toBeTruthy();
@@ -308,9 +307,7 @@ describe('GET /edit/:id', () => {
       time: '11:30',
     };
 		const res = await request(app).post('/create').send(mockParty);
-		console.log(res.body);
 		const delRes = await request(app).get(`/edit/${res.body._id}`);
-		console.log(delRes.body);
 		expect(delRes.status).toBe(200);
 	});
 });
