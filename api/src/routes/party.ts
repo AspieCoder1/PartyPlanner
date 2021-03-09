@@ -160,13 +160,9 @@ partyRouter.get('/edit/:id',
     try {
       const foundParty = await Party.findById(req.params.id);
       if (foundParty == null) {
-        res
-          .status(400)
-          .send('An exact party like this already exists');
+        res.status(400).json('An exact party like this already exists');
       } else {
-        res
-          .status(200)
-          .render('/update', { party: foundParty }); // send to update party html page
+        res.status(200).json({ party: foundParty });
       }
     }
     catch (e) {
