@@ -13,28 +13,28 @@ const partyRouter: express.Router = express.Router();
 partyRouter.post('/create',
 
   async (req: express.Request, res: express.Response) => {
-    const name = req.body.name ? req.body.name : '';
-    const organiser = req.body.organiser ? req.body.organiser : '';
-    const description = req.body.description ? req.body.description : '';
-    const location = req.body.location ? req.body.location : '';
-    const date = Date.parse(req.body.date) ? req.body.date : '';
-    const time = req.body.time ? req.body.time : '';
-    const ageRate = req.body.ageRate ? req.body.ageRate : '';
-    const attendeesID = req.body.attendeesID ? req.body.attendeesID : [];  
-    const todoID = req.body.todoID ? req.body.todoID : '';
-    const publicParty = req.body.public ? req.body.public : false;
+    req.body.name = req.body.name ? req.body.name : '';
+    req.body.organiser = req.body.organiser ? req.body.organiser : '';
+    req.body.description = req.body.description ? req.body.description : '';
+    req.body.location = req.body.location ? req.body.location : '';
+    req.body.date = Date.parse(req.body.date) ? req.body.date : '';
+    req.body.time = req.body.time ? req.body.time : '';
+    req.body.ageRate = req.body.ageRate ? req.body.ageRate : '';
+    req.body.attendeesID = req.body.attendeesID ? req.body.attendeesID : [];  
+    req.body.todoID = req.body.todoID ? req.body.todoID : '';
+    req.body.publicParty = req.body.public ? req.body.public : false;
       
     const party = {
-      name,
-      organiser,
-      description,
-      location,
-      date,
-      time,
-      ageRate,
-      attendeesID,
-      todoID,
-      publicParty
+      name : req.body.name,
+      organiser : req.body.organiser,
+      description : req.body.description,
+      location : req.body.location,
+      date : req.body.date,
+      time : req.body.time,
+      ageRate : req.body.ageRate,
+      attendeesID : req.body.attendeesID,
+      todoID : req.body.todoID,
+      publicParty : req.body.publicParty,
     }
 
     const errors = validateNewParty(party);
@@ -44,25 +44,25 @@ partyRouter.post('/create',
 
     try {
       const newParty: IParty = new Party({
-        name: party.name,
-        organiser: party.organiser,
-        description: party.description,
-        location: party.location,
-        date: party.date,
-        time: party.time,
-        ageRate: party.ageRate,
-        attendeesID: party.attendeesID,
-        todoID: party.todoID,
-        publicParty: party.publicParty,
+        name: req.body.name,
+        organiser: req.body.organiser,
+        description: req.body.description,
+        location: req.body.location,
+        date: req.body.date,
+        time: req.body.time,
+        ageRate: req.body.ageRate,
+        attendeesID: req.body.attendeesID,
+        todoID: req.body.todoID,
+        publicParty: req.body.publicParty,
       });
-      const foundParty = await Party.findOne(party);
+      const foundParty = await Party.findOne({ party });
       if (foundParty) {
         res
           .status(400)
           .send('An exact party like this already exists');
-      } else { 
+      } else{
         const savedParty = await newParty.save();
-				res.status(200).json(savedParty);
+        res.status(200).json(savedParty);
       }
     }
     catch (e) {

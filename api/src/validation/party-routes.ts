@@ -1,3 +1,4 @@
+import { isNull } from 'lodash';
 import validator from 'validator';
 
 interface newPartyObject {
@@ -55,7 +56,7 @@ export const validateNewParty = (newParty: newPartyObject): Ierrors => {
 	}
 
 	if (validator.isBoolean(newParty.ageRate.toString())) {
-		errors.ageRate = 'An age aproval is required';
+		errors.ageRate = 'An age rating is required';
 	}
 
   return errors;

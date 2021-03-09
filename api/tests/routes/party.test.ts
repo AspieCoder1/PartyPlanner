@@ -7,7 +7,7 @@ import * as bodyParser from 'body-parser';
 import partyRouter from '../../src/routes/party';
 import { Party } from '../../src/models/party';
 import '../config/config';
-import { PassThrough } from 'node:stream';
+//import { PassThrough } from 'node:stream';
 
 const app: express.Application = express();
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -38,7 +38,6 @@ afterEach(async () => {
 describe('POST /create', () => {
   it('Should respond with 200 and correctly add a party', async () => {
     const mockParty = {
-      //_id: mongoose.Types.ObjectId(),
       name: 'My Party',
       organiser: 'test user',
       description: 'This is a test party',
@@ -298,7 +297,7 @@ describe('POST /create', () => {
 
   it('Should respond with 400 if age rate is empty', async () => {
 		const expectedErrors = {
-			ageRate : 'An age aproval is required',
+			ageRate : 'An age rating is required',
 		};
 
 		const mockParty = {
@@ -319,7 +318,7 @@ describe('POST /create', () => {
 
   it('Should respond with 400 if age rate is not provided', async () => {
 		const expectedErrors = {
-			ageRate : 'An age aproval is required',
+			ageRate : 'An age rating is required',
 		};
 
 		const mockParty = {
@@ -336,4 +335,24 @@ describe('POST /create', () => {
 		expect(res.body).toEqual(expectedErrors);
   });
 
+});
+
+
+describe('GET /edit/:id', () => {
+	it('Responds with 200 and get a party', async () => {
+		const mockParty = {
+			_id: mongoose.Types.ObjectId(),
+      name: 'My Party',
+      organiser: 'test user',
+      description: 'This is a test party',
+      location: 'This is a test location',
+      date: '2021-04-04',
+      ageRate: false,
+      time: '11:30',
+    };
+		const res = await request(app).post('/create').send(mockParty);
+		console.log(res);
+		const delRes = await request(app).get('/edit/' + mockParty._id);
+		expect(delRes.status).toBe(200);
+	});
 });
