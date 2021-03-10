@@ -319,44 +319,6 @@ describe('DELETE /:id', () => {
 
 });
 
-describe('POST /update/:id', () => {
-	it('Responds with 200 and update the party', async () => {
-		const mockParty = {
-			_id: new mongoose.Types.ObjectId(),
-      name: 'My Party',
-      organiser: 'test user',
-      description: 'This is a test party',
-      location: 'This is a test location',
-      date: '2021-04-04',
-      ageRate: false,
-      time: '11:30',
-    };
-		await request(app).post('/create').send(mockParty);
-		// mockParty.name = 'new party name';
-		const delRes = await request(app).post(`/update/${mockParty._id}`).send(mockParty);
-		console.log(delRes);
-		expect(delRes.status).toBe(200);
-	});
-
-
-	it('Responds with 400 and say the party does not exist', async () => {
-		const testId = new mongoose.Types.ObjectId();
-		const mockParty = {
-			_id: new mongoose.Types.ObjectId(),
-      name: 'My Party',
-      organiser: 'test user',
-      description: 'This is a test party',
-      location: 'This is a test location',
-      date: '2021-04-04',
-      ageRate: false,
-      time: '11:30',
-    };
-		const res = await request(app).post(`/update/${testId}`).send(mockParty);
-		expect(res.status).toBe(400);
-	});
-
-});
-
 describe('GET /edit/:id', () => {
 	it('Responds with 200 and get a party', async () => {
 		const mockParty = {
@@ -438,7 +400,7 @@ describe('POST /join/:id', () => {
       time: '11:30',
     };
 		const res = await request(app).post('/create').send(mockParty);
-		const delRes = await request(app).post(`/join/${mockParty._id}`).send({ attenderID: userID });
+		const delRes = await request(app).post(`/join/${res.body._id}`).send({ attenderID: userID });
 		expect(delRes.status).toBe(200);
 	});
 
@@ -480,6 +442,29 @@ describe('GET /public-parties', () => {
 		};
 		const res = await request(app).post('/create').send(mockParty);
 		const delRes = await request(app).get(`/public-parties`);
+		expect(delRes.status).toBe(200);
+	});
+
+});
+
+describe('GET /invited-parties/:id', () => {
+	
+	it('Responds with 200 and return invited parties', async () => {
+		const mockParty = {
+			_id: new mongoose.Types.ObjectId(),
+      name: 'My Party',
+      organiser: 'Test User',
+      description: 'This is a test party',
+      location: 'This is a test location',
+      date: '2021-04-04',
+			ageRate: false,
+			attendeesID : ['johnSmith1', 'tomSmith1'],
+			time: '11:30',
+			publicParty: true
+		};
+		const res = await request(app).post('/create').send(mockParty);
+		const IDtoFind = 'johnSmith1';
+		const delRes = await request(app).get(`/invited-parties/${IDtoFind}`);
 		expect(delRes.status).toBe(200);
 	});
 
