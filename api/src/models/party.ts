@@ -35,6 +35,7 @@ const partySchema: Schema = new Schema({
 	location: {
 		type: String,
 		trim: true,
+		minlength: [5, 'Location must be of length at least 5'],
 		required: [true, 'A location is required'],
 	},
 	date: {

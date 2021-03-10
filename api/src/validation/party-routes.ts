@@ -8,9 +8,9 @@ interface newPartyObject {
 	location: string;
 	date: string;
 	time: string;
-	ageRate: boolean;
-	attendeesID: [];
-	todoID: string;
+	ageRate?: boolean;
+	attendeesID?: string [];
+	todoID?: string;
 	publicParty: boolean;
 }
 
@@ -43,8 +43,8 @@ export const validateNewParty = (newParty: newPartyObject): Ierrors => {
 		errors.description = 'A party description is required and must be at least 7 characters long';
 	}
 	
-	if (validator.isEmpty(newParty.location)) {
-		errors.location = 'A party location is required';
+	if (validator.isEmpty(newParty.location) || (newParty.location.length < 5)) {
+		errors.location = 'A party location is required and must be at least 5 characters long';
 	}
 
 	if (validator.isEmpty(newParty.date)) {

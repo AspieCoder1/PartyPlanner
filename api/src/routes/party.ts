@@ -95,28 +95,28 @@ partyRouter.delete('/:id',
 partyRouter.post('/update/:id',
   async (req: express.Request, res: express.Response) => {
 
-    const name = req.body.name ? req.body.name : '';
-    const organiser = req.body.organiser ? req.body.organiser : '';
-    const description = req.body.description ? req.body.description : '';
-    const location = req.body.location ? req.body.location : '';
-    const date = Date.parse(req.body.date) ? req.body.date : '';
-    const time = req.body.time ? req.body.time : '';
-    const ageRate = req.body.ageRate ? req.body.ageRate : '';
-    const attendeesID = req.body.attendeesID ? req.body.attendeesID : [];  
-    const todoID = req.body.todoID ? req.body.todoID : '';
-    const publicParty = req.body.public ? req.body.public : false;
-    
+    req.body.name = req.body.name ? req.body.name : '';
+    req.body.organiser = req.body.organiser ? req.body.organiser : '';
+    req.body.description = req.body.description ? req.body.description : '';
+    req.body.location = req.body.location ? req.body.location : '';
+    req.body.date = Date.parse(req.body.date) ? req.body.date : '';
+    req.body.time = req.body.time ? req.body.time : '';
+    req.body.ageRate = req.body.ageRate ? req.body.ageRate : false;
+    req.body.attendeesID = req.body.attendeesID ? req.body.attendeesID : [];  
+    req.body.todoID = req.body.todoID ? req.body.todoID : '';
+    req.body.publicParty = req.body.public ? req.body.public : false;
+      
     const party = {
-      name,
-      organiser,
-      description,
-      location,
-      date,
-      time,
-      ageRate,
-      attendeesID,
-      todoID,
-      publicParty
+      name : req.body.name,
+      organiser : req.body.organiser,
+      description : req.body.description,
+      location : req.body.location,
+      date : req.body.date,
+      time : req.body.time,
+      ageRate : req.body.ageRate,
+      attendeesID : req.body.attendeesID,
+      todoID : req.body.todoID,
+      publicParty : req.body.publicParty,
     }
 
     const errors = validateNewParty(party);
@@ -126,16 +126,16 @@ partyRouter.post('/update/:id',
 
     try {
       const updatedParty: IParty = new Party({
-        name: party.name,
-        organiser: party.organiser,
-        description: party.description,
-        location: party.location,
-        date: party.date,
-        time: party.time,
-        ageRate: party.ageRate,
-        attendeesID: party.attendeesID,
-        todoID: party.todoID,
-        public: party.publicParty
+        name: req.body.name,
+        organiser: req.body.organiser,
+        description: req.body.description,
+        location: req.body.location,
+        date: req.body.date,
+        time: req.body.time,
+        ageRate: req.body.ageRate,
+        attendeesID: req.body.attendeesID,
+        todoID: req.body.todoID,
+        publicParty: req.body.publicParty,
       });
       const updatingPartyID = req.params.id;
       const foundParty = await Party.findById(updatingPartyID);
@@ -145,7 +145,7 @@ partyRouter.post('/update/:id',
       } else { 
         res
           .status(400)
-          .send('An exact party like this already exists');}
+          .send('This party does not exist');}
     }
     catch (e) {
       res.status(500).json('Oops something went wrong');
@@ -176,56 +176,14 @@ partyRouter.get('/my-parties/:id',
   async(req: express.Request, res: express.Response) => {
     try {
       const foundHostingParties = await Party.find({organiser : req.params.id});
-      if (foundHostingParties == null) {
+      if (!foundHostingParties) {
         res
           .status(400)
           .send('An exact party like this already exists');
       } else {
         res
           .status(200)
-          .render('/hosting', { parties: foundHostingParties }); // send to hosting party html page
-      }
-    }
-    catch (e) {
-      res.status(500).json('Oops something went wrong');
-    }
-  }
-);
-
-// gettning parties they are invited to
-partyRouter.get('/invited-parties/:id',
-  async(req: express.Request, res: express.Response) => {
-    try {
-      const foundHostingParties = await Party.find({​​​​attendeesID: [req.params.id]}​​​​);
-      if (foundHostingParties == null) {
-        res
-          .status(400)
-          .send('An exact party like this already exists');
-      } else {
-        res
-          .status(200)
-          .render('/invited', { parties: foundHostingParties }); // send to invited party html/react page
-      }
-    }
-    catch (e) {
-      res.status(500).json('Oops something went wrong');
-    }
-  }
-);
-
-// getting all public parties
-partyRouter.get('/public-parties',
-  async(req: express.Request, res: express.Response) => {
-    try {
-      const foundPublicParties = await Party.find({public : true}​​​​);
-      if (foundPublicParties == null) {
-        res
-          .status(400)
-          .send('An exact party like this already exists');
-      } else {
-        res
-          .status(200)
-          .render('/public', { parties: foundPublicParties }); // send to public party html/react page
+          .json({ parties: foundHostingParties }); // send to hosting party html page
       }
     }
     catch (e) {
@@ -258,8 +216,47 @@ partyRouter.post('/join/:id',
   }
 );
 
+// gettning parties they are invited to
+partyRouter.get('/invited-parties/:id',
+  async(req: express.Request, res: express.Response) => {
+    try {
+      const foundHostingParties = await Party.find({​​​​attendeesID: [req.params.id]}​​​​);
+      if (foundHostingParties == null) {
+        res
+          .status(400)
+          .send('An exact party like this already exists');
+      } else {
+        res
+          .status(200)
+          .render('/invited', { parties: foundHostingParties }); // send to invited party html/react page
+      }
+    }
+    catch (e) {
+      res.status(500).json('Oops something went wrong');
+    }
+  }
+);
 
-
+// getting all public parties
+partyRouter.get('/public-parties',
+  async(req: express.Request, res: express.Response) => {
+    try {
+      const foundPublicParties = await Party.find({publicParty : true}​​​​);
+      if (!foundPublicParties) {
+        res
+          .status(400)
+          .send('An exact party like this already exists');
+      } else {
+        res
+          .status(200)
+          .render('/public', { parties: foundPublicParties }); // send to public party html/react page
+      }
+    }
+    catch (e) {
+      res.status(500).json('Oops something went wrong');
+    }
+  }
+);
 
 
 export default partyRouter;
