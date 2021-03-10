@@ -24,19 +24,33 @@ type userLoginObject = {
 
 export default class Landing extends React.Component<unknown, IState> {
 	onLoginModelClose = (): void => {
-		this.setState({ loginModalOpen: false });
+		this.setState(
+			(prevState: IState): IState => ({
+				...prevState,
+				registerModalOpen: false,
+			})
+		);
 	};
 
 	openLoginModel = (): void => {
-		this.setState({ loginModalOpen: true });
+		this.setState(
+			(prevState: IState): IState => ({ ...prevState, loginModalOpen: true })
+		);
 	};
 
 	onRegisterModelClose = (): void => {
-		this.setState({ registerModalOpen: false });
+		this.setState(
+			(prevState: IState): IState => ({
+				...prevState,
+				registerModalOpen: false,
+			})
+		);
 	};
 
 	openRegisterModel = (): void => {
-		this.setState({ registerModalOpen: true });
+		this.setState(
+			(prevState: IState): IState => ({ ...prevState, registerModalOpen: true })
+		);
 	};
 
 	onRegisterSubmit = (userToRegister: userToRegister): void => {
