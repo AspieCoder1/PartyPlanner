@@ -34,7 +34,7 @@ describe('Party model tests', () => {
 			date: '2021-04-04',
 			ageRate: false,
 			time: '11:30',
-			public: true,
+			publicParty: true,
 		};
 
 		const party: IParty = new Party(newParty);

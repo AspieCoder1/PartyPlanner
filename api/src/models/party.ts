@@ -2,13 +2,16 @@ import { Schema, Document, Model, model } from 'mongoose';
 import validator from 'validator';
 
 export interface IParty extends Document {
+	name: string;
 	organiser: string;
 	description: string;
 	location: string;
 	date: string;
+	time: string;
 	ageRate: boolean;
 	attendeesID?: string[];
 	todoID?: string;
+	publicParty?: boolean;
 }
 
 const partySchema: Schema = new Schema({
@@ -32,6 +35,7 @@ const partySchema: Schema = new Schema({
 	location: {
 		type: String,
 		trim: true,
+		minlength: [5, 'Location must be of length at least 5'],
 		required: [true, 'A location is required'],
 	},
 	date: {
@@ -62,7 +66,7 @@ const partySchema: Schema = new Schema({
 		required: false,
 		ref: 'Todo',
 	},
-	public: {
+	publicParty: {
 		type: Boolean,
 		required: false,
 		default: false,
