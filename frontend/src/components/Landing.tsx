@@ -27,7 +27,7 @@ export default class Landing extends React.Component<unknown, IState> {
 		this.setState(
 			(prevState: IState): IState => ({
 				...prevState,
-				registerModalOpen: false,
+				loginModalOpen: false,
 			})
 		);
 	};
