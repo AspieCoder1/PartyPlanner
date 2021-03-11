@@ -78,8 +78,6 @@ userRouter.post(
 			return res.status(400).json(errors);
 		}
 
-		console.log('Test');
-
 		try {
 			const user: IUser = await User.findOne({ email: userEmail });
 			if (user) {
