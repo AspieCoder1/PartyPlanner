@@ -1,4 +1,5 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import axios from 'axios';
 
 interface UserState {
 	id: string;
@@ -11,6 +12,11 @@ const initialState: UserState = {
 	token: '',
 	userName: '',
 };
+
+const registerUser = createAsyncThunk('users/registerUser', async (newUser) => {
+	const { data } = await axios.post('/api/register', newUser);
+	console.log(data);
+});
 
 const userSlice = createSlice({
 	name: 'user',
@@ -25,7 +31,7 @@ const userSlice = createSlice({
 		setUsername: (state: UserState, action: PayloadAction<string>) => {
 			state.userName = action.payload;
 		},
-	},
+	}
 });
 
 export const { setId, setToken, setUsername } = userSlice.actions;
