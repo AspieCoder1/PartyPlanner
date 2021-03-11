@@ -1,11 +1,7 @@
 import * as express from 'express';
-import { read } from 'fs/promises';
 import * as _ from 'lodash';
-import { isNull } from 'lodash';
-import { Mongoose } from 'mongoose';
 import { IParty, Party } from '../models/party';
 import { validateNewParty } from '../validation/party-routes';
-import userRouter from './user';
 
 const partyRouter: express.Router = express.Router();
 
@@ -63,7 +59,6 @@ partyRouter.post(
 				res.status(200).json(savedParty);
 			}
 		} catch (e) {
-			console.log(e);
 			res.status(500).json('Oops something went wrong');
 		}
 	}

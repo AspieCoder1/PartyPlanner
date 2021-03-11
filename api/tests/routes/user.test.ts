@@ -50,6 +50,7 @@ describe('POST /register', () => {
 		};
 		const res = await request(app).post('/register').send(mockUser);
 		expect(res.status).toBe(200);
+		expect(res.body.userName).toBe(mockUser.username);
 		const foundUser = await User.findOne({ email: mockUser.email });
 		expect(foundUser).toBeTruthy();
 	});

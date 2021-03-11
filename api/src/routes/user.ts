@@ -51,7 +51,13 @@ userRouter.post(
 						if (err) throw err;
 						newUser.password = hash;
 						const savedUser = await newUser.save();
-						res.status(200).json(savedUser);
+
+						const returnObject = {
+							userName: savedUser.username,
+							id: savedUser._id
+						};
+
+						res.status(200).json(returnObject);
 					});
 				});
 			}

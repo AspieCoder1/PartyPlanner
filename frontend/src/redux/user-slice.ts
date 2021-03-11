@@ -13,10 +13,13 @@ const initialState: UserState = {
 	userName: '',
 };
 
-const registerUser = createAsyncThunk('users/registerUser', async (newUser) => {
-	const { data } = await axios.post('/api/register', newUser);
-	console.log(data);
-});
+export const registerUser = createAsyncThunk(
+	'users/registerUser',
+	async (newUser, thunkAPI) => {
+		const { data } = await axios.post('/api/users/register', newUser);
+		return data;
+	}
+);
 
 const userSlice = createSlice({
 	name: 'user',
@@ -31,7 +34,13 @@ const userSlice = createSlice({
 		setUsername: (state: UserState, action: PayloadAction<string>) => {
 			state.userName = action.payload;
 		},
-	}
+	},
+	extraReducers: (builder) => {
+		builder.addCase(registerUser.fulfilled, (state, action) => {
+			console.log(action.payload);
+			state.id = action.payload.id;
+		});
+	},
 });
 
 export const { setId, setToken, setUsername } = userSlice.actions;
