@@ -7,8 +7,6 @@ import reducer, {
 import axios from 'axios';
 import {configureStore} from '@reduxjs/toolkit';
 
-const store = configureStore({reducer: reducer});
-
 jest.mock('axios');
 const mockAxios = axios as jest.Mocked<typeof axios>;
 

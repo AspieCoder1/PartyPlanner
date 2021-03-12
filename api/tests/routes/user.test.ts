@@ -157,6 +157,7 @@ describe('POST /register', () => {
 
 		const res = await request(app).post('/register').send(mockUser);
 		expect(res.status).toBe(400);
+		expect(res.body.email).toBe('A user with that email already exists');
 	});
 
 	it('Should respond with 400 if email is invalid', async () => {
@@ -187,6 +188,21 @@ describe('POST /register', () => {
 		const res = await request(app).post('/register').send(mockUser);
 		expect(res.status).toBe(400);
 		expect(res.body).toEqual(expectedErrors);
+	});
+
+	it('Should respond with 400 if username already exists', async () => {
+		const mockUser = {
+			email: 'test@test.com',
+			username: 'test',
+			password: 'abcdefghht',
+		};
+		const newUser1 = new User(mockUser);
+		await newUser1.save();
+
+		mockUser.email = 'test@example.com';
+		const res = await request(app).post('/register').send(mockUser);
+		expect(res.status).toBe(400);
+		expect(res.body.username).toBe('Username is taken');
 	});
 
 	it('Should respond with 400 if password length < 8', async () => {
