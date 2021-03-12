@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
-import user from '../../../api/src/routes/user';
 
 interface UserErrors {
 	email?: string;
