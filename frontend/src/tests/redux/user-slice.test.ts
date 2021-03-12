@@ -2,10 +2,11 @@ import reducer, {
 	setUsername,
 	setId,
 	setToken,
+	setErrors,
 	registerUser,
 } from '../../redux/user-slice';
 import axios from 'axios';
-import {configureStore} from '@reduxjs/toolkit';
+import { configureStore } from '@reduxjs/toolkit';
 
 jest.mock('axios');
 const mockAxios = axios as jest.Mocked<typeof axios>;
@@ -18,6 +19,7 @@ describe('Test user slice', () => {
 			id: '',
 			token: '',
 			userName: '',
+			errors: {}
 		});
 	});
 
@@ -36,6 +38,15 @@ describe('Test user slice', () => {
 		expect(state.token).toBe('test');
 	});
 
+	it('should set errors correctly', () => {
+		const exampleErrors = {
+			email: 'invalid email',
+			username: 'username is taken',
+		};
+		const state = reducer(undefined, setErrors(exampleErrors));
+		expect(state.errors).toBe(exampleErrors);
+	});
+
 	it('should handle set state correctly if registered user correctly', async () => {
 		mockAxios.post.mockImplementationOnce(() => {
 			return Promise.resolve({
@@ -52,7 +63,7 @@ describe('Test user slice', () => {
 			password: '123456dfdFD',
 		};
 
-		const store = configureStore({reducer: reducer});
+		const store = configureStore({ reducer: reducer });
 		await store.dispatch(registerUser(newUser));
 		const state = store.getState();
 		expect(state.userName).toBe('test');
