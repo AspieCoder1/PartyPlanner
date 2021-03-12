@@ -30,13 +30,13 @@ type RegisterUser = {
 
 export const registerUser = createAsyncThunk(
 	'users/registerUser',
-	async (newUser: RegisterUser) => {
+	async (newUser: RegisterUser, thunkAPI) => {
 		try {
 			const { data } = await axios.post('/api/users/register', newUser);
 			return data;
 		} catch (err) {
-			const { data } = err;
-			return data;
+			const data: UserErrors = err.data as UserErrors;
+			return thunkAPI.rejectWithValue(data);
 		}
 	}
 );
@@ -59,13 +59,25 @@ const userSlice = createSlice({
 		},
 	},
 	extraReducers: (builder) => {
-		builder.addCase(
-			registerUser.fulfilled,
-			(state: UserState, action: PayloadAction<{ id: string; userName: string }>) => {
-				state.id = action.payload.id;
-				state.userName = action.payload.userName;
-			}
-		);
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+		// @ts-ignore
+		builder
+			.addCase(
+				registerUser.fulfilled,
+				(
+					state: UserState,
+					action: PayloadAction<{ id: string; userName: string }>
+				) => {
+					state.id = action.payload.id;
+					state.userName = action.payload.userName;
+				}
+			)
+			.addCase(
+				registerUser.rejected,
+				(state: UserState, action: PayloadAction<UserErrors>) => {
+					state.errors = action.payload;
+				}
+			);
 	},
 });
 

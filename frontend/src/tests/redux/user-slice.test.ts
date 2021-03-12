@@ -69,4 +69,29 @@ describe('Test user slice', () => {
 		expect(state.userName).toBe('test');
 		expect(state.id).toBe('123456');
 	});
+
+	it('should handle register user error correctly', async () => {
+		const errors = {
+			email: 'email invalid'
+		};
+
+		mockAxios.post.mockImplementationOnce(() => {
+			return Promise.reject({
+				data: {
+					...errors
+				},
+			});
+		});
+
+		const newUser = {
+			email: 'test@example.com',
+			username: 'test',
+			password: '123456dfdFD',
+		};
+
+		const store = configureStore({ reducer: reducer });
+		await store.dispatch(registerUser(newUser));
+		const state = store.getState();
+		expect(state.errors).toEqual(errors);
+	});
 });
