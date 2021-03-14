@@ -27,11 +27,29 @@ type RegisterUser = {
 	password: string;
 };
 
+type LoginUser = {
+	email: string;
+	password: string;
+};
+
 export const registerUser = createAsyncThunk(
 	'users/registerUser',
 	async (newUser: RegisterUser, thunkAPI) => {
 		try {
 			const { data } = await axios.post('/api/users/register', newUser);
+			return data;
+		} catch (err) {
+			const data: UserErrors = err.response.data as UserErrors;
+			return thunkAPI.rejectWithValue(data);
+		}
+	}
+);
+
+export const loginUser = createAsyncThunk(
+	'users/loginUser',
+	async (newUser: LoginUser, thunkAPI) => {
+		try {
+			const { data } = await axios.post('/api/users/login', newUser);
 			return data;
 		} catch (err) {
 			const data: UserErrors = err.response.data as UserErrors;
@@ -73,6 +91,22 @@ const userSlice = createSlice({
 			)
 			.addCase(
 				registerUser.rejected,
+				(state: UserState, action: PayloadAction<UserErrors>) => {
+					state.errors = action.payload;
+				}
+			)
+			.addCase(
+				loginUser.fulfilled,
+				(
+					state: UserState,
+					action: PayloadAction<{ success: boolean; token: string; id: string }>
+				) => {
+					state.token = action.payload.token;
+					state.id = action.payload.id;
+				}
+			)
+			.addCase(
+				loginUser.rejected,
 				(state: UserState, action: PayloadAction<UserErrors>) => {
 					state.errors = action.payload;
 				}
