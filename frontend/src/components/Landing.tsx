@@ -5,10 +5,16 @@ import img from '../img/landingImage.svg';
 import ReactModal from 'react-modal';
 import { LoginForm } from './LoginForm';
 import { RegisterForm } from './RegisterForm';
+import { registerUser } from '../redux/user-slice';
+import { connect } from 'react-redux';
 
 type IState = {
 	loginModalOpen: boolean;
 	registerModalOpen: boolean;
+};
+
+type IProps = {
+	registerUser: (user: userToRegister) => void;
 };
 
 type userToRegister = {
@@ -22,25 +28,40 @@ type userLoginObject = {
 	password: string;
 };
 
-export default class Landing extends React.Component<any, IState> {
+export class Landing extends React.Component<IProps, IState> {
 	onLoginModelClose = (): void => {
-		this.setState({ loginModalOpen: false });
+		this.setState(
+			(prevState: IState): IState => ({
+				...prevState,
+				loginModalOpen: false,
+			})
+		);
 	};
 
 	openLoginModel = (): void => {
-		this.setState({ loginModalOpen: true });
+		this.setState(
+			(prevState: IState): IState => ({ ...prevState, loginModalOpen: true })
+		);
 	};
 
 	onRegisterModelClose = (): void => {
-		this.setState({ registerModalOpen: false });
+		this.setState(
+			(prevState: IState): IState => ({
+				...prevState,
+				registerModalOpen: false,
+			})
+		);
 	};
 
 	openRegisterModel = (): void => {
-		this.setState({ registerModalOpen: true });
+		this.setState(
+			(prevState: IState): IState => ({ ...prevState, registerModalOpen: true })
+		);
 	};
 
 	onRegisterSubmit = (userToRegister: userToRegister): void => {
 		console.log(userToRegister);
+		this.props.registerUser(userToRegister);
 	};
 
 	onLoginSubmit = (userToLogin: userLoginObject): void => {
@@ -98,3 +119,8 @@ export default class Landing extends React.Component<any, IState> {
 		);
 	}
 }
+
+const mapStateToProps = (state: any) => ({ user: state.user });
+const mapDispatchToProps = { registerUser };
+
+export default connect(mapStateToProps, mapDispatchToProps)(Landing);

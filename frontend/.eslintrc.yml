@@ -27,3 +27,8 @@ rules:
   semi:
     - error
     - always
+  no-console: warn
+
+settings:
+  react:
+    version: 17.0.2

@@ -39,7 +39,10 @@ describe('LoginForm component', () => {
 		render(<LoginForm closeModal={closeModel} onSubmit={onSubmit} />);
 
 		userEvent.type(screen.getByPlaceholderText('e-mail'), 'test@test.com');
-		userEvent.type(screen.getByPlaceholderText('password'), 'wfsdfgsdfgfsdgfdg');
+		userEvent.type(
+			screen.getByPlaceholderText('password'),
+			'wfsdfgsdfgfsdgfdg'
+		);
 		fireEvent.click(screen.getByTestId('submitButton'));
 
 		await waitFor(() => {

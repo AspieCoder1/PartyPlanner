@@ -6,8 +6,8 @@ type IProps = {
 	onClickRegister: () => void;
 };
 
-export default class LandingHeader extends React.Component<IProps> {
-	render() {
+export default class LandingHeader extends React.Component<IProps, never> {
+	render(): React.ReactNode {
 		return (
 			<header className={styles.header}>
 				<div className={styles.container}>

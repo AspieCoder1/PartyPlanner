@@ -9,7 +9,7 @@ interface newPartyObject {
 	date: string;
 	time: string;
 	ageRate?: boolean;
-	attendeesID?: string [];
+	attendeesID?: string[];
 	todoID?: string;
 	publicParty: boolean;
 }
@@ -25,26 +25,33 @@ interface Ierrors {
 }
 
 export const validateNewParty = (newParty: newPartyObject): Ierrors => {
-  const errors: Ierrors = {};
-  
+	const errors: Ierrors = {};
+
 	if (validator.isEmpty(newParty.name)) {
 		errors.name = 'A party name is required';
 	}
 
 	if (newParty.name.length < 5) {
-		errors.name = 'Party name is required and must be at least 5 characters long';
+		errors.name =
+			'Party name is required and must be at least 5 characters long';
 	}
 
-	if ((validator.isEmpty(newParty.organiser)) || (newParty.organiser.length < 5)) {
-		errors.organiser = 'An organiser is required and must be at least 5 characters long';
+	if (validator.isEmpty(newParty.organiser) || newParty.organiser.length < 5) {
+		errors.organiser =
+			'An organiser is required and must be at least 5 characters long';
 	}
 
-	if ((validator.isEmpty(newParty.description)) || (newParty.description.length < 7)) {
-		errors.description = 'A party description is required and must be at least 7 characters long';
+	if (
+		validator.isEmpty(newParty.description) ||
+		newParty.description.length < 7
+	) {
+		errors.description =
+			'A party description is required and must be at least 7 characters long';
 	}
-	
-	if (validator.isEmpty(newParty.location) || (newParty.location.length < 5)) {
-		errors.location = 'A party location is required and must be at least 5 characters long';
+
+	if (validator.isEmpty(newParty.location) || newParty.location.length < 5) {
+		errors.location =
+			'A party location is required and must be at least 5 characters long';
 	}
 
 	if (validator.isEmpty(newParty.date)) {
@@ -59,5 +66,5 @@ export const validateNewParty = (newParty: newPartyObject): Ierrors => {
 		errors.ageRate = 'An age rating is required';
 	}
 
-  return errors;
-}
+	return errors;
+};
