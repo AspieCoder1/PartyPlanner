@@ -19,7 +19,7 @@ describe('Test user slice', () => {
 			id: '',
 			token: '',
 			userName: '',
-			errors: {}
+			errors: {},
 		});
 	});
 
@@ -72,13 +72,15 @@ describe('Test user slice', () => {
 
 	it('should handle register user error correctly', async () => {
 		const errors = {
-			email: 'email invalid'
+			email: 'email invalid',
 		};
 
 		mockAxios.post.mockImplementationOnce(() => {
 			return Promise.reject({
-				data: {
-					...errors
+				response: {
+					data: {
+						...errors,
+					},
 				},
 			});
 		});

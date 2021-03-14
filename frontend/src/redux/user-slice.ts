@@ -32,11 +32,9 @@ export const registerUser = createAsyncThunk(
 	async (newUser: RegisterUser, thunkAPI) => {
 		try {
 			const { data } = await axios.post('/api/users/register', newUser);
-			console.log(data);
 			return data;
 		} catch (err) {
 			const data: UserErrors = err.response.data as UserErrors;
-			console.log(data);
 			return thunkAPI.rejectWithValue(data);
 		}
 	}
