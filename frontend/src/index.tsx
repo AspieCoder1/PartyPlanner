@@ -5,10 +5,15 @@ import './index.scss';
 import reportWebVitals from './reportWebVitals';
 import AppRouter from './router/Router';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
+import {Provider} from 'react-redux';
+import store from './redux/store';
 
 ReactDOM.render(
 	<React.StrictMode>
-		<AppRouter />
+		<Provider store={store}>
+			<AppRouter />
+		</Provider>
+
 	</React.StrictMode>,
 	document.getElementById('root')
 );

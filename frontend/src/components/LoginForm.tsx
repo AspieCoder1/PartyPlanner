@@ -44,9 +44,7 @@ export const LoginForm = (props: IProps): JSX.Element => {
 	const formik = useFormik({
 		initialValues: initialValues,
 		onSubmit: (values: LoginFormValues) => {
-			setTimeout(() => {
-				props.onSubmit(values);
-			}, 500);
+			props.onSubmit(values);
 		},
 		validationSchema: LoginSchema,
 	});

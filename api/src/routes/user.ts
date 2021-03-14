@@ -67,6 +67,7 @@ userRouter.post(
 				});
 			}
 		} catch (e) {
+			console.log(e);
 			res.status(500).json('Oops something went wrong');
 		}
 	}
