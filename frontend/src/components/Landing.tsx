@@ -5,7 +5,7 @@ import img from '../img/landingImage.svg';
 import ReactModal from 'react-modal';
 import { LoginForm } from './LoginForm';
 import { RegisterForm } from './RegisterForm';
-import { registerUser } from '../redux/user-slice';
+import { registerUser, loginUser } from '../redux/user-slice';
 import { connect } from 'react-redux';
 
 type IState = {
@@ -15,6 +15,7 @@ type IState = {
 
 type IProps = {
 	registerUser: (user: userToRegister) => void;
+	loginUser: (user: userLoginObject) => void;
 };
 
 type userToRegister = {
@@ -59,9 +60,13 @@ export class Landing extends React.Component<IProps, IState> {
 		);
 	};
 
-	onRegisterSubmit = (userToRegister: userToRegister): void => {
+	onRegisterSubmit = async (userToRegister: userToRegister) => {
 		console.log(userToRegister);
-		this.props.registerUser(userToRegister);
+		await this.props.registerUser(userToRegister);
+		await this.props.loginUser({
+			email: userToRegister.email,
+			password: userToRegister.password,
+		});
 	};
 
 	onLoginSubmit = (userToLogin: userLoginObject): void => {
@@ -121,6 +126,6 @@ export class Landing extends React.Component<IProps, IState> {
 }
 
 const mapStateToProps = (state: any) => ({ user: state.user });
-const mapDispatchToProps = { registerUser };
+const mapDispatchToProps = { registerUser, loginUser };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Landing);
