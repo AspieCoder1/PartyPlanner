@@ -61,7 +61,6 @@ export class Landing extends React.Component<IProps, IState> {
 	};
 
 	onRegisterSubmit = async (userToRegister: userToRegister) => {
-		console.log(userToRegister);
 		await this.props.registerUser(userToRegister);
 		await this.props.loginUser({
 			email: userToRegister.email,
@@ -71,6 +70,7 @@ export class Landing extends React.Component<IProps, IState> {
 
 	onLoginSubmit = (userToLogin: userLoginObject): void => {
 		console.log(userToLogin);
+		this.props.loginUser(userToLogin);
 	};
 
 	state: IState = {
