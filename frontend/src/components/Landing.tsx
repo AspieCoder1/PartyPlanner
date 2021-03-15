@@ -5,17 +5,19 @@ import img from '../img/landingImage.svg';
 import ReactModal from 'react-modal';
 import { LoginForm } from './LoginForm';
 import { RegisterForm } from './RegisterForm';
-import { registerUser, loginUser } from '../redux/user-slice';
+import { registerUser, loginUser, UserState, UserErrors } from '../redux/user-slice';
 import { connect } from 'react-redux';
 
 type IState = {
 	loginModalOpen: boolean;
 	registerModalOpen: boolean;
+	errors: UserErrors;
 };
 
 type IProps = {
 	registerUser: (user: userToRegister) => void;
 	loginUser: (user: userLoginObject) => void;
+	user: UserState;
 };
 
 type userToRegister = {
@@ -30,6 +32,16 @@ type userLoginObject = {
 };
 
 export class Landing extends React.Component<IProps, IState> {
+
+	static getDerivedStateFromProps(props: IProps, state: IState) {
+		if (props.user.errors !== state.errors) {
+			return {
+				errors: props.user.errors,
+			};
+		}
+		return state;
+	}
+
 	onLoginModelClose = (): void => {
 		this.setState(
 			(prevState: IState): IState => ({
@@ -62,10 +74,12 @@ export class Landing extends React.Component<IProps, IState> {
 
 	onRegisterSubmit = async (userToRegister: userToRegister) => {
 		await this.props.registerUser(userToRegister);
-		await this.props.loginUser({
-			email: userToRegister.email,
-			password: userToRegister.password,
-		});
+		if (this.state.errors === {}) {
+			await this.props.loginUser({
+				email: userToRegister.email,
+				password: userToRegister.password,
+			});
+		}
 	};
 
 	onLoginSubmit = (userToLogin: userLoginObject): void => {
@@ -76,6 +90,7 @@ export class Landing extends React.Component<IProps, IState> {
 	state: IState = {
 		loginModalOpen: false,
 		registerModalOpen: false,
+		errors: {},
 	};
 
 	render(): React.ReactNode {

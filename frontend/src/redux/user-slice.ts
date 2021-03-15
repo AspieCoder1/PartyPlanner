@@ -1,13 +1,13 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-interface UserErrors {
+export interface UserErrors {
 	email?: string;
 	password?: string;
 	username?: string;
 }
 
-interface UserState {
+export interface UserState {
 	id: string;
 	token: string;
 	userName: string;
@@ -87,6 +87,7 @@ const userSlice = createSlice({
 				) => {
 					state.id = action.payload.id;
 					state.userName = action.payload.userName;
+					state.errors = {};
 				}
 			)
 			.addCase(
@@ -103,6 +104,7 @@ const userSlice = createSlice({
 				) => {
 					state.token = action.payload.token;
 					state.id = action.payload.id;
+					state.errors = {};
 				}
 			)
 			.addCase(
