@@ -3,6 +3,7 @@ import { useFormik } from 'formik';
 import styles from './LoginForm.module.scss';
 import * as Yup from 'yup';
 import CSS from 'csstype';
+import { UserErrors } from '../redux/user-slice';
 
 const buttonStyles: CSS.Properties = {
 	color: '#ddd9da',
@@ -23,6 +24,7 @@ const submitButton: CSS.Properties = {
 type IProps = {
 	closeModal: () => void;
 	onSubmit: (user: LoginFormValues) => void;
+	errors: UserErrors;
 };
 
 interface LoginFormValues {
@@ -43,8 +45,11 @@ export const LoginForm = (props: IProps): JSX.Element => {
 
 	const formik = useFormik({
 		initialValues: initialValues,
-		onSubmit: (values: LoginFormValues) => {
-			props.onSubmit(values);
+		onSubmit: async (values: LoginFormValues, { setSubmitting, setStatus }) => {
+			setSubmitting(true);
+			const errors = await props.onSubmit(values);
+			setStatus(errors);
+			setSubmitting(false);
 		},
 		validationSchema: LoginSchema,
 	});
@@ -71,11 +76,18 @@ export const LoginForm = (props: IProps): JSX.Element => {
 					onChange={formik.handleChange}
 					value={formik.values.email}
 				/>
-				{formik.errors.email && formik.touched.email ? (
+				{formik.status && formik.status.email ? (
 					<p id='emailError' className={styles.error}>
-						{formik.errors.email}
+						{formik.status.email}
 					</p>
-				) : null}
+				) : (
+					formik.errors.email &&
+					formik.touched.email && (
+						<p id='emailError' className={styles.error}>
+							{formik.errors.email}
+						</p>
+					)
+				)}
 				<input
 					className={styles.input}
 					type='password'
@@ -84,11 +96,18 @@ export const LoginForm = (props: IProps): JSX.Element => {
 					onChange={formik.handleChange}
 					value={formik.values.password}
 				/>
-				{formik.errors.password && formik.touched.password ? (
-					<p id='passwordError' className={styles.error}>
-						{formik.errors.password}
+				{formik.status && formik.status.password ? (
+					<p id='emailError' className={styles.error}>
+						{formik.status.password}
 					</p>
-				) : null}
+				) : (
+					formik.errors.password &&
+					formik.touched.password && (
+						<p id='emailError' className={styles.error}>
+							{formik.errors.password}
+						</p>
+					)
+				)}
 				<button
 					data-testid='submitButton'
 					id='submit'
