@@ -13,6 +13,7 @@ import {
 	UserErrors,
 } from '../redux/user-slice';
 import { connect } from 'react-redux';
+import { Store } from "../redux/store";
 
 type IState = {
 	loginModalOpen: boolean;
@@ -153,7 +154,7 @@ export class Landing extends React.Component<IProps, IState> {
 	}
 }
 
-const mapStateToProps = (state: any) => ({ user: state.user });
+const mapStateToProps = (state: Store) => ({ user: state.user });
 const mapDispatchToProps = { registerUser, loginUser, setErrors };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Landing);
