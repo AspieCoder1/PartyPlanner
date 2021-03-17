@@ -5,16 +5,26 @@ import img from '../img/landingImage.svg';
 import ReactModal from 'react-modal';
 import { LoginForm } from './LoginForm';
 import { RegisterForm } from './RegisterForm';
-import { registerUser } from '../redux/user-slice';
+import {
+	registerUser,
+	loginUser,
+	setErrors,
+	UserState,
+	UserErrors,
+} from '../redux/user-slice';
 import { connect } from 'react-redux';
 
 type IState = {
 	loginModalOpen: boolean;
 	registerModalOpen: boolean;
+	errors: UserErrors;
 };
 
 type IProps = {
 	registerUser: (user: userToRegister) => void;
+	loginUser: (user: userLoginObject) => void;
+	setErrors: (user: UserErrors) => void;
+	user: UserState;
 };
 
 type userToRegister = {
@@ -29,13 +39,24 @@ type userLoginObject = {
 };
 
 export class Landing extends React.Component<IProps, IState> {
+	static getDerivedStateFromProps(props: IProps, state: IState) {
+		if (props.user.errors !== state.errors) {
+			return {
+				errors: props.user.errors,
+			};
+		}
+		return state;
+	}
+
 	onLoginModelClose = (): void => {
 		this.setState(
 			(prevState: IState): IState => ({
 				...prevState,
 				loginModalOpen: false,
+				errors: {},
 			})
 		);
+		this.props.setErrors({});
 	};
 
 	openLoginModel = (): void => {
@@ -49,8 +70,10 @@ export class Landing extends React.Component<IProps, IState> {
 			(prevState: IState): IState => ({
 				...prevState,
 				registerModalOpen: false,
+				errors: {},
 			})
 		);
+		this.props.setErrors({});
 	};
 
 	openRegisterModel = (): void => {
@@ -59,18 +82,26 @@ export class Landing extends React.Component<IProps, IState> {
 		);
 	};
 
-	onRegisterSubmit = (userToRegister: userToRegister): void => {
-		console.log(userToRegister);
-		this.props.registerUser(userToRegister);
+	onRegisterSubmit = async (userToRegister: userToRegister): Promise<UserErrors> => {
+		await this.props.registerUser(userToRegister);
+		if (this.state.errors === {}) {
+			await this.props.loginUser({
+				email: userToRegister.email,
+				password: userToRegister.password,
+			});
+		}
+		return this.state.errors;
 	};
 
-	onLoginSubmit = (userToLogin: userLoginObject): void => {
-		console.log(userToLogin);
+	onLoginSubmit = async (userToLogin: userLoginObject): Promise<UserErrors> => {
+		await this.props.loginUser(userToLogin);
+		return this.state.errors;
 	};
 
 	state: IState = {
 		loginModalOpen: false,
 		registerModalOpen: false,
+		errors: {},
 	};
 
 	render(): React.ReactNode {
@@ -103,6 +134,7 @@ export class Landing extends React.Component<IProps, IState> {
 					<LoginForm
 						closeModal={this.onLoginModelClose}
 						onSubmit={this.onLoginSubmit}
+						errors={this.state.errors}
 					/>
 				</ReactModal>
 				<ReactModal
@@ -113,6 +145,7 @@ export class Landing extends React.Component<IProps, IState> {
 					<RegisterForm
 						closeModal={this.onRegisterModelClose}
 						onSubmit={this.onRegisterSubmit}
+						errors={this.state.errors}
 					/>
 				</ReactModal>
 			</div>
@@ -121,6 +154,6 @@ export class Landing extends React.Component<IProps, IState> {
 }
 
 const mapStateToProps = (state: any) => ({ user: state.user });
-const mapDispatchToProps = { registerUser };
+const mapDispatchToProps = { registerUser, loginUser, setErrors };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Landing);

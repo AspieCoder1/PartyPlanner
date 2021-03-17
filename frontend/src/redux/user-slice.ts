@@ -1,13 +1,13 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-interface UserErrors {
+export interface UserErrors {
 	email?: string;
 	password?: string;
 	username?: string;
 }
 
-interface UserState {
+export interface UserState {
 	id: string;
 	token: string;
 	userName: string;
@@ -27,11 +27,29 @@ type RegisterUser = {
 	password: string;
 };
 
+type LoginUser = {
+	email: string;
+	password: string;
+};
+
 export const registerUser = createAsyncThunk(
 	'users/registerUser',
 	async (newUser: RegisterUser, thunkAPI) => {
 		try {
 			const { data } = await axios.post('/api/users/register', newUser);
+			return data;
+		} catch (err) {
+			const data: UserErrors = err.response.data as UserErrors;
+			return thunkAPI.rejectWithValue(data);
+		}
+	}
+);
+
+export const loginUser = createAsyncThunk(
+	'users/loginUser',
+	async (newUser: LoginUser, thunkAPI) => {
+		try {
+			const { data } = await axios.post('/api/users/login', newUser);
 			return data;
 		} catch (err) {
 			const data: UserErrors = err.response.data as UserErrors;
@@ -69,10 +87,28 @@ const userSlice = createSlice({
 				) => {
 					state.id = action.payload.id;
 					state.userName = action.payload.userName;
+					state.errors = {};
 				}
 			)
 			.addCase(
 				registerUser.rejected,
+				(state: UserState, action: PayloadAction<UserErrors>) => {
+					state.errors = action.payload;
+				}
+			)
+			.addCase(
+				loginUser.fulfilled,
+				(
+					state: UserState,
+					action: PayloadAction<{ success: boolean; token: string; id: string }>
+				) => {
+					state.token = action.payload.token;
+					state.id = action.payload.id;
+					state.errors = {};
+				}
+			)
+			.addCase(
+				loginUser.rejected,
 				(state: UserState, action: PayloadAction<UserErrors>) => {
 					state.errors = action.payload;
 				}

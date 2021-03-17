@@ -4,6 +4,7 @@ import reducer, {
 	setToken,
 	setErrors,
 	registerUser,
+	loginUser,
 } from '../../redux/user-slice';
 import axios from 'axios';
 import { configureStore } from '@reduxjs/toolkit';
@@ -93,6 +94,59 @@ describe('Test user slice', () => {
 
 		const store = configureStore({ reducer: reducer });
 		await store.dispatch(registerUser(newUser));
+		const state = store.getState();
+		expect(state.errors).toEqual(errors);
+	});
+
+	it('should handle set state correctly if login user correctly', async () => {
+		const data = {
+			token: 'Bearer 1234456789',
+			id: '123456',
+		};
+
+		mockAxios.post.mockImplementationOnce(() => {
+			return Promise.resolve({
+				data: {
+					...data,
+				},
+			});
+		});
+
+		const newUser = {
+			email: 'test@example.com',
+			password: '123456dfdFD',
+		};
+
+		const store = configureStore({ reducer: reducer });
+		await store.dispatch(loginUser(newUser));
+		const state = store.getState();
+		expect(state.token).toBe(data.token);
+		expect(state.id).toBe(data.id);
+	});
+
+	it('should handle login user error correctly', async () => {
+		const errors = {
+			email: 'email invalid',
+			password: 'password is incorrect',
+		};
+
+		mockAxios.post.mockImplementationOnce(() => {
+			return Promise.reject({
+				response: {
+					data: {
+						...errors,
+					},
+				},
+			});
+		});
+
+		const newUser = {
+			email: 'test@example.com',
+			password: '123456dfdFD',
+		};
+
+		const store = configureStore({ reducer: reducer });
+		await store.dispatch(loginUser(newUser));
 		const state = store.getState();
 		expect(state.errors).toEqual(errors);
 	});

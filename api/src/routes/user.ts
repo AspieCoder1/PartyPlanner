@@ -89,7 +89,7 @@ userRouter.post(
 			if (user) {
 				const match = await bcrypt.compare(userPassword, user.password);
 				if (match) {
-					const payload = { email: userEmail, is: user._id };
+					const payload = { email: userEmail, id: user._id };
 					const token = jwt.sign(payload, process.env.jwt_key, {
 						expiresIn: 3600,
 					});

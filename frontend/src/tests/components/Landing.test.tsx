@@ -4,7 +4,16 @@ import { Landing } from '../../components/Landing';
 
 describe('Landing page component', () => {
 	it('Should render component correctly', () => {
-		const tree = renderer.create(<Landing registerUser={jest.fn()} />).toJSON();
+		const user = {
+			id: '',
+			token: '',
+			userName: '',
+			errors: {},
+		};
+
+		const tree = renderer
+			.create(<Landing loginUser={jest.fn()} user={user} registerUser={jest.fn()} />)
+			.toJSON();
 		expect(tree).toMatchSnapshot();
 	});
 });
