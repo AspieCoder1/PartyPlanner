@@ -1,0 +1,48 @@
+---
+name: Get My Parties
+menu: Parties
+---
+
+# Get My Parties
+Get parties of which I am the organiser
+- URL: `/my-parties/:id`
+- Method: `GET`
+- Auth required: NO
+
+## Parameters
+|Parameter|Description                                                              |
+|---------|-------------------------------------------------------------------------|
+|id       |The Username of the user who wants to get parties of which they're a host|
+
+## Request body
+This endpoint does not require a request body.
+
+## Headers  
+This endpoint does not require any custom headers to be set.
+
+## Success Response
+Code: `200` with an array of parties the user hosts.
+### Example Response
+This is the case where the organiser (username) is `jonhSmith1`. Note that this should return an array of JSON objects of the parties they host.
+```json
+[{
+  "party": {
+    "organiser": "johnSmith1",
+    ...
+  }
+}]
+```
+
+## Errors
+- `400`, in the case there are parties the user is a host of. This would look like `{code: 400, error_msg: 'You have no host parties at the moment'}`.
+- OR in the case of a server error you would get a `500` error in the form of `{code: 5xx, error_msg: 'Oh snap, something went wrong on our end.'}`
+
+## Example request
+```js
+var axios = require("axios");
+axios.get('/api/parties/my-parties/johnSmith1').then(res => {
+    console.log(res.body)
+}).catch(err => {
+    console.log(err)
+})
+```

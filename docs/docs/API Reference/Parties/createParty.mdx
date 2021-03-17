@@ -1,0 +1,75 @@
+---
+name: Create Party
+menu: Parties
+---
+
+# Create Party
+Create a new party
+- URL: `/create`
+- Method: `POST`
+- Auth required: NO
+
+## Parameters
+This endpoint does not have any query parameters
+
+## Request body
+|Key         |Description                                         |
+|------------|----------------------------------------------------|
+|name        | Name of the new party                              |
+|organiser   | Username of the organiser                          |
+|description | Description of the new party                       |
+|location    | location of the new party                          |
+|date        | Date of new party                                  |
+|time        | Time of the new party                              |
+|ageRate     | Age rating of the new party                        |
+|attendeesID | Attendees of new party                             |
+|todoID      | TodoID of new party (Boolean or String tbd         |
+|publicParty | Public/Private scope of the new party              |
+
+## Headers
+This endpoint does not require any custom headers to be set.
+
+## Success Response
+Code: `200 OK`
+### Example Response
+```json
+    {
+      	"_id": "507f1f77bcf86cd799439011",
+		"name": "My awesome party",
+		"organiser": "johnSmmith1",
+		"description": "This is a test party",
+		"location": "This is a test location",
+		"date": "2021-04-04",
+		"time": "11:30",
+		"ageRate": "false",
+		"attendeesID": "['username1', 'username2']"
+		"todoID": "Y",
+		"publicParty": "false",
+    }
+```
+
+## Errors
+- `400`, in the case of an exact party like this already exists.	(Sends message)
+- `400`, in the case that validation fails. (Sends errors)
+- OR in the case of a server error you would get a `500` error in the form of `{code: 5xx, body: 'Oh snap, something went wrong on our end.'}`
+
+## Example request
+```js
+var axios = require("axios");
+const party = {
+	_id: mongoose.Types.ObjectId(),
+	name: '',
+	organiser: 'test user',
+	description: 'This is a test party',
+	location: 'This is a test location',
+	date: '2021-04-04',
+	ageRate: false,
+	time: '11:30',
+};
+
+axios.post('/api/parties/create/', party).then(res => {
+    console.log(res.body);
+}).catch(err => {
+    console.log(err)
+})
+```
