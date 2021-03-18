@@ -13,7 +13,7 @@ import {
 	UserErrors,
 } from '../redux/user-slice';
 import { connect } from 'react-redux';
-import { Store } from "../redux/store";
+import { Store } from '../redux/store';
 
 type IState = {
 	loginModalOpen: boolean;
@@ -83,7 +83,9 @@ export class Landing extends React.Component<IProps, IState> {
 		);
 	};
 
-	onRegisterSubmit = async (userToRegister: userToRegister): Promise<UserErrors> => {
+	onRegisterSubmit = async (
+		userToRegister: userToRegister
+	): Promise<UserErrors> => {
 		await this.props.registerUser(userToRegister);
 		if (this.state.errors === {}) {
 			await this.props.loginUser({
