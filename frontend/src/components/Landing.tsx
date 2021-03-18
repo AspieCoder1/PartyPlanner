@@ -16,7 +16,6 @@ import {
 import { connect } from 'react-redux';
 import { Store } from '../redux/store';
 import * as _ from 'lodash';
-import {withRouter} from 'react-router-dom';
 
 type IState = {
 	loginModalOpen: boolean;
