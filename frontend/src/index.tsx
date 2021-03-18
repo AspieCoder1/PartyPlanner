@@ -5,16 +5,16 @@ import './index.scss';
 import reportWebVitals from './reportWebVitals';
 import AppRouter from './router/Router';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
-import {Provider} from 'react-redux';
+import { Provider } from 'react-redux';
 import store from './redux/store';
+import './utils/history';
 
 ReactDOM.render(
-	<React.StrictMode>
+	<div>
 		<Provider store={store}>
 			<AppRouter />
 		</Provider>
-
-	</React.StrictMode>,
+	</div>,
 	document.getElementById('root')
 );
 

@@ -1,4 +1,5 @@
 import * as React from 'react';
+import {Link} from 'react-router-dom';
 import styles from './Landing.module.scss';
 import LandingHeader from './LandingHeader';
 import img from '../img/landingImage.svg';
@@ -15,6 +16,7 @@ import {
 import { connect } from 'react-redux';
 import { Store } from '../redux/store';
 import * as _ from 'lodash';
+import {withRouter} from 'react-router-dom';
 
 type IState = {
 	loginModalOpen: boolean;
@@ -111,6 +113,7 @@ export class Landing extends React.Component<IProps, IState> {
 	render(): React.ReactNode {
 		return (
 			<div>
+				<Link to='/dashboard'>Dashboard</Link>
 				<LandingHeader
 					onClickLogin={this.openLoginModel}
 					onClickRegister={this.openRegisterModel}
