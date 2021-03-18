@@ -113,7 +113,6 @@ export class Landing extends React.Component<IProps, IState> {
 	render(): React.ReactNode {
 		return (
 			<div>
-				<Link to='/dashboard'>Dashboard</Link>
 				<LandingHeader
 					onClickLogin={this.openLoginModel}
 					onClickRegister={this.openRegisterModel}
