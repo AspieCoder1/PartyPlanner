@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
-import history from '../utils/history';
 
 export interface UserErrors {
 	email?: string;
@@ -106,7 +105,6 @@ const userSlice = createSlice({
 					state.token = action.payload.token;
 					state.id = action.payload.id;
 					state.errors = {};
-					history.push('/dashboard');
 				}
 			)
 			.addCase(

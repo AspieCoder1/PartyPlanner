@@ -14,6 +14,7 @@ import {
 } from '../redux/user-slice';
 import { connect } from 'react-redux';
 import { Store } from '../redux/store';
+import * as _ from 'lodash';
 
 type IState = {
 	loginModalOpen: boolean;
@@ -87,7 +88,7 @@ export class Landing extends React.Component<IProps, IState> {
 		userToRegister: userToRegister
 	): Promise<UserErrors> => {
 		await this.props.registerUser(userToRegister);
-		if (this.state.errors === {}) {
+		if (_.isEmpty(this.state.errors)) {
 			await this.props.loginUser({
 				email: userToRegister.email,
 				password: userToRegister.password,
@@ -137,7 +138,6 @@ export class Landing extends React.Component<IProps, IState> {
 					<LoginForm
 						closeModal={this.onLoginModelClose}
 						onSubmit={this.onLoginSubmit}
-						errors={this.state.errors}
 					/>
 				</ReactModal>
 				<ReactModal
@@ -148,7 +148,6 @@ export class Landing extends React.Component<IProps, IState> {
 					<RegisterForm
 						closeModal={this.onRegisterModelClose}
 						onSubmit={this.onRegisterSubmit}
-						errors={this.state.errors}
 					/>
 				</ReactModal>
 			</div>

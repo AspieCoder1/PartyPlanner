@@ -3,7 +3,6 @@ import { useFormik } from 'formik';
 import styles from './LoginForm.module.scss';
 import * as Yup from 'yup';
 import CSS from 'csstype';
-import { UserErrors } from '../redux/user-slice';
 
 const buttonStyles: CSS.Properties = {
 	color: '#ddd9da',
@@ -24,7 +23,6 @@ const submitButton: CSS.Properties = {
 type IProps = {
 	closeModal: () => void;
 	onSubmit: (user: LoginFormValues) => void;
-	errors: UserErrors;
 };
 
 interface LoginFormValues {
