@@ -13,6 +13,9 @@ import {
 	UserErrors,
 } from '../redux/user-slice';
 import { connect } from 'react-redux';
+import { Store } from '../redux/store';
+import * as _ from 'lodash';
+import history from '../utils/history';
 
 type IState = {
 	loginModalOpen: boolean;
@@ -82,19 +85,27 @@ export class Landing extends React.Component<IProps, IState> {
 		);
 	};
 
-	onRegisterSubmit = async (userToRegister: userToRegister): Promise<UserErrors> => {
+	onRegisterSubmit = async (
+		userToRegister: userToRegister
+	): Promise<UserErrors> => {
 		await this.props.registerUser(userToRegister);
-		if (this.state.errors === {}) {
+		if (_.isEmpty(this.state.errors)) {
 			await this.props.loginUser({
 				email: userToRegister.email,
 				password: userToRegister.password,
 			});
+		}
+		if (_.isEmpty(this.state.errors)) {
+			history.push('/dashboard');
 		}
 		return this.state.errors;
 	};
 
 	onLoginSubmit = async (userToLogin: userLoginObject): Promise<UserErrors> => {
 		await this.props.loginUser(userToLogin);
+		if (_.isEmpty(this.state.errors)) {
+			history.push('/dashboard');
+		}
 		return this.state.errors;
 	};
 
@@ -130,30 +141,34 @@ export class Landing extends React.Component<IProps, IState> {
 					overlayClassName={styles.overlay}
 					className={styles.modal}
 					isOpen={this.state.loginModalOpen}
+					appElement={document.getElementById('login-form') as HTMLElement}
 				>
-					<LoginForm
-						closeModal={this.onLoginModelClose}
-						onSubmit={this.onLoginSubmit}
-						errors={this.state.errors}
-					/>
+					<div id='login-form'>
+						<LoginForm
+							closeModal={this.onLoginModelClose}
+							onSubmit={this.onLoginSubmit}
+						/>
+					</div>
 				</ReactModal>
 				<ReactModal
 					overlayClassName={styles.overlay}
 					className={styles.modal}
 					isOpen={this.state.registerModalOpen}
+					appElement={document.getElementById('register-form') as HTMLElement}
 				>
-					<RegisterForm
-						closeModal={this.onRegisterModelClose}
-						onSubmit={this.onRegisterSubmit}
-						errors={this.state.errors}
-					/>
+					<div id='register-form'>
+						<RegisterForm
+							closeModal={this.onRegisterModelClose}
+							onSubmit={this.onRegisterSubmit}
+						/>
+					</div>
 				</ReactModal>
 			</div>
 		);
 	}
 }
 
-const mapStateToProps = (state: any) => ({ user: state.user });
+const mapStateToProps = (state: Store) => ({ user: state.user });
 const mapDispatchToProps = { registerUser, loginUser, setErrors };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Landing);

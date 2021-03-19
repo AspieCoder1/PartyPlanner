@@ -1,0 +1,21 @@
+@import "src/styles/colours.scss";
+
+.container {
+  display: grid;
+  grid-template-columns: repeat(11, 1fr);
+  column-gap: 16px;
+  margin-left: 140px;
+  margin-right: 140px;
+  margin-top: 64px;
+}
+
+.title {
+  color: $dark-purple;
+  grid-column: 1 / span 4;
+}
+
+.paragraph {
+  color: $black;
+  grid-row: 2;
+  grid-column: 1 / span 12;
+}
