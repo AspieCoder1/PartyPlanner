@@ -141,21 +141,27 @@ export class Landing extends React.Component<IProps, IState> {
 					overlayClassName={styles.overlay}
 					className={styles.modal}
 					isOpen={this.state.loginModalOpen}
+					appElement={document.getElementById('login-form') as HTMLElement}
 				>
-					<LoginForm
-						closeModal={this.onLoginModelClose}
-						onSubmit={this.onLoginSubmit}
-					/>
+					<div id='login-form'>
+						<LoginForm
+							closeModal={this.onLoginModelClose}
+							onSubmit={this.onLoginSubmit}
+						/>
+					</div>
 				</ReactModal>
 				<ReactModal
 					overlayClassName={styles.overlay}
 					className={styles.modal}
 					isOpen={this.state.registerModalOpen}
+					appElement={document.getElementById('register-form') as HTMLElement}
 				>
-					<RegisterForm
-						closeModal={this.onRegisterModelClose}
-						onSubmit={this.onRegisterSubmit}
-					/>
+					<div id='register-form'>
+						<RegisterForm
+							closeModal={this.onRegisterModelClose}
+							onSubmit={this.onRegisterSubmit}
+						/>
+					</div>
 				</ReactModal>
 			</div>
 		);
