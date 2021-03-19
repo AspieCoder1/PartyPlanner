@@ -63,4 +63,24 @@ describe('LoginForm component', () => {
 		fireEvent.click(screen.getByText('\u00D7'));
 		expect(closeModel).toHaveBeenCalledTimes(1);
 	});
+
+	it('should handle API error', () => {
+		const errors = {
+			email: 'User not found',
+			password: 'Password is incorrect',
+		};
+
+		const closeModel = jest.fn();
+		const onSubmit = jest.fn(() => Promise.resolve({ ...errors }));
+
+		render(<LoginForm closeModal={closeModel} onSubmit={onSubmit} />);
+
+		userEvent.type(screen.getByPlaceholderText('e-mail'), 'test@test.com');
+		userEvent.type(screen.getByPlaceholderText('password'), 'test-password');
+
+		waitFor(() => {
+			expect(screen.getByText(errors.email)).toBeTruthy();
+			expect(screen.getByText(errors.password)).toBeTruthy();
+		});
+	});
 });

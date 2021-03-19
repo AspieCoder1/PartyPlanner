@@ -100,4 +100,26 @@ describe('RegisterForm component', () => {
 		fireEvent.click(screen.getByText('\u00D7'));
 		expect(closeModel).toHaveBeenCalledTimes(1);
 	});
+
+	it('Should display error if API error', async () => {
+		const errors = {
+			email: 'Email already exists',
+			username: 'Username is taken',
+		};
+
+		const closeModel = jest.fn();
+		const onSubmit = jest.fn(() => Promise.resolve({ ...errors }));
+
+		render(<RegisterForm closeModal={closeModel} onSubmit={onSubmit} />);
+
+		userEvent.type(screen.getByPlaceholderText('e-mail'), 'test@test.com');
+		userEvent.type(screen.getByPlaceholderText('username'), 'test01');
+		userEvent.type(screen.getByPlaceholderText('password'), 'test-password');
+		fireEvent.click(screen.getByTestId('submitButton'));
+
+		await waitFor(() => {
+			expect(screen.getByText(errors.email)).toBeTruthy();
+			expect(screen.getByText(errors.username)).toBeTruthy();
+		});
+	});
 });
