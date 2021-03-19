@@ -1,5 +1,4 @@
 import * as React from 'react';
-import {Link} from 'react-router-dom';
 import styles from './Landing.module.scss';
 import LandingHeader from './LandingHeader';
 import img from '../img/landingImage.svg';
@@ -16,6 +15,7 @@ import {
 import { connect } from 'react-redux';
 import { Store } from '../redux/store';
 import * as _ from 'lodash';
+import history from '../utils/history';
 
 type IState = {
 	loginModalOpen: boolean;
@@ -95,11 +95,17 @@ export class Landing extends React.Component<IProps, IState> {
 				password: userToRegister.password,
 			});
 		}
+		if (_.isEmpty(this.state.errors)) {
+			history.push('/dashboard');
+		}
 		return this.state.errors;
 	};
 
 	onLoginSubmit = async (userToLogin: userLoginObject): Promise<UserErrors> => {
 		await this.props.loginUser(userToLogin);
+		if (_.isEmpty(this.state.errors)) {
+			history.push('/dashboard');
+		}
 		return this.state.errors;
 	};
 
