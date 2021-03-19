@@ -9,14 +9,13 @@ import { Provider } from 'react-redux';
 import store from './redux/store';
 import './utils/history';
 import jwtDecode, { JwtPayload } from 'jwt-decode';
-import {setId, setToken, setUsername} from './redux/user-slice';
+import { setId, setToken, setUsername } from './redux/user-slice';
 
 interface TokenDecoded extends JwtPayload {
 	username: string;
 	id: string;
 	exp: number;
 }
-
 
 if (localStorage.token) {
 	const decoded: TokenDecoded = jwtDecode(localStorage.token);

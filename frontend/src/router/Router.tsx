@@ -7,8 +7,12 @@ import Dashboard from '../components/Dashboard';
 const AppRouter = (): JSX.Element => (
 	<Router history={history}>
 		<Switch>
-			<Route exact path='/dashboard'><Dashboard/></Route>
-			<Route exact path='/'><Landing/></Route>
+			<Route exact path='/dashboard'>
+				<Dashboard />
+			</Route>
+			<Route exact path='/'>
+				<Landing />
+			</Route>
 		</Switch>
 	</Router>
 );

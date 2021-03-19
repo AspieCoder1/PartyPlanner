@@ -12,7 +12,9 @@ describe('Landing page component', () => {
 		};
 
 		const tree = renderer
-			.create(<Landing loginUser={jest.fn()} user={user} registerUser={jest.fn()} />)
+			.create(
+				<Landing loginUser={jest.fn()} user={user} registerUser={jest.fn()} setErrors={jest.fn()}/>
+			)
 			.toJSON();
 		expect(tree).toMatchSnapshot();
 	});
