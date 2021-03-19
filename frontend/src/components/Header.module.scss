@@ -1,0 +1,43 @@
+@import "src/styles/colours.scss";
+
+.header {
+  border-bottom: $grey solid 1px;
+  margin-bottom: 0px;
+  margin-top: 16px;
+}
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-left: 140px;
+  margin-right: 140px;
+}
+
+.title {
+  font-size: 24px;
+  color: $dark-purple;
+  font-weight: 500;
+}
+
+.header-buttons {
+  display: flex;
+  align-content: center;
+}
+
+.logoutButton {
+  margin-right: 16px;
+  border: none;
+  color: $black;
+  background: none;
+  font-size: 16px;
+}
+
+.button {
+  color: $dark-purple;
+  font-size: 16px;
+  border: none;
+  background: none;
+}
