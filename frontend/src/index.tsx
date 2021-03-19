@@ -8,6 +8,29 @@ import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import { Provider } from 'react-redux';
 import store from './redux/store';
 import './utils/history';
+import jwtDecode, { JwtPayload } from 'jwt-decode';
+import {setId, setToken, setUsername} from './redux/user-slice';
+
+interface TokenDecoded extends JwtPayload {
+	username: string;
+	id: string;
+	exp: number;
+}
+
+
+if (localStorage.token) {
+	const decoded: TokenDecoded = jwtDecode(localStorage.token);
+	const currentTime = Date.now() / 1000;
+	console.log(decoded);
+	if (decoded.exp < currentTime) {
+		// Logout user
+		window.location.href = '/';
+	} else {
+		store.dispatch(setUsername(decoded.username));
+		store.dispatch(setToken(localStorage.token));
+		store.dispatch(setId(decoded.id));
+	}
+}
 
 ReactDOM.render(
 	<div>
