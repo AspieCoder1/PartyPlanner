@@ -107,7 +107,7 @@ partyRouter.get(
 				organiser: req.params.id,
 			});
 			if (foundHostingParties.length == 0) {
-				res.status(400).send('An exact party like this already exists');
+				res.status(400).send('You have no host parties at the moment');
 			} else {
 				res.status(200).json(foundHostingParties); // send to hosting party html page
 			}
@@ -146,7 +146,7 @@ partyRouter.get(
 				attendeesID: [req.body.id],
 			});
 			if (!foundHostingParties) {
-				res.status(400).send('An exact party like this already exists');
+				res.status(400).send('No parties');
 			} else {
 				res.status(200).json(foundHostingParties); // send to invited party html/react page
 			}
