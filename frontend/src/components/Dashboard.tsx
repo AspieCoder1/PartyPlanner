@@ -16,9 +16,10 @@ export class Dashboard extends React.Component<IProps, never> {
 				<Header />
 				<div className={styles.container}>
 					<h1 className={styles.title}>Hello, {this.props.user.userName}</h1>
-					<p className={styles.paragraph}>The rest of the user dashboard content goes here.</p>
+					<p className={styles.paragraph}>
+						The rest of the user dashboard content goes here.
+					</p>
 				</div>
-
 			</React.Fragment>
 		);
 	}
