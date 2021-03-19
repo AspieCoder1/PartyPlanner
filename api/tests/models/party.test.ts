@@ -260,7 +260,7 @@ describe('Party model tests', () => {
 			date: '2021-04-04',
 			ageRate: false,
 			time: '11:30',
-			attendeesID: [new ObjectId(), new ObjectId(), new ObjectId()],
+			attendeesID: ['test user', 'TEST USER', 'test user1'],
 		};
 
 		const party: IParty = new Party(newParty);

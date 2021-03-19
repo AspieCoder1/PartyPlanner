@@ -16,7 +16,7 @@ partyRouter.post(
 		req.body.date = Date.parse(req.body.date) ? req.body.date : '';
 		req.body.time = req.body.time ? req.body.time : '';
 		req.body.ageRate = req.body.ageRate ? req.body.ageRate : false;
-		req.body.attendeesID = req.body.attendeesID ? req.body.attendeesID : [];
+    req.body.attendeesID = req.body.attendeesID ? req.body.attendeesID : [];
 		req.body.todoID = req.body.todoID ? req.body.todoID : '';
 		req.body.publicParty = req.body.public ? req.body.public : false;
 
@@ -28,17 +28,17 @@ partyRouter.post(
 			date: req.body.date,
 			time: req.body.time,
 			ageRate: req.body.ageRate,
-			attendeesID: req.body.attendeesID,
+			attendeesID: [req.body.organiser],
 			todoID: req.body.todoID,
 			publicParty: req.body.publicParty,
-		};
+    };
 
 		const errors = validateNewParty(party);
 		if (!_.isEmpty(errors)) {
 			return res.status(400).json(errors);
 		}
 
-		try {
+    try {
 			const newParty: IParty = new Party({
 				name: req.body.name,
 				organiser: req.body.organiser,
@@ -47,16 +47,17 @@ partyRouter.post(
 				date: req.body.date,
 				time: req.body.time,
 				ageRate: req.body.ageRate,
-				attendeesID: req.body.attendeesID,
+				attendeesID: [req.body.organiser],
 				todoID: req.body.todoID,
 				publicParty: req.body.publicParty,
-			});
-			const foundParty = await Party.findOne({ party });
+      });
+      
+      const foundParty = await Party.findOne({ party });      
 			if (foundParty) {
 				res.status(400).send('An exact party like this already exists');
-			} else {
-				const savedParty = await newParty.save();
-				res.status(200).json(savedParty);
+      } else {        
+        const savedParty = await newParty.save();      
+        res.status(200).json(savedParty); 
 			}
 		} catch (e) {
 			res.status(500).json('Oops something went wrong');
@@ -100,13 +101,15 @@ partyRouter.get(
 
 // get parties that they are the organiser/host of
 partyRouter.get(
-	'/my-parties/:id',
+	'/my-parties',
 	async (req: express.Request, res: express.Response) => {
-		try {
+    try {
+      console.log(req.body.userID);
+      const idTofind = req.body.userID;
 			const foundHostingParties = await Party.find({
-				organiser: req.params.id,
+        attendeesID: { $all: idTofind},
 			});
-			if (foundHostingParties.length == 0) {
+			if (!foundHostingParties) {
 				res.status(400).send('You have no host parties at the moment');
 			} else {
 				res.status(200).json(foundHostingParties); // send to hosting party html page
@@ -126,7 +129,7 @@ partyRouter.post(
 			const updatingPartyID = req.params.id;
 			const foundParty = await Party.findById(updatingPartyID);
 			if (foundParty) {
-				foundParty.update({ $addToSet: attenderID });
+				foundParty.update({$push : {attendeesID: attenderID }});
 				res.status(200).send('Successfully Joined Party');
 			} else {
 				res.status(400).send('This party cannot be joined/does not exists.');

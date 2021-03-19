@@ -56,7 +56,7 @@ const partySchema: Schema = new Schema({
 		required: [true, 'An age rating is required'],
 	},
 	attendeesID: {
-		type: [Schema.Types.ObjectId],
+		type: [String],
 		required: false,
 		ref: 'User',
 		default: [],
