@@ -127,18 +127,9 @@ partyRouter.post(
 			const updatingPartyID = req.params.id;
 			const foundParty = await Party.findById(updatingPartyID);
       if (foundParty) {
-        // console.log(foundParty.attendeesID);
-        // foundParty.update({ $addToSet: { attendeesID: attenderID } });
-        // foundParty.save()
-        // console.log(foundParty.attendeesID);
-        console.log(foundParty.attendeesID);
-        Party.findByIdAndUpdate(updatingPartyID,
-          {
-            $push: {attendeesID: attenderID}
-          });
-        const foundParty2 = await Party.findById(updatingPartyID);
-        console.log(foundParty2.attendeesID);
-				res.status(200).send('Successfully joined party');
+        foundParty.attendeesID.push(attenderID);
+        await foundParty.save();
+				res.status(200).send(foundParty);
 			} else {
 				res.status(400).send('This party cannot be joined/does not exists.');
 			}
@@ -150,12 +141,12 @@ partyRouter.post(
 
 // gettning parties they are invited to
 partyRouter.get(
-	'/invited-parties/:id',
+	'/invited-parties',
 	async (req: express.Request, res: express.Response) => {
 		try {
       const idTofind = req.body.IDtoFind;
       const foundHostingParties = await Party.find({
-        attendeesID: {$all: [idTofind]},
+        attendeesID: {$in: [idTofind]},
       });
 			if (_.isEmpty(foundHostingParties)) {
 				res.status(400).send('You have no parties');

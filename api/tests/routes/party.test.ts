@@ -469,11 +469,11 @@ describe('GET /invited-parties/:id', () => {
 			publicParty: true,
 		};
 		const res = await request(app).post('/create').send(mockParty);
+		const joinRes = await request(app)
+			.post(`/join/${res.body._id}`)
+      .send({ attenderID: 'johnSmith1' });
     const IDtoFind = 'johnSmith1';
-    const joinRes = await request(app)
-			.post(`/join/${mockParty._id}`)
-      .send({ attenderID: IDtoFind });
-		const delRes = await request(app).get(`/invited-parties/${IDtoFind}`).send({IDtoFind});
+		const delRes = await request(app).get(`/invited-parties`).send({IDtoFind});
 		expect(delRes.status).toBe(200);
   });
   
@@ -491,7 +491,7 @@ describe('GET /invited-parties/:id', () => {
     };
     const res = await request(app).post('/create').send(mockParty);
     const IDtoFind = 'johnSmith1';
-    const delRes = await request(app).get(`/invited-parties/${IDtoFind}`).send({IDtoFind});
+    const delRes = await request(app).get(`/invited-parties`).send({IDtoFind});
     expect(delRes.status).toBe(400);
   });
 
