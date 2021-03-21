@@ -16,7 +16,7 @@ partyRouter.post(
 		req.body.date = Date.parse(req.body.date) ? req.body.date : '';
 		req.body.time = req.body.time ? req.body.time : '';
 		req.body.ageRate = req.body.ageRate ? req.body.ageRate : false;
-		req.body.attendeesID = req.body.attendeesID ? req.body.attendeesID : [];
+    req.body.attendeesID = req.body.attendeesID ? req.body.attendeesID : [req.body.organiser];
 		req.body.todoID = req.body.todoID ? req.body.todoID : '';
 		req.body.publicParty = req.body.public ? req.body.public : false;
 
@@ -31,14 +31,14 @@ partyRouter.post(
 			attendeesID: req.body.attendeesID,
 			todoID: req.body.todoID,
 			publicParty: req.body.publicParty,
-		};
+    };
 
 		const errors = validateNewParty(party);
 		if (!_.isEmpty(errors)) {
 			return res.status(400).json(errors);
 		}
 
-		try {
+    try {
 			const newParty: IParty = new Party({
 				name: req.body.name,
 				organiser: req.body.organiser,
@@ -50,13 +50,13 @@ partyRouter.post(
 				attendeesID: req.body.attendeesID,
 				todoID: req.body.todoID,
 				publicParty: req.body.publicParty,
-			});
-			const foundParty = await Party.findOne({ party });
+      });
+      const foundParty = await Party.findOne({ party });      
 			if (foundParty) {
 				res.status(400).send('An exact party like this already exists');
-			} else {
-				const savedParty = await newParty.save();
-				res.status(200).json(savedParty);
+      } else {        
+        const savedParty = await newParty.save();      
+        res.status(200).json(savedParty); 
 			}
 		} catch (e) {
 			res.status(500).json('Oops something went wrong');
@@ -87,7 +87,7 @@ partyRouter.get(
 	async (req: express.Request, res: express.Response) => {
 		try {
 			const foundParty = await Party.findById(req.params.id);
-			if (foundParty == null) {
+			if (_.isEmpty(foundParty)) {
 				res.status(400).json('An exact party like this already exists');
 			} else {
 				res.status(200).json({ party: foundParty });
@@ -100,14 +100,15 @@ partyRouter.get(
 
 // get parties that they are the organiser/host of
 partyRouter.get(
-	'/my-parties/:id',
+	'/my-parties',
 	async (req: express.Request, res: express.Response) => {
-		try {
+    try {
+      const idTofind = req.body.userID;
 			const foundHostingParties = await Party.find({
-				organiser: req.params.id,
-			});
-			if (foundHostingParties.length == 0) {
-				res.status(400).send('You have no host parties at the moment');
+        attendeesID: {$all: [idTofind]},
+      });
+			if (_.isEmpty(foundHostingParties)) {
+				res.status(400).send('You have no parties');
 			} else {
 				res.status(200).json(foundHostingParties); // send to hosting party html page
 			}
@@ -122,12 +123,13 @@ partyRouter.post(
 	'/join/:id',
 	async (req: express.Request, res: express.Response) => {
 		try {
-			const attenderID = req.body.username;
+			const attenderID = req.body.attenderID;
 			const updatingPartyID = req.params.id;
 			const foundParty = await Party.findById(updatingPartyID);
-			if (foundParty) {
-				foundParty.update({ $addToSet: attenderID });
-				res.status(200).send('Successfully Joined Party');
+      if (foundParty) {
+        foundParty.attendeesID.push(attenderID);
+        await foundParty.save();
+				res.status(200).send(foundParty);
 			} else {
 				res.status(400).send('This party cannot be joined/does not exists.');
 			}
@@ -139,16 +141,17 @@ partyRouter.post(
 
 // gettning parties they are invited to
 partyRouter.get(
-	'/invited-parties/:id',
+	'/invited-parties',
 	async (req: express.Request, res: express.Response) => {
 		try {
-			const foundHostingParties = await Party.find({
-				attendeesID: [req.body.id],
-			});
-			if (!foundHostingParties) {
-				res.status(400).send('No parties');
+      const idTofind = req.body.IDtoFind;
+      const foundHostingParties = await Party.find({
+        attendeesID: {$in: [idTofind]},
+      });
+			if (_.isEmpty(foundHostingParties)) {
+				res.status(400).send('You have no parties');
 			} else {
-				res.status(200).json(foundHostingParties); // send to invited party html/react page
+				res.status(200).json(foundHostingParties); // send to hosting party html page
 			}
 		} catch (e) {
 			res.status(500).json('Oops something went wrong');
