@@ -16,7 +16,7 @@ partyRouter.post(
 		req.body.date = Date.parse(req.body.date) ? req.body.date : '';
 		req.body.time = req.body.time ? req.body.time : '';
 		req.body.ageRate = req.body.ageRate ? req.body.ageRate : false;
-    req.body.attendeesID = req.body.attendeesID ? req.body.attendeesID : [];
+    req.body.attendeesID = req.body.attendeesID ? req.body.attendeesID : [req.body.organiser];
 		req.body.todoID = req.body.todoID ? req.body.todoID : '';
 		req.body.publicParty = req.body.public ? req.body.public : false;
 
@@ -28,7 +28,7 @@ partyRouter.post(
 			date: req.body.date,
 			time: req.body.time,
 			ageRate: req.body.ageRate,
-			attendeesID: [req.body.organiser],
+			attendeesID: req.body.attendeesID,
 			todoID: req.body.todoID,
 			publicParty: req.body.publicParty,
     };
@@ -47,11 +47,10 @@ partyRouter.post(
 				date: req.body.date,
 				time: req.body.time,
 				ageRate: req.body.ageRate,
-				attendeesID: [req.body.organiser],
+				attendeesID: req.body.attendeesID,
 				todoID: req.body.todoID,
 				publicParty: req.body.publicParty,
       });
-      
       const foundParty = await Party.findOne({ party });      
 			if (foundParty) {
 				res.status(400).send('An exact party like this already exists');
@@ -88,7 +87,7 @@ partyRouter.get(
 	async (req: express.Request, res: express.Response) => {
 		try {
 			const foundParty = await Party.findById(req.params.id);
-			if (foundParty == null) {
+			if (_.isEmpty(foundParty)) {
 				res.status(400).json('An exact party like this already exists');
 			} else {
 				res.status(200).json({ party: foundParty });
@@ -104,13 +103,12 @@ partyRouter.get(
 	'/my-parties',
 	async (req: express.Request, res: express.Response) => {
     try {
-      console.log(req.body.userID);
       const idTofind = req.body.userID;
 			const foundHostingParties = await Party.find({
-        attendeesID: { $all: idTofind},
-			});
-			if (!foundHostingParties) {
-				res.status(400).send('You have no host parties at the moment');
+        attendeesID: {$all: [idTofind]},
+      });
+			if (_.isEmpty(foundHostingParties)) {
+				res.status(400).send('You have no parties');
 			} else {
 				res.status(200).json(foundHostingParties); // send to hosting party html page
 			}
@@ -125,12 +123,22 @@ partyRouter.post(
 	'/join/:id',
 	async (req: express.Request, res: express.Response) => {
 		try {
-			const attenderID = req.body.username;
+			const attenderID = req.body.attenderID;
 			const updatingPartyID = req.params.id;
 			const foundParty = await Party.findById(updatingPartyID);
-			if (foundParty) {
-				foundParty.update({$push : {attendeesID: attenderID }});
-				res.status(200).send('Successfully Joined Party');
+      if (foundParty) {
+        // console.log(foundParty.attendeesID);
+        // foundParty.update({ $addToSet: { attendeesID: attenderID } });
+        // foundParty.save()
+        // console.log(foundParty.attendeesID);
+        console.log(foundParty.attendeesID);
+        Party.findByIdAndUpdate(updatingPartyID,
+          {
+            $push: {attendeesID: attenderID}
+          });
+        const foundParty2 = await Party.findById(updatingPartyID);
+        console.log(foundParty2.attendeesID);
+				res.status(200).send('Successfully joined party');
 			} else {
 				res.status(400).send('This party cannot be joined/does not exists.');
 			}
@@ -145,13 +153,14 @@ partyRouter.get(
 	'/invited-parties/:id',
 	async (req: express.Request, res: express.Response) => {
 		try {
-			const foundHostingParties = await Party.find({
-				attendeesID: [req.body.id],
-			});
-			if (!foundHostingParties) {
-				res.status(400).send('No parties');
+      const idTofind = req.body.IDtoFind;
+      const foundHostingParties = await Party.find({
+        attendeesID: {$all: [idTofind]},
+      });
+			if (_.isEmpty(foundHostingParties)) {
+				res.status(400).send('You have no parties');
 			} else {
-				res.status(200).json(foundHostingParties); // send to invited party html/react page
+				res.status(200).json(foundHostingParties); // send to hosting party html page
 			}
 		} catch (e) {
 			res.status(500).json('Oops something went wrong');
