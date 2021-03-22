@@ -79,7 +79,7 @@ export const AddTaskForm = (props: IProps): JSX.Element => {
 					value={formik.values.taskname}
 				/>
 				<textarea
-					className={styles.input}
+					className={styles.textarea}
 					name='taskdesc'
 					placeholder='Task Description'
 					onChange={formik.handleChange}
