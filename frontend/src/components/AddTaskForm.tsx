@@ -78,9 +78,8 @@ export const AddTaskForm = (props: IProps): JSX.Element => {
 					onChange={formik.handleChange}
 					value={formik.values.taskname}
 				/>
-				<input
+				<textarea
 					className={styles.input}
-					type='text'
 					name='taskdesc'
 					placeholder='Task Description'
 					onChange={formik.handleChange}
@@ -90,7 +89,7 @@ export const AddTaskForm = (props: IProps): JSX.Element => {
 					className={styles.input}
 					type='datetime-local'
 					name='taskdue'
-					placeholder='Due Date & Time'
+					placeholder='Task Due Date & Time'
 					onChange={formik.handleChange}
 					value={formik.values.taskdue}
 				/>
