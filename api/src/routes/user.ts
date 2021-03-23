@@ -32,16 +32,14 @@ userRouter.post(
 
 		try {
 			const foundUser = await User.findOne({ email: user.email });
-			const foundUsername = await User.findOne({username: user.username});
+			const foundUsername = await User.findOne({ username: user.username });
 			if (foundUser) {
 				// User with that email already exists
 				res
 					.status(400)
 					.send({ email: 'A user with that email already exists' });
-			} else if(foundUsername) {
-				res
-					.status(400)
-					.send({ username: 'Username is taken' });
+			} else if (foundUsername) {
+				res.status(400).send({ username: 'Username is taken' });
 			} else {
 				const newUser: IUser = new User({
 					email: user.email,
@@ -59,7 +57,7 @@ userRouter.post(
 
 						const returnObject = {
 							userName: savedUser.username,
-							id: savedUser._id
+							id: savedUser._id,
 						};
 
 						res.status(200).json(returnObject);

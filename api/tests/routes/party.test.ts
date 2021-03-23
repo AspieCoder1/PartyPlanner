@@ -40,7 +40,7 @@ describe('POST /create', () => {
 			organiser: 'test user',
 			description: 'This is a test party',
 			location: 'This is a test location',
-      date: '2021-04-04',
+			date: '2021-04-04',
 			ageRate: false,
 			time: '11:30',
 		};
@@ -339,7 +339,7 @@ describe('GET /edit/:id', () => {
 	});
 });
 
-describe('GET /my-parties', () => {
+describe('GET /my-parties/:id', () => {
 	it('Responds with 200 and get parties that they are the organiser of', async () => {
 		const userID = 'johnSmith1';
 		const mockParty = {
@@ -349,16 +349,18 @@ describe('GET /my-parties', () => {
 			description: 'This is a test party',
 			location: 'This is a test location',
 			date: '2021-04-04',
-      ageRate: false,
-      attendeesID: [userID],
+			ageRate: false,
+			attendeesID: [userID],
 			time: '11:30',
 		};
-    const res = await request(app).post('/create').send(mockParty);
-    const delRes = await request(app).get('/my-parties').send({ userID: 'johnSmith1' });
+		const res = await request(app).post('/create').send(mockParty);
+		const delRes = await request(app)
+			.get('/my-parties/johnSmith1')
+			.send({ userID: 'johnSmith1' });
 		expect(delRes.status).toBe(200);
-  });
-  
-  it('Responds with 200 and get parties that they are part of', async () => {
+	});
+
+	it('Responds with 200 and get parties that they are part of', async () => {
 		const userID = 'johnSmith1';
 		const mockParty = {
 			_id: new mongoose.Types.ObjectId(),
@@ -367,12 +369,12 @@ describe('GET /my-parties', () => {
 			description: 'This is a test party',
 			location: 'This is a test location',
 			date: '2021-04-04',
-      ageRate: false,
-      attendeesID: ['adamsmith', 'johnSmith1', 'tomas'],
+			ageRate: false,
+			attendeesID: ['adamsmith', 'johnSmith1', 'tomas'],
 			time: '11:30',
 		};
-    const res = await request(app).post('/create').send(mockParty);
-    const delRes = await request(app).get('/my-parties').send({ userID: 'johnSmith1' });
+		const res = await request(app).post('/create').send(mockParty);
+		const delRes = await request(app).get('/my-parties/johnSmith1');
 		expect(delRes.status).toBe(200);
 	});
 
@@ -385,15 +387,15 @@ describe('GET /my-parties', () => {
 			description: 'This is a test party',
 			location: 'This is a test location',
 			date: '2021-04-04',
-      ageRate: false,
-      attendeesID: ['adamsmith'],
+			ageRate: false,
+			attendeesID: ['adamsmith'],
 			time: '11:30',
 		};
-    const res = await request(app).post('/create').send(mockParty);
-    const delRes = await request(app).get('/my-parties').send({ userID: 'johnSmith1' });
+
+		await request(app).post('/create').send(mockParty);
+		const delRes = await request(app).get('/my-parties/johnSmith1');
 		expect(delRes.status).toBe(400);
-  });
-  
+	});
 });
 
 describe('POST /join/:id', () => {
@@ -411,7 +413,7 @@ describe('POST /join/:id', () => {
 		const res = await request(app).post('/create').send(mockParty);
 		const delRes = await request(app)
 			.post(`/join/${res.body._id}`)
-      .send({ attenderID: 'johnSmith1' });
+			.send({ attenderID: 'johnSmith1' });
 		expect(delRes.status).toBe(200);
 	});
 
@@ -428,10 +430,10 @@ describe('POST /join/:id', () => {
 			time: '11:30',
 		};
 		const partyID = new mongoose.Types.ObjectId();
-		const res = await request(app).post('/create').send(mockParty);
+		await request(app).post('/create').send(mockParty);
 		const delRes = await request(app)
 			.post(`/join/${partyID}`)
-      .send({ attenderID: userID });
+			.send({ attenderID: userID });
 		expect(delRes.status).toBe(400);
 	});
 });
@@ -449,8 +451,8 @@ describe('GET /public-parties', () => {
 			time: '11:30',
 			publicParty: true,
 		};
-		const res = await request(app).post('/create').send(mockParty);
-		const delRes = await request(app).get(`/public-parties`);
+		await request(app).post('/create').send(mockParty);
+		const delRes = await request(app).get('/public-parties');
 		expect(delRes.status).toBe(200);
 	});
 });
@@ -469,31 +471,17 @@ describe('GET /invited-parties/:id', () => {
 			publicParty: true,
 		};
 		const res = await request(app).post('/create').send(mockParty);
-		const joinRes = await request(app)
+		await request(app)
 			.post(`/join/${res.body._id}`)
-      .send({ attenderID: 'johnSmith1' });
-    const IDtoFind = 'johnSmith1';
-		const delRes = await request(app).get(`/invited-parties`).send({IDtoFind});
+			.send({ attenderID: 'johnSmith1' });
+		const IDtoFind = 'johnSmith1';
+		const delRes = await request(app).get(`/invited-parties/${IDtoFind}`);
 		expect(delRes.status).toBe(200);
-  });
-  
-  it('Responds with 400 and return no invited parties', async () => {
-    const mockParty = {
-      _id: new mongoose.Types.ObjectId(),
-      name: 'My Party',
-      organiser: 'Test User',
-      description: 'This is a test party',
-      location: 'this is a test location',
-      date: '2021-04-04',
-      ageRate: false,
-      time: '11:30',
-      publicParty: true,
-    };
-    const res = await request(app).post('/create').send(mockParty);
-    const IDtoFind = 'johnSmith1';
-    const delRes = await request(app).get(`/invited-parties`).send({IDtoFind});
-    expect(delRes.status).toBe(400);
-  });
+	});
 
-
+	it('Responds with 400 and return no invited parties', async () => {
+		const IDtoFind = 'johnSmith1';
+		const delRes = await request(app).get(`/invited-parties/${IDtoFind}`);
+		expect(delRes.status).toBe(400);
+	});
 });
