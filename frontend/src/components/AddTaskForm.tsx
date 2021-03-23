@@ -3,7 +3,6 @@ import { useFormik } from 'formik';
 import styles from './AddTaskForm.module.scss';
 import * as Yup from 'yup';
 import CSS from 'csstype';
-import { now } from 'lodash';
 
 const buttonStyles: CSS.Properties = {
 	color: '#ddd9da',
@@ -32,7 +31,6 @@ interface AddTaskFormValues {
 	taskdue: string;
 }
 
-
 export const AddTaskForm = (props: IProps): JSX.Element => {
 	const initialValues: AddTaskFormValues = {
 		taskname: '',
@@ -47,14 +45,16 @@ export const AddTaskForm = (props: IProps): JSX.Element => {
 
 	const formik = useFormik({
 		initialValues: initialValues,
-		onSubmit: async (values: AddTaskFormValues, { setSubmitting, setStatus }) => {
+		onSubmit: async (
+			values: AddTaskFormValues,
+			{ setSubmitting, setStatus }
+		) => {
 			setSubmitting(true);
 			const errors = await props.onSubmit(values);
 			setStatus(errors);
 			setSubmitting(false);
 		},
 		validationSchema: AddTaskSchema,
-
 	});
 	return (
 		<div>

@@ -16,10 +16,11 @@ export const getParties = createAsyncThunk(
 	async (id: string, thunkAPI) => {
 		try {
 			const { data } = await axios.get(`api/parties/invited-parties/${id}`);
-			console.log(data);
 			return data;
 		} catch (err) {
-			const msg = err.response.data ? err.response.data: 'Oops something went wrong';
+			const msg = err.response.data
+				? err.response.data
+				: 'Oops something went wrong';
 			return thunkAPI.rejectWithValue(msg);
 		}
 	}

@@ -5,7 +5,6 @@ import Landing from '../components/Landing';
 import Dashboard from '../components/Dashboard';
 import CreateParty from '../components/CreateParty';
 
-
 const AppRouter = (): JSX.Element => (
 	<Router history={history}>
 		<Switch>
@@ -14,8 +13,8 @@ const AppRouter = (): JSX.Element => (
 			</Route>
 			<Route exact path='/'>
 				<Landing />
-      </Route>
-      <Route exact path='/create'>
+			</Route>
+			<Route exact path='/create'>
 				<CreateParty />
 			</Route>
 		</Switch>

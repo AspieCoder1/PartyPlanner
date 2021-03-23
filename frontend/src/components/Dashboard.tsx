@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { Store } from '../redux/store';
 import { UserState } from '../redux/user-slice';
@@ -51,7 +51,10 @@ export class Dashboard extends React.Component<IProps, State> {
 						{this.state.partyLoading ? (
 							<p>Loading...</p>
 						) : (
-							<MyParties error={this.state.error} getParties={this.getParties} />
+							<MyParties
+								error={this.state.error}
+								getParties={this.getParties}
+							/>
 						)}
 					</div>
 					<div className={styles.todos}>
