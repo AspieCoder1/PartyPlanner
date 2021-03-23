@@ -10,12 +10,12 @@ Get parties of which I am the organiser
 - Auth required: NO
 
 ## Parameters
-|Parameter|Description                                                              |
-|---------|-------------------------------------------------------------------------|
-|id       |The Username of the user who wants to get parties of which they're a host|
+This endpoint does not have any query parameters.
 
 ## Request body
-This endpoint does not require a request body.
+|Key      |Description                                                              |
+|---------|-------------------------------------------------------------------------|
+|UserID   |The Username of the user who wants to get parties of which they're a host|
 
 ## Headers  
 This endpoint does not require any custom headers to be set.
@@ -23,11 +23,12 @@ This endpoint does not require any custom headers to be set.
 ## Success Response
 Code: `200` with an array of parties the user hosts.
 ### Example Response
-This is the case where the organiser (username) is `jonhSmith1`. Note that this should return an array of JSON objects of the parties they host.
+This is the case where the `jonhSmith1` (username) is in the attendeesID list. Note that this should return an array of JSON objects of the parties they host.
+UserID : {'johnSmith1'}
 ```json
 [{
   "party": {
-    "organiser": "johnSmith1",
+    "attendeesID": [.....,"johnSmith1",....],
     ...
   }
 }]
@@ -40,7 +41,7 @@ This is the case where the organiser (username) is `jonhSmith1`. Note that this 
 ## Example request
 ```js
 var axios = require("axios");
-axios.get('/api/parties/my-parties/johnSmith1').then(res => {
+axios.get('/api/parties/my-parties', UserID).then(res => {
     console.log(res.body)
 }).catch(err => {
     console.log(err)

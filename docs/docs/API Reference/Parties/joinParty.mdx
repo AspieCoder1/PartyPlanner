@@ -17,13 +17,12 @@ Join a party via link/public party button
 ## Request body
 |Key         |Description                                         |
 |------------|----------------------------------------------------|
-|name        | Name of the new party                              |
-|username    | Username of the user who wants to joinh the party  |
+|attenderID  | Username of the user who wants to join the party  |
 
 ## Success Response
 Code: `200` with the party the user joined.
 ### Example Response
-This is the case where the id is `507f1f77bcf86cd799439011`. The username parameter is 'jonhSmith1'
+This is the case where the id parameter is `507f1f77bcf86cd799439011`. The attenderID is 'jonhSmith1'. The attenderID is added to the end of the attendeesID list.
 ```json
 {
   "party": {
@@ -41,7 +40,7 @@ This is the case where the id is `507f1f77bcf86cd799439011`. The username parame
 ## Example request
 ```js
 var axios = require("axios");
-axios.post('/api/parties/join/507f1f77bcf86cd799439011').then(res => {
+axios.post('/api/parties/join/507f1f77bcf86cd799439011', attenderID).then(res => {
     console.log(res.body)
 }).catch(err => {
     console.log(err)

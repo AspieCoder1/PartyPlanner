@@ -10,14 +10,12 @@ Get parties of which I am Invited parties
 - Auth required: NO
 
 ## Parameters
-|Parameter|Description                                                                  |
-|---------|-----------------------------------------------------------------------------|
-|id       |The Username of the user who wants to get parties of which they're invited to|
+This endpoint does not have any query parameters
 
 ## Request body
 |Key      |Description                                                                  |
 |---------|-----------------------------------------------------------------------------|
-|id       |The Username of the user who wants to get parties of which they're invited to|
+|IDtoFind |The Username of the user who wants to get parties of which they're invited to|
 
 ## Headers  
 This endpoint does not require any custom headers to be set.
@@ -26,6 +24,7 @@ This endpoint does not require any custom headers to be set.
 Code: `200` with an array of parties the user is invited to.
 ### Example Response
 This is the case where the organiser (username) is `jonhSmith1`. Note that this should return an array of JSON objects of the parties they are invited to.
+IDtoFind : {'jonhSmith1}
 ```json
 [{
   "party": {
@@ -43,7 +42,7 @@ This is the case where the organiser (username) is `jonhSmith1`. Note that this 
 ## Example request
 ```js
 var axios = require("axios");
-axios.get('/api/parties/invited-parties/johnSmith1').then(res => {
+axios.get('/api/parties/invited-parties', IDtoFind).then(res => {
     console.log(res.body)
 }).catch(err => {
     console.log(err)
