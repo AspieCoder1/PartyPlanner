@@ -102,10 +102,10 @@ partyRouter.get(
 
 // get parties that they are the organiser/host of
 partyRouter.get(
-	'/my-parties',
+	'/my-parties/:id',
 	async (req: express.Request, res: express.Response) => {
 		try {
-			const idTofind = req.body.userID;
+			const idTofind = req.params.id;
 			const foundHostingParties = await Party.find({
 				attendeesID: { $all: [idTofind] },
 			});
@@ -143,10 +143,10 @@ partyRouter.post(
 
 // gettning parties they are invited to
 partyRouter.get(
-	'/invited-parties',
+	'/invited-parties/:id',
 	async (req: express.Request, res: express.Response) => {
 		try {
-			const idTofind = req.body.IDtoFind;
+			const idTofind = req.params.id;
 			const foundHostingParties = await Party.find({
 				attendeesID: { $in: [idTofind] },
 			});

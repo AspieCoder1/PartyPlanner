@@ -13,9 +13,31 @@ type IProps = {
 	getParties: (id: string) => void;
 };
 
-export class Dashboard extends React.Component<IProps, never> {
+type State = {
+	partyLoading: boolean;
+	error: string;
+};
+
+export class Dashboard extends React.Component<IProps, State> {
+	state: State = {
+		partyLoading: false,
+		error: '',
+	};
+
+	static getDerivedStateFromProps(props: IProps, state: State): State {
+		if (state.error != props.parties.error) {
+			return {
+				...state,
+				error: props.parties.error,
+			};
+		}
+		return state;
+	}
+
 	getParties = (): void => {
-		this.props.getParties(this.props.user.id);
+		this.setState({ partyLoading: true });
+		this.props.getParties(this.props.user.userName);
+		this.setState({ partyLoading: false });
 	};
 
 	render(): React.ReactNode {
@@ -24,13 +46,16 @@ export class Dashboard extends React.Component<IProps, never> {
 				<Header />
 				<div className={styles.container}>
 					<h1 className={styles.title}>Hello, {this.props.user.userName}</h1>
-					<p className={styles.paragraph}>
-						The rest of the user dashboard content goes here.
-					</p>
-					<div>
-						<Suspense fallback={<div>Loading...</div>}>
-							<MyParties getParties={this.getParties} />
-						</Suspense>
+					<div className={styles.parties}>
+						<h1>My Parties</h1>
+						{this.state.partyLoading ? (
+							<p>Loading...</p>
+						) : (
+							<MyParties error={this.state.error} getParties={this.getParties} />
+						)}
+					</div>
+					<div className={styles.todos}>
+						<h1>Todos</h1>
 					</div>
 				</div>
 			</React.Fragment>
