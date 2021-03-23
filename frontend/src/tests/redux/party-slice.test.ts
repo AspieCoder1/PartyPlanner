@@ -22,7 +22,7 @@ describe('Testing party slice', () => {
 
 	it('should handle set state if it can get parties', async () => {
 		const data = [{ name: 'hello world', organiser: 'me' }];
-		mockAxios.post.mockImplementationOnce(() =>
+		mockAxios.get.mockImplementationOnce(() =>
 			Promise.resolve({
 				data,
 			})
@@ -34,12 +34,18 @@ describe('Testing party slice', () => {
 		expect(state.parties).toEqual(data);
 	});
 
-	it('should handle error if not message provided', async () => {
-		mockAxios.post.mockImplementationOnce(() => Promise.reject({}));
+	it('should handle error if message provided', async () => {
+		mockAxios.get.mockImplementationOnce(() =>
+			Promise.reject({
+				response: {
+					data: 'Parties not found',
+				},
+			})
+		);
 
 		const store = configureStore({ reducer: reducer });
 		await store.dispatch(getParties('test'));
 		const state = store.getState();
-		expect(state.error).toBe('Oops something went wrong');
+		expect(state.error).toBe('Parties not found');
 	});
 });

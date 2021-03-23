@@ -18,9 +18,10 @@ export const getParties = createAsyncThunk(
 			const { data } = await axios.get(`api/parties/invited-parties/${id}`);
 			return data;
 		} catch (err) {
-			const msg = err.response.data
-				? err.response.data
-				: 'Oops something went wrong';
+			let msg = 'Oops something went wrong';
+			if (typeof err.response.data !== 'undefined') {
+				msg = err.response.data;
+			}
 			return thunkAPI.rejectWithValue(msg);
 		}
 	}
@@ -42,6 +43,7 @@ const partySlice = createSlice({
 				getParties.fulfilled,
 				(state: PartyState, action: PayloadAction<any>) => {
 					state.parties = action.payload;
+					state.error = '';
 				}
 			)
 			.addCase(
