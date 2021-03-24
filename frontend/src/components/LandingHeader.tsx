@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styles from './LandingHeader.module.scss';
-import logo from '../img/partyplanner.jpg';
+import logo from '../img/partyplanner.png';
 
 type IProps = {
 	onClickLogin: () => void;
@@ -12,7 +12,7 @@ export default class LandingHeader extends React.Component<IProps, never> {
 		return (
 			<header className={styles.header}>
 				<div className={styles.container}>
-					<h1 className={styles.title}><img src={logo} alt="PartyPlanner.io" /></h1>
+					<div className={styles.title}><img src={logo} alt="PartyPlanner.io" /></div>
 					<div className={styles.headerButtons}>
 						<button
 							onClick={this.props.onClickLogin}
