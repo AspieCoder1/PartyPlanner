@@ -7,11 +7,14 @@ exports[`Landing page component Should render component correctly 1`] = `
   <div
     className="container"
   >
-    <h1
+    <div
       className="title"
     >
-      PartyPlanner.io
-    </h1>
+      <img
+        alt="PartyPlanner.io"
+        src="partyplanner.png"
+      />
+    </div>
     <div
       className="headerButtons"
     >
