@@ -485,3 +485,40 @@ describe('GET /invited-parties/:id', () => {
 		expect(delRes.status).toBe(400);
 	});
 });
+
+describe('PATCH /update/:id', () => {
+	it('Responds with 200 and update the party', async () => {
+    const userID = 'johnSmith1';
+    const partyID = new mongoose.Types.ObjectId();
+		const mockParty = {
+			_id: partyID,
+			name: 'My Party',
+			organiser: 'johnSmith1',
+			description: 'This is a test party',
+			location: 'This is a test location',
+			date: '2021-04-04',
+			ageRate: false,
+			attendeesID: [userID],
+			time: '11:30',
+    };
+    
+    const updateParty = {
+			_id: partyID,
+			name: 'My updated Party',
+			organiser: 'johnSmith1',
+			description: 'This is an updated test party',
+			location: 'This is an updated test location',
+			date: '2021-04-04',
+			ageRate: false,
+			attendeesID: [userID],
+			time: '11:30',
+    };
+    console.log(partyID);
+    const res = await request(app).post('/create').send(mockParty);
+
+    const delRes = await request(app).patch(`/update/${partyID}`).send({updateParty});
+    console.log(delRes.body);
+		expect(delRes.status).toBe(200);
+	});
+
+});

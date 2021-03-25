@@ -16,9 +16,7 @@ partyRouter.post(
 		req.body.date = Date.parse(req.body.date) ? req.body.date : '';
 		req.body.time = req.body.time ? req.body.time : '';
 		req.body.ageRate = req.body.ageRate ? req.body.ageRate : false;
-		req.body.attendeesID = req.body.attendeesID
-			? req.body.attendeesID
-			: [req.body.organiser];
+		req.body.attendeesID = req.body.attendeesID ? req.body.attendeesID : [req.body.organiser];
 		req.body.todoID = req.body.todoID ? req.body.todoID : '';
 		req.body.publicParty = req.body.public ? req.body.public : false;
 
@@ -176,6 +174,69 @@ partyRouter.get(
 			res.status(500).json('Oops something went wrong');
 		}
 	}
+);
+
+partyRouter.patch(
+  '/update/:id',
+  
+	async (req: express.Request, res: express.Response) => {
+    req.body.name = req.body.name;
+		req.body.organiser = req.body.organiser;
+		req.body.description = req.body.description;
+		req.body.location = req.body.location;
+		req.body.date = Date.parse(req.body.date);
+		req.body.time = req.body.time;
+		req.body.ageRate = req.body.ageRate;
+		req.body.attendeesID = req.body.attendeesID;
+		req.body.todoID = req.body.todoID;
+		req.body.publicParty = req.body.public;
+    console.log(req.body)
+    const party = {
+      _id: req.params.id,
+			name: req.body.name,
+			organiser: req.body.organiser,
+			description: req.body.description,
+			location: req.body.location,
+			date: req.body.date,
+			time: req.body.time,
+			ageRate: req.body.ageRate,
+			attendeesID: req.body.attendeesID,
+			todoID: req.body.todoID,
+			publicParty: req.body.publicParty,
+    };
+    console.log(party);
+
+		const errors = validateNewParty(party);
+		if (!_.isEmpty(errors)) {
+			return res.status(400).json(errors);
+		}
+
+  	try {
+  		const newParty: IParty = new Party({
+  			name: req.body.name,
+  			organiser: req.body.organiser,
+  			description: req.body.description,
+  			location: req.body.location,
+  			date: req.body.date,
+  			time: req.body.time,
+  			ageRate: req.body.ageRate,
+  			attendeesID: req.body.attendeesID,
+  			todoID: req.body.todoID,
+  			publicParty: req.body.publicParty,
+      });
+      const idToUpdate = req.params.id.toString();
+      const foundparty = Party.findById(idToUpdate);
+  		if (!_.isEmpty(foundparty)) {
+        const result = await Party.findByIdAndUpdate(idToUpdate, newParty);
+        res.status(200).json('Updated Successfully').send(result);
+      } else {
+  			res.status(400).json('No party of this type exists');
+  		}
+  	} catch (e) {
+  		res.status(500).json('Oops something went wrong');
+  	}
+	}  
+  
 );
 
 export default partyRouter;
