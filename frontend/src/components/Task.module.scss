@@ -1,8 +1,28 @@
+@import '../styles/colours';
+
 .taskContainer {
-  row-span: 1;
-  column-span: 1;
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   justify-content: space-between;
   padding: 0px;
   margin: 0px;
+  //border: $grey solid 1pt;
+}
+
+.taskText {
+  grid-row: 1;
+  margin: 0;
+  color: $black;
+}
+
+.taskCompleted {
+  grid-row: 1;
+  margin: 0;
+  color: $success;
+}
+
+.notCompleted {
+  grid-row: 1;
+  margin: 0;
+  color: $error;
 }

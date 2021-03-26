@@ -82,7 +82,7 @@ export class Dashboard extends React.Component<IProps, State> {
 
 	addTask = (taskToAdd: TaskToAdd): void => {
 		console.log(taskToAdd.taskdue);
-		const taskduedate = Date.parse(taskToAdd.taskdue);
+		const taskduedate = taskToAdd.taskdue;
 
 		const task = {
 			...taskToAdd,

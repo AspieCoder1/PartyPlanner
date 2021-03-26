@@ -17,12 +17,14 @@ class MyTodos extends React.Component<Props, unknown> {
 		console.log(this.props.tasks);
 		const { tasks, error } = this.props;
 		return (
-			<div className={styles.todoContainer}>
+			<>
 				{error ? <p className={styles.error}>{error}</p> : null}
-				{tasks.length > 0
-					? tasks.map((task) => <Task key={task.id} task={task} />)
-					: null}
-			</div>
+				<div className={styles.todoContainer}>
+					{tasks.length > 0
+						? tasks.map((task) => <Task key={task.id} task={task} />)
+						: null}
+				</div>
+			</>
 		);
 	}
 }

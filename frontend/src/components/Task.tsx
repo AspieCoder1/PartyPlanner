@@ -1,17 +1,28 @@
 import * as React from 'react';
-import {Task as TaskType} from '../redux/task-slice';
+import { Task as TaskType } from '../redux/task-slice';
 import styles from './Task.module.scss';
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+
+dayjs.extend(relativeTime);
 
 type Props = {
 	task: TaskType;
+};
+
+const handleCompleted = (completed: boolean) => {
+	return completed ? <p className={styles.taskCompleted}>Completed</p> : <p className={styles.notCompleted}>Not completed</p>;
 };
 
 export const Task = ({ task }: Props) => {
 	console.log(`Task: ${task}`);
 	return (
 		<div key={task.id} className={styles.taskContainer}>
-			<p>{task.taskduedate ? task.taskduedate : 'N/A'}</p>
-			<p>{task.taskname}</p>
+			{handleCompleted(task.taskcompleted)}
+			<p className={styles.taskText}>{task.taskname}</p>
+			<p className={styles.taskText}>
+				{task.taskduedate ? dayjs(task.taskduedate).from(Date.now()) : 'N/A'}
+			</p>
 		</div>
 	);
 };
