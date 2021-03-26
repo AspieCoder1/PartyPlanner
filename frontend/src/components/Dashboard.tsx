@@ -94,7 +94,6 @@ export class Dashboard extends React.Component<IProps, State> {
 	};
 
 	closeModal = (): void => {
-		console.log('Closing modal');
 		this.setState({ modalOpen: false });
 	};
 
