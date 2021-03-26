@@ -6,6 +6,8 @@ import styles from './Dashboard.module.scss';
 import Header from './Header';
 import MyParties from './MyParties';
 import { getParties, PartyState } from '../redux/party-slice';
+import { Link } from 'react-router-dom';
+import MyTodos from './MyTodos';
 
 type IProps = {
 	user: UserState;
@@ -15,20 +17,24 @@ type IProps = {
 
 type State = {
 	partyLoading: boolean;
-	error: string;
+	todoLoading: boolean;
+	partyError: string;
+	todoError: string;
 };
 
 export class Dashboard extends React.Component<IProps, State> {
 	state: State = {
 		partyLoading: false,
-		error: '',
+		todoLoading: false,
+		partyError: '',
+		todoError: '',
 	};
 
 	static getDerivedStateFromProps(props: IProps, state: State): State {
-		if (state.error != props.parties.error) {
+		if (state.partyError != props.parties.error) {
 			return {
 				...state,
-				error: props.parties.error,
+				partyError: props.parties.error,
 			};
 		}
 		return state;
@@ -40,6 +46,10 @@ export class Dashboard extends React.Component<IProps, State> {
 		this.setState({ partyLoading: false });
 	};
 
+	getTodos = (): void => {
+		this.setState({todoError: 'unable to fetch todos'});
+	};
+
 	render(): React.ReactNode {
 		return (
 			<React.Fragment>
@@ -48,17 +58,26 @@ export class Dashboard extends React.Component<IProps, State> {
 					<h1 className={styles.title}>Hello, {this.props.user.userName}</h1>
 					<div className={styles.parties}>
 						<h1>My Parties</h1>
+						<Link to={'/create'}> Create a party</Link>
 						{this.state.partyLoading ? (
 							<p>Loading...</p>
 						) : (
 							<MyParties
-								error={this.state.error}
+								error={this.state.partyError}
 								getParties={this.getParties}
 							/>
 						)}
 					</div>
 					<div className={styles.todos}>
 						<h1>Todos</h1>
+						{this.state.todoLoading ? (
+							<p>Loading...</p>
+						) : (
+							<MyTodos
+								getTodos={this.getTodos}
+								error={this.state.todoError}
+							/>
+						)}
 					</div>
 				</div>
 			</React.Fragment>

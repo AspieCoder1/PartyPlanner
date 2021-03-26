@@ -1,7 +1,8 @@
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import * as React from 'react';
 import { Dashboard } from '../../components/Dashboard';
 import { UserState } from '../../redux/user-slice';
+import { MemoryRouter } from 'react-router-dom';
 
 describe('Test dashboard component', () => {
 	it('should render username correctly', () => {
@@ -18,7 +19,7 @@ describe('Test dashboard component', () => {
 			error: '',
 		};
 
-		render(<Dashboard getParties={getParties} user={user} parties={parties} />);
+		render(<Dashboard getParties={getParties} user={user} parties={parties} />, {wrapper: MemoryRouter});
 		expect(screen.getByText('Hello, TestUsername')).toBeTruthy();
 	});
 });
