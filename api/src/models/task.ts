@@ -4,9 +4,8 @@ import { Schema, Document, ObjectId, Model, model } from 'mongoose';
 export interface ITask extends Document {
 	taskname: string;
 	taskdesc: string;
-	taskduedate: string;
-	taskduetime: string;
-	taskcreator: string;
+	taskdue: string;
+	taskcreator: ObjectId;
 	taskcompleted: boolean;
 }
 
@@ -23,16 +22,12 @@ const TaskSchema: Schema = new Schema({
 		required: [true, 'Task Description is required'],
 		minlength: [1],
 	},
-	taskduedate: {
-		type: String,
-		trim: true,
-	},
-	taskduetime: {
+	taskdue: {
 		type: String,
 		trim: true,
 	},
 	taskcreator: {
-		type: String,
+		type: Schema.Types.ObjectId,
 		trim: true,
 	},
 	taskcompleted: {
@@ -41,4 +36,4 @@ const TaskSchema: Schema = new Schema({
 	},
 });
 
-export const Task: Model<ITask> = model('task', TaskSchema);
+export const User: Model<ITask> = model('task', TaskSchema);
