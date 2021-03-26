@@ -8,7 +8,7 @@ import MyParties from './MyParties';
 import { getParties, PartyState } from '../redux/party-slice';
 import { Link } from 'react-router-dom';
 import MyTodos from './MyTodos';
-import { TaskState, getTasks } from '../redux/task-slice';
+import { TaskState, getTasks, addTask } from '../redux/task-slice';
 import ReactModal from 'react-modal';
 import { AddTaskForm } from './AddTaskForm';
 
@@ -23,7 +23,8 @@ type IProps = {
 	parties: PartyState;
 	todos: TaskState;
 	getParties: (id: string) => void;
-	getTodos: (id: string) => void;
+	getTasks: (id: string) => void;
+	addTask: (taskToAdd: TaskToAdd) => void;
 };
 
 type State = {
@@ -53,7 +54,7 @@ export class Dashboard extends React.Component<IProps, State> {
 		if (
 			state.partyError !== props.parties.error ||
 			state.todoError !== props.todos.error ||
-			state.tasks !== props.todos.todos ||
+			state.tasks !== props.todos.tasks ||
 			state.parties !== props.parties.parties
 		) {
 			return {
@@ -61,7 +62,7 @@ export class Dashboard extends React.Component<IProps, State> {
 				partyError,
 				todoError,
 				parties: props.parties.parties,
-				tasks: props.todos.todos,
+				tasks: props.todos.tasks,
 			};
 		}
 		return state;
@@ -73,14 +74,19 @@ export class Dashboard extends React.Component<IProps, State> {
 		this.setState({ partyLoading: false });
 	};
 
-	getTodos = (): void => {
+	getTasks = (): void => {
 		this.setState({ todoLoading: true });
-		this.props.getTodos(this.props.user.userName);
+		this.props.getTasks(this.props.user.userName);
 		this.setState({ todoLoading: false });
 	};
 
-	addTodo = (todoToAdd: TaskToAdd): void => {
-		console.log(todoToAdd);
+	addTask = (taskToAdd: TaskToAdd): void => {
+		const task = {
+			...taskToAdd,
+			taskcreator: this.props.user.userName
+		};
+		this.props.addTask(task);
+		console.log(task);
 	};
 
 	openModal = (): void => {
@@ -116,12 +122,16 @@ export class Dashboard extends React.Component<IProps, State> {
 						{this.state.todoLoading ? (
 							<p>Loading...</p>
 						) : (
-							<MyTodos getTodos={this.getTodos} error={this.state.todoError} tasks={this.state.tasks} />
+							<MyTodos
+								getTodos={this.getTasks}
+								error={this.state.todoError}
+								tasks={this.state.tasks}
+							/>
 						)}
 					</div>
 				</div>
 				<ReactModal isOpen={this.state.modalOpen}>
-					<AddTaskForm closeModal={this.closeModal} onSubmit={this.addTodo} />
+					<AddTaskForm closeModal={this.closeModal} onSubmit={this.addTask} />
 				</ReactModal>
 			</React.Fragment>
 		);
@@ -135,7 +145,8 @@ const mapStateToProps = (state: Store) => ({
 });
 const mapDispatchToProps = {
 	getParties,
-	getTodos: getTasks,
+	getTasks,
+	addTask,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

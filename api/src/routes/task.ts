@@ -72,6 +72,7 @@ taskRouter.get(
 					taskcreator: task.taskcreator,
 					taskcompleted: task.taskcompleted,
 				}));
+				console.log(results)
 				res.status(200).json(results);
 			}
 		} catch (e) {
