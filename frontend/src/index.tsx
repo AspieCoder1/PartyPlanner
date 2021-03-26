@@ -20,7 +20,6 @@ interface TokenDecoded extends JwtPayload {
 if (localStorage.token) {
 	const decoded: TokenDecoded = jwtDecode(localStorage.token);
 	const currentTime = Date.now() / 1000;
-	console.log(decoded);
 	if (decoded.exp < currentTime) {
 		// Logout user
 		window.location.href = '/';

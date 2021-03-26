@@ -6,7 +6,7 @@ type TodoState = {
 	error: string;
 };
 
-const initialState = {
+export const initialState = {
 	todos: [],
 	error: '',
 };
@@ -31,15 +31,27 @@ const todoSlice = createSlice({
 	name: 'todo',
 	initialState,
 	reducers: {
-		setErrors: (state, action: PayloadAction<string>) => {
+		setErrors: (state: TodoState, action: PayloadAction<string>) => {
 			state.error = action.payload;
+		},
+		setTodos: (state:TodoState, action: PayloadAction<any[]>) => {
+			state.todos = action.payload;
 		},
 	},
 	extraReducers: (builder) =>
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+		// @ts-ignore
 		builder.addCase(
 			getTodos.fulfilled,
 			(state: TodoState, action: PayloadAction<any[]>) => {
 				state.todos = action.payload;
 			}
-		),
+		).addCase(getTodos.rejected, (state: TodoState, action: PayloadAction<string>) => {
+			state.error = action.payload;
+		}),
 });
+
+
+export const {setErrors, setTodos} = todoSlice.actions;
+
+export default todoSlice.reducer;
