@@ -18,12 +18,22 @@ describe('Test dashboard component', () => {
 			parties: [],
 			error: '',
 		};
-		const todos = {
-			todos: [],
+		const tasks = {
+			tasks: [],
 			error: '',
 		};
 
-		render(<Dashboard todos={todos} getTodos={getTodos} getParties={getParties} user={user} parties={parties} />, {wrapper: MemoryRouter});
+		render(
+			<Dashboard
+				todos={tasks}
+				getTasks={getTodos}
+				getParties={getParties}
+				user={user}
+				parties={parties}
+				addTask={jest.fn()}
+			/>,
+			{ wrapper: MemoryRouter }
+		);
 		expect(screen.getByText('Hello, TestUsername')).toBeTruthy();
 	});
 });

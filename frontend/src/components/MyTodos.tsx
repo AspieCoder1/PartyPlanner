@@ -1,6 +1,6 @@
 import * as React from 'react';
-import styles from './MyParties.module.scss';
 import Task from './Task';
+import styles from './MyTodos.module.scss';
 
 type Props = {
 	getTodos: () => void;
@@ -17,12 +17,11 @@ class MyTodos extends React.Component<Props, unknown> {
 		console.log(this.props.tasks);
 		const { tasks, error } = this.props;
 		return (
-			<div>
+			<div className={styles.todoContainer}>
 				{error ? <p className={styles.error}>{error}</p> : null}
-				{tasks.length > 1 ? tasks.map((task) => {
-					console.log(task);
-					return <Task key={task.id} task={task} />;
-				}) : null}
+				{tasks.length > 0
+					? tasks.map((task) => <Task key={task.id} task={task} />)
+					: null}
 			</div>
 		);
 	}

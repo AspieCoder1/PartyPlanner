@@ -3,6 +3,7 @@ import reducer, {
 	initialState,
 	setErrors,
 	setTodos,
+	TaskState,
 } from '../../redux/task-slice';
 import { configureStore } from '@reduxjs/toolkit';
 import axios from 'axios';
@@ -12,13 +13,13 @@ const mockAxios = axios as jest.Mocked<typeof axios>;
 
 describe('todo slice', () => {
 	it('should set correct default state', () => {
-		const state = reducer(undefined, { type: '' });
+		const state: TaskState = reducer(undefined, { type: '' });
 		expect(state).toEqual(initialState);
 	});
 
 	it('should correctly set error', () => {
 		const data = 'error goes here';
-		const state = reducer(undefined, setErrors(data));
+		const state: TaskState = reducer(undefined, setErrors(data));
 		expect(state.error).toBe(data);
 	});
 
@@ -34,8 +35,8 @@ describe('todo slice', () => {
 				taskcompleted: true,
 			},
 		];
-		const state = reducer(undefined, setTodos(data));
-		expect(state.todos).toBe(data);
+		const state: TaskState = reducer(undefined, setTodos(data));
+		expect(state.tasks).toBe(data);
 	});
 
 	it('should handle set state if it can get parties', async () => {
@@ -58,8 +59,8 @@ describe('todo slice', () => {
 
 		const store = configureStore({ reducer: reducer });
 		await store.dispatch(getTasks('test'));
-		const state = store.getState();
-		expect(state.todos).toEqual(data);
+		const state: TaskState = store.getState();
+		expect(state.tasks).toEqual(data);
 	});
 
 	it('should handle error if message provided', async () => {
@@ -73,7 +74,7 @@ describe('todo slice', () => {
 
 		const store = configureStore({ reducer: reducer });
 		await store.dispatch(getTasks('test'));
-		const state = store.getState();
+		const state: TaskState = store.getState();
 		expect(state.error).toBe('Todos not found');
 	});
 });

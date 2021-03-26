@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-type Task = {
+export type Task = {
 	id: string;
 	taskname: string;
 	taskdesc: string;
@@ -68,6 +68,7 @@ const taskSlice = createSlice({
 			state.error = action.payload;
 		},
 		setTodos: (state: TaskState, action: PayloadAction<Task[]>) => {
+			console.log(action.payload);
 			state.tasks = action.payload;
 		},
 	},
@@ -76,20 +77,21 @@ const taskSlice = createSlice({
 		// @ts-ignore
 		builder
 			.addCase(
-				addTask.fulfilled,
+				getTasks.fulfilled,
 				(state: TaskState, action: PayloadAction<Task[]>) => {
 					state.tasks = action.payload;
 				}
 			)
 			.addCase(
-				addTask.rejected,
+				getTasks.rejected,
 				(state: TaskState, action: PayloadAction<string>) => {
 					state.error = action.payload;
 				}
 			)
 			.addCase(
-				getTasks.fulfilled,
+				addTask.fulfilled,
 				(state: TaskState, action: PayloadAction<Task>) => {
+
 					state.tasks.push(action.payload);
 				}
 			),
