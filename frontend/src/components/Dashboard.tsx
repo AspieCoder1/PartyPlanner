@@ -8,11 +8,14 @@ import MyParties from './MyParties';
 import { getParties, PartyState } from '../redux/party-slice';
 import { Link } from 'react-router-dom';
 import MyTodos from './MyTodos';
+import { TodoState, getTodos } from '../redux/todo-slice';
 
 type IProps = {
 	user: UserState;
 	parties: PartyState;
+	todos: TodoState;
 	getParties: (id: string) => void;
+	getTodos: (id: string) => void;
 };
 
 type State = {
@@ -31,10 +34,13 @@ export class Dashboard extends React.Component<IProps, State> {
 	};
 
 	static getDerivedStateFromProps(props: IProps, state: State): State {
-		if (state.partyError != props.parties.error) {
+		const partyError =  props.parties.error ? props.parties.error : '';
+		const todoError =  props.todos.error ? props.todos.error : '';
+		if (state.partyError != props.parties.error || state.todoError != props.todos.error) {
 			return {
 				...state,
-				partyError: props.parties.error,
+				partyError,
+				todoError
 			};
 		}
 		return state;
@@ -47,7 +53,9 @@ export class Dashboard extends React.Component<IProps, State> {
 	};
 
 	getTodos = (): void => {
-		this.setState({todoError: 'unable to fetch todos'});
+		this.setState({ todoLoading: true });
+		this.props.getTodos(this.props.user.userName);
+		this.setState({ todoLoading: false });
 	};
 
 	render(): React.ReactNode {
@@ -73,10 +81,7 @@ export class Dashboard extends React.Component<IProps, State> {
 						{this.state.todoLoading ? (
 							<p>Loading...</p>
 						) : (
-							<MyTodos
-								getTodos={this.getTodos}
-								error={this.state.todoError}
-							/>
+							<MyTodos getTodos={this.getTodos} error={this.state.todoError} />
 						)}
 					</div>
 				</div>
@@ -88,9 +93,11 @@ export class Dashboard extends React.Component<IProps, State> {
 const mapStateToProps = (state: Store) => ({
 	user: state.user,
 	parties: state.parties,
+	todos: state.todos,
 });
 const mapDispatchToProps = {
 	getParties,
+	getTodos
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-type TodoState = {
+export type TodoState = {
 	todos: any[];
 	error: string;
 };
@@ -15,7 +15,7 @@ export const getTodos = createAsyncThunk(
 	'todo/getTodos',
 	async (id: string, thunkAPI) => {
 		try {
-			const { data } = await axios.get(`api/todos/my-todos/${id}`);
+			const { data } = await axios.get(`api/todos/my-tasks/${id}`);
 			return data;
 		} catch (err) {
 			let msg = 'Oops something went wrong';
