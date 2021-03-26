@@ -1,8 +1,18 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-export type TodoState = {
-	todos: any[];
+type Task  = {
+	id: string,
+	taskname: string,
+	taskdesc: string,
+	taskduedate: string,
+	taskduetime: string,
+	taskcreator: string,
+	taskcompleted: boolean,
+}
+
+export type TaskState = {
+	todos: Task[];
 	error: string;
 };
 
@@ -11,8 +21,8 @@ export const initialState = {
 	error: '',
 };
 
-export const getTodos = createAsyncThunk(
-	'todo/getTodos',
+export const getTasks = createAsyncThunk(
+	'tasks/getTasks',
 	async (id: string, thunkAPI) => {
 		try {
 			const { data } = await axios.get(`api/todos/my-tasks/${id}`);
@@ -27,14 +37,14 @@ export const getTodos = createAsyncThunk(
 	}
 );
 
-const todoSlice = createSlice({
-	name: 'todo',
+const taskSlice = createSlice({
+	name: 'tasks',
 	initialState,
 	reducers: {
-		setErrors: (state: TodoState, action: PayloadAction<string>) => {
+		setErrors: (state: TaskState, action: PayloadAction<string>) => {
 			state.error = action.payload;
 		},
-		setTodos: (state:TodoState, action: PayloadAction<any[]>) => {
+		setTodos: (state:TaskState, action: PayloadAction<Task[]>) => {
 			state.todos = action.payload;
 		},
 	},
@@ -42,16 +52,16 @@ const todoSlice = createSlice({
 		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 		// @ts-ignore
 		builder.addCase(
-			getTodos.fulfilled,
-			(state: TodoState, action: PayloadAction<any[]>) => {
+			getTasks.fulfilled,
+			(state: TaskState, action: PayloadAction<Task[]>) => {
 				state.todos = action.payload;
 			}
-		).addCase(getTodos.rejected, (state: TodoState, action: PayloadAction<string>) => {
+		).addCase(getTasks.rejected, (state: TaskState, action: PayloadAction<string>) => {
 			state.error = action.payload;
 		}),
 });
 
 
-export const {setErrors, setTodos} = todoSlice.actions;
+export const {setErrors, setTodos} = taskSlice.actions;
 
-export default todoSlice.reducer;
+export default taskSlice.reducer;

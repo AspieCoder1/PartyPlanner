@@ -29,7 +29,7 @@ taskRouter.post(
 			};
 			const newTask: ITask = new Task(taskToAdd);
 			await newTask.save();
-			res.status(200).json(taskToAdd);
+			res.status(200).json({ id: newTask._id, ...taskToAdd });
 		} catch (e) {
 			res.status(500).json('Oops something went wrong');
 		}
@@ -59,11 +59,20 @@ taskRouter.get(
 	async (req: express.Request, res: express.Response) => {
 		try {
 			const idTofind = req.params.id;
-			const foundCreatedTasks = await Task.find({taskcreator: idTofind});
+			const foundCreatedTasks = await Task.find({ taskcreator: idTofind });
 			if (_.isEmpty(foundCreatedTasks)) {
 				res.status(400).send('You have no tasks');
 			} else {
-				res.status(200).json(foundCreatedTasks);
+				const results = foundCreatedTasks.map( (task: ITask) => ({
+					id: task._id,
+					taskname: task.taskname,
+					taskdesc: task.taskdesc,
+					taskduedate: task.taskduedate,
+					taskduetime: task.taskduetime,
+					taskcreator: task.taskcreator,
+					taskcompleted: task.taskcompleted,
+				}));
+				res.status(200).json(results);
 			}
 		} catch (e) {
 			res.status(500).json('Oops something went wrong');

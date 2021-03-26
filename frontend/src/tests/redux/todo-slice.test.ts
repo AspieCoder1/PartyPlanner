@@ -1,9 +1,9 @@
 import reducer, {
-	getTodos,
+	getTasks,
 	initialState,
 	setErrors,
 	setTodos
-} from "../redux/todo-slice";
+} from "../../redux/task-slice";
 import { configureStore } from '@reduxjs/toolkit';
 import axios from 'axios';
 
@@ -23,13 +23,29 @@ describe('todo slice', () => {
 	});
 
 	it('should correctly set todos', () => {
-		const data = [{ id: 'test1' }, { id: 'test2' }, { id: 'test3' }];
+		const data = [{
+			id: 'test',
+			taskname: 'Task 1',
+			taskdesc: 'Task 1',
+			taskduedate: 'Task 1',
+			taskduetime: 'Task 1',
+			taskcreator: 'Task 1',
+			taskcompleted: true,
+		}];
 		const state = reducer(undefined, setTodos(data));
 		expect(state.todos).toBe(data);
 	});
 
 	it('should handle set state if it can get parties', async () => {
-		const data = [{ name: 'hello world', organiser: 'me' }];
+		const data = [{
+			id: 'test',
+			taskname: 'Task 1',
+			taskdesc: 'Task 1',
+			taskduedate: 'Task 1',
+			taskduetime: 'Task 1',
+			taskcreator: 'Task 1',
+			taskcompleted: true,
+		}];
 		mockAxios.get.mockImplementationOnce(() =>
 			Promise.resolve({
 				data,
@@ -37,7 +53,7 @@ describe('todo slice', () => {
 		);
 
 		const store = configureStore({ reducer: reducer });
-		await store.dispatch(getTodos('test'));
+		await store.dispatch(getTasks('test'));
 		const state = store.getState();
 		expect(state.todos).toEqual(data);
 	});
@@ -52,7 +68,7 @@ describe('todo slice', () => {
 		);
 
 		const store = configureStore({ reducer: reducer });
-		await store.dispatch(getTodos('test'));
+		await store.dispatch(getTasks('test'));
 		const state = store.getState();
 		expect(state.error).toBe('Todos not found');
 	});

@@ -8,12 +8,20 @@ import MyParties from './MyParties';
 import { getParties, PartyState } from '../redux/party-slice';
 import { Link } from 'react-router-dom';
 import MyTodos from './MyTodos';
-import { TodoState, getTodos } from '../redux/todo-slice';
+import { TaskState, getTasks } from '../redux/task-slice';
+import ReactModal from 'react-modal';
+import { AddTaskForm } from './AddTaskForm';
+
+type TaskToAdd = {
+	taskname: string;
+	taskdesc: string;
+	taskdue: string;
+};
 
 type IProps = {
 	user: UserState;
 	parties: PartyState;
-	todos: TodoState;
+	todos: TaskState;
 	getParties: (id: string) => void;
 	getTodos: (id: string) => void;
 };
@@ -23,6 +31,9 @@ type State = {
 	todoLoading: boolean;
 	partyError: string;
 	todoError: string;
+	modalOpen: boolean;
+	parties: any[];
+	tasks: any[];
 };
 
 export class Dashboard extends React.Component<IProps, State> {
@@ -31,16 +42,26 @@ export class Dashboard extends React.Component<IProps, State> {
 		todoLoading: false,
 		partyError: '',
 		todoError: '',
+		modalOpen: false,
+		parties: [],
+		tasks: [],
 	};
 
 	static getDerivedStateFromProps(props: IProps, state: State): State {
-		const partyError =  props.parties.error ? props.parties.error : '';
-		const todoError =  props.todos.error ? props.todos.error : '';
-		if (state.partyError != props.parties.error || state.todoError != props.todos.error) {
+		const partyError = props.parties.error ? props.parties.error : '';
+		const todoError = props.todos.error ? props.todos.error : '';
+		if (
+			state.partyError !== props.parties.error ||
+			state.todoError !== props.todos.error ||
+			state.tasks !== props.todos.todos ||
+			state.parties !== props.parties.parties
+		) {
 			return {
 				...state,
 				partyError,
-				todoError
+				todoError,
+				parties: props.parties.parties,
+				tasks: props.todos.todos,
 			};
 		}
 		return state;
@@ -56,6 +77,19 @@ export class Dashboard extends React.Component<IProps, State> {
 		this.setState({ todoLoading: true });
 		this.props.getTodos(this.props.user.userName);
 		this.setState({ todoLoading: false });
+	};
+
+	addTodo = (todoToAdd: TaskToAdd): void => {
+		console.log(todoToAdd);
+	};
+
+	openModal = (): void => {
+		this.setState({ modalOpen: true });
+	};
+
+	closeModal = (): void => {
+		console.log('Closing modal');
+		this.setState({ modalOpen: false });
 	};
 
 	render(): React.ReactNode {
@@ -77,14 +111,18 @@ export class Dashboard extends React.Component<IProps, State> {
 						)}
 					</div>
 					<div className={styles.todos}>
-						<h1>Todos</h1>
+						<h1>My Tasks</h1>
+						<button onClick={this.openModal}>Add Task</button>
 						{this.state.todoLoading ? (
 							<p>Loading...</p>
 						) : (
-							<MyTodos getTodos={this.getTodos} error={this.state.todoError} />
+							<MyTodos getTodos={this.getTodos} error={this.state.todoError} tasks={this.state.tasks} />
 						)}
 					</div>
 				</div>
+				<ReactModal isOpen={this.state.modalOpen}>
+					<AddTaskForm closeModal={this.closeModal} onSubmit={this.addTodo} />
+				</ReactModal>
 			</React.Fragment>
 		);
 	}
@@ -97,7 +135,7 @@ const mapStateToProps = (state: Store) => ({
 });
 const mapDispatchToProps = {
 	getParties,
-	getTodos
+	getTodos: getTasks,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
