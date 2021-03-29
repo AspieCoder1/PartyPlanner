@@ -7,7 +7,7 @@ import Header from './Header';
 class EditParty extends Component {
 	constructor(props) {
 		super(props);
-
+		//Dates must be constructed like this:  const newDay = new Date(2021, 4, 24);
 		this.onChangeUsername = this.onChangeUsername.bind(this);
 		this.onChangeName = this.onChangeName.bind(this);
 		this.onChangeDescription = this.onChangeDescription.bind(this);
@@ -17,7 +17,7 @@ class EditParty extends Component {
 		this.onChangePublic = this.onChangePublic.bind(this);
 		this.onChangeAge = this.onChangeAge.bind(this);
 		this.onSubmit = this.onSubmit.bind(this);
-		this.setValues = this.setValues.bind(this);
+		//response from edit get request 
 		this.state = {
 			username: '',
 			name: '',
@@ -92,26 +92,12 @@ class EditParty extends Component {
 		this.setState({ ageRate: !this.state.ageRate });
 	}
 
-	setValues(){
-		this.setState({
-			organiser: 'BOB',
-			name: 'This is my party',
-			description: 'my description',
-			time: '11:20',
-			date: '03-11-2021',
-			publicParty: false,
-			ageRate: true,
-			location: 'party is at my house',
-			attendeesID: [],
-		});
-	}
 
 	render() {
 		return (
 			<>
 				<Header />
 				<div>
-					{this.setValues}
 					<h3>Create New Party</h3>
 					<form onSubmit={this.onSubmit}>
 						<div className='form-group'>

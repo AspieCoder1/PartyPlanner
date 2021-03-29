@@ -518,5 +518,72 @@ describe('PATCH /update/:id', () => {
 			.send({updates});
 		expect(delRes.status).toBe(200);
 		expect(delRes.body.name).toBe(updates.name);
+  });
+  
+
+  it('Responds with 404 and return that the party does not exist', async () => {
+		const userID = 'johnSmith1';
+		const partyID = new mongoose.Types.ObjectId();
+		const mockParty = {
+			name: 'My Party',
+			organiser: 'johnSmith1',
+			description: 'This is a test party',
+			location: 'This is a test location',
+			date: '2021-04-04',
+			ageRate: false,
+			attendeesID: [userID],
+			time: '11:30',
+		};
+
+		const updates = {
+			name: 'My updated Party',
+			organiser: 'johnSmith1',
+			description: 'This is an updated test party',
+			location: 'This is an updated test location',
+			date: '2021-04-04',
+			ageRate: false,
+			attendeesID: [userID],
+			time: '11:30',
+		};
+		const res = await request(app).post('/create').send(mockParty);
+    const newID = new mongoose.Types.ObjectId();
+		const delRes = await request(app)
+			.patch(`/update/${newID}`)
+      .send({ updates });
+		expect(delRes.status).toBe(400);
 	});
+
+
+  it('Responds with 400 and return that the party has not passed validation', async () => {
+		const userID = 'johnSmith1';
+		const partyID = new mongoose.Types.ObjectId();
+		const mockParty = {
+			name: 'My Party',
+			organiser: 'johnSmith1',
+			description: 'This is a test party',
+			location: 'This is a test location',
+			date: '2021-04-04',
+			ageRate: false,
+			attendeesID: [userID],
+			time: '11:30',
+		};
+
+		const updates = {
+			name: '',
+			organiser: 'johnSmith1',
+			description: 'Thi',
+			location: 'This is an updated test location',
+			date: '2021-04-04',
+			ageRate: false,
+			attendeesID: [userID],
+			time: '11:30',
+		};
+		const res = await request(app).post('/create').send(mockParty);
+		const delRes = await request(app)
+			.patch(`/update/${res.body.id}`)
+      .send({ updates });
+		expect(delRes.status).toBe(400);
+	});
+
+
 });

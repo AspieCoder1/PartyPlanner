@@ -182,14 +182,24 @@ partyRouter.patch(
 	'/update/:id',
 
 	async (req: express.Request, res: express.Response) => {
-		const { updates } = req.body;
+    const { updates } = req.body;
+    
+    const errors = validateNewParty(updates);
+		if (!_.isEmpty(errors)) {
+			return res.status(400).json(errors);
+		}
 
 		try {
-			const idToUpdate = req.params.id;
-			const result = await Party.findByIdAndUpdate(idToUpdate, updates, {
-				new: true,
-			});
-			res.status(200).json(result);
+      const idToUpdate = req.params.id;
+      const existing = await Party.findById(idToUpdate);
+      if (_.isEmpty(existing)) {
+        res.status(400).json('This party does not exist');
+      } else {
+        const result = await Party.findByIdAndUpdate(idToUpdate, updates, {
+				  new: true,
+        });
+        res.status(200).json(result);
+      }
 		} catch (e) {
 			console.log(e);
 			res.status(500).json('Oops something went wrong');
