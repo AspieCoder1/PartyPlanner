@@ -233,6 +233,7 @@ partyRouter.patch(
   			res.status(400).json('No party of this type exists');
   		}
   	} catch (e) {
+		console.log(e);
   		res.status(500).json('Oops something went wrong');
   	}
 	}  
