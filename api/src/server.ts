@@ -4,10 +4,12 @@ import userRouter from './routes/user';
 import partyRouter from './routes/party';
 import todoRouter from './routes/task';
 import './db/mongoose';
+import * as cors from 'cors';
 
 const app: express.Application = express();
 const port = process.env.PORT || 3000;
 
+app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use('/api/users', userRouter);

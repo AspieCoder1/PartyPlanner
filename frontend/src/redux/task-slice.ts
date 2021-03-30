@@ -31,7 +31,7 @@ export const getTasks = createAsyncThunk(
 	'tasks/getTasks',
 	async (id: string, thunkAPI) => {
 		try {
-			const { data } = await axios.get(`api/todos/my-tasks/${id}`);
+			const { data } = await axios.get(`/api/todos/my-tasks/${id}`);
 			return data;
 		} catch (err) {
 			let msg = 'Oops something went wrong';
