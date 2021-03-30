@@ -515,13 +515,12 @@ describe('PATCH /update/:id', () => {
 
 		const delRes = await request(app)
 			.patch(`/update/${res.body._id}`)
-			.send({updates});
+			.send({ updates });
 		expect(delRes.status).toBe(200);
 		expect(delRes.body.name).toBe(updates.name);
-  });
-  
+	});
 
-  it('Responds with 404 and return that the party does not exist', async () => {
+	it('Responds with 404 and return that the party does not exist', async () => {
 		const userID = 'johnSmith1';
 		const partyID = new mongoose.Types.ObjectId();
 		const mockParty = {
@@ -546,15 +545,14 @@ describe('PATCH /update/:id', () => {
 			time: '11:30',
 		};
 		const res = await request(app).post('/create').send(mockParty);
-    const newID = new mongoose.Types.ObjectId();
+		const newID = new mongoose.Types.ObjectId();
 		const delRes = await request(app)
 			.patch(`/update/${newID}`)
-      .send({ updates });
+			.send({ updates });
 		expect(delRes.status).toBe(400);
 	});
 
-
-  it('Responds with 400 and return that the party has not passed validation', async () => {
+	it('Responds with 400 and return that the party has not passed validation', async () => {
 		const userID = 'johnSmith1';
 		const partyID = new mongoose.Types.ObjectId();
 		const mockParty = {
@@ -581,9 +579,7 @@ describe('PATCH /update/:id', () => {
 		const res = await request(app).post('/create').send(mockParty);
 		const delRes = await request(app)
 			.patch(`/update/${res.body.id}`)
-      .send({ updates });
+			.send({ updates });
 		expect(delRes.status).toBe(400);
 	});
-
-
 });
