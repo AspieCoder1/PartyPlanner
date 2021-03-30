@@ -1,5 +1,4 @@
-import { Schema, Document, ObjectId, Model, model } from 'mongoose';
-
+import { Schema, Document, Model, model } from 'mongoose';
 
 export interface ITask extends Document {
 	taskname: string;
