@@ -11,6 +11,8 @@ const initialState: PartyState = {
 	error: '',
 };
 
+// export const addParty
+
 export const getParties = createAsyncThunk(
 	'parties/getParties',
 	async (id: string, thunkAPI) => {
@@ -41,7 +43,7 @@ const partySlice = createSlice({
 		builder
 			.addCase(
 				getParties.fulfilled,
-				(state: PartyState, action: PayloadAction<any>) => {
+				(state: PartyState, action: PayloadAction<any[]>) => {
 					state.parties = action.payload;
 					state.error = '';
 				}
