@@ -14,7 +14,7 @@ rules:
     - error
     - tab
   linebreak-style:
-    - warning
+    - warn
     - unix
   quotes:
     - error
