@@ -76,11 +76,48 @@
   margin-bottom: 0px;
   background: $dark-purple;
   border-radius: 8px;
-  color: white;
-  grid-column: 2;
-  font-weight: 300;
-  font-size: 16px;
   padding: 8px 16px 8px 16px;
   margin-left: auto;
   max-width: 500px;
+}
+
+
+.otherUserMessage {
+  background: white;
+  border-radius: 8px;
+  padding: 8px 16px 8px 16px;
+  margin-right: auto;
+  max-width: 500px;
+}
+
+.messageOtherText {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  color: $black;
+  font-weight: 300;
+  font-size: 16px;
+}
+
+.messageText {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  color: white;
+  font-weight: 300;
+  font-size: 16px;
+}
+
+.messageName {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  color: white;
+  font-weight: 400;
+  font-size: 16px;
+}
+
+.messageOtherName {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  color: $black;
+  font-weight: 400;
+  font-size: 16px;
 }

@@ -8,8 +8,13 @@ const io = new Server(httpServer, {
 	},
 });
 
+type Message = {
+	body: string;
+	user: string
+}
+
 type NewMessageEvent = {
-	msg: string;
+	msg: Message;
 	room: string;
 };
 

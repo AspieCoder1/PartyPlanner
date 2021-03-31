@@ -5,10 +5,14 @@ import Header from './Header';
 import { Helmet } from 'react-helmet';
 import _ from 'lodash';
 import styles from './Chat.module.scss';
+import { useSelector } from 'react-redux';
+import { Store } from '../redux/store';
+import Message from './Message';
 
-const Chat = () => {
+const Chat = (): JSX.Element => {
+	const { userName } = useSelector((state: Store) => state.user);
 	const { id } = useParams<{ id: string }>();
-	const { messages, sendMessage } = useChat(id);
+	const { messages, sendMessage } = useChat(id, userName);
 	const [newMessage, setNewMessage] = React.useState<string>('');
 
 	const handleNewMessageChange = (e: any) => {
@@ -16,7 +20,7 @@ const Chat = () => {
 	};
 
 	const handleSendMessage = () => {
-		sendMessage(newMessage);
+		sendMessage({ body: newMessage, user: userName });
 		setNewMessage('');
 	};
 
@@ -29,11 +33,7 @@ const Chat = () => {
 			<div className={styles.container}>
 				<div className={styles.chatArea}>
 					{messages.length > 0 ? (
-						messages.map((msg) => (
-							<p className={styles.message} key={_.uniqueId()}>
-								{msg}
-							</p>
-						))
+						messages.map((msg) => <Message key={_.uniqueId()} msg={msg} />)
 					) : (
 						<p className={styles.noMessages}>You have no messages currently</p>
 					)}

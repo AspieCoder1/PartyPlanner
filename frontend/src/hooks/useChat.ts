@@ -1,13 +1,19 @@
 import { useEffect, useState, useRef } from 'react';
 import { io, Socket } from 'socket.io-client';
 
-type HookReturn = {
-	messages: any[];
-	sendMessage: (msgBody: string) => void;
+type Message = {
+	body: string;
+	user: string;
 };
 
-const useChat = (chatID: string): HookReturn => {
-	const [messages, setMessages] = useState<string[]>([]);
+type HookReturn = {
+	messages: Message[];
+	sendMessage: (msgBody: Message) => void;
+};
+
+const useChat = (chatID: string, userName: string): HookReturn => {
+	console.log(userName);
+	const [messages, setMessages] = useState<Message[]>([]);
 	const socketRef = useRef<Socket>();
 
 	useEffect(() => {
@@ -18,8 +24,9 @@ const useChat = (chatID: string): HookReturn => {
 			console.log('hello from server');
 		});
 
-		socketRef.current?.on('new_msg', (msg: string) => {
-			setMessages(messages => ([...messages, msg]));
+		socketRef.current?.on('new_msg', (msg: Message) => {
+			console.log(msg);
+			setMessages((messages) => [...messages, msg]);
 		});
 
 		// This now disconnects the socket and cleans everything up
@@ -30,10 +37,11 @@ const useChat = (chatID: string): HookReturn => {
 		};
 	}, [chatID]);
 
-	const sendMessage = (msgBody: string): void => {
-		setMessages(messages => ([...messages, msgBody]));
+	const sendMessage = (msgBody: Message): void => {
+		setMessages((messages) => [...messages, msgBody]);
+		const {body} = msgBody;
 		socketRef.current?.emit('new_msg', {
-			msg: msgBody,
+			msg: { body, user: userName },
 			room: chatID,
 		});
 	};
