@@ -28,22 +28,8 @@ services:
     env_file:
       - ./compose.env
     networks:
-      - backend
       - frontend
     expose:
       - '5000'
-    depends_on:
-      - mongo
-  mongo:
-    image: mongo:latest
-    expose:
-      - '27017'
-    networks:
-      - backend
-    volumes:
-      - data:/data/db
 networks:
   frontend:
-  backend:
-volumes:
-  data:

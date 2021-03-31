@@ -6,6 +6,7 @@ import todoRouter from './routes/task';
 import './db/mongoose';
 import * as cors from 'cors';
 
+
 const app: express.Application = express();
 const port = process.env.PORT || 3000;
 
@@ -15,6 +16,8 @@ app.use(bodyParser.json());
 app.use('/api/users', userRouter);
 app.use('/api/parties', partyRouter);
 app.use('/api/todos', todoRouter);
+
+console.log(`Node environment: ${process.env.NODE_ENV}`);
 
 app.get('/', (req: express.Request, res: express.Response): void => {
 	res.send('Hello world');
