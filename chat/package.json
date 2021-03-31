@@ -17,6 +17,8 @@
   },
   "scripts": {
     "lint": "eslint",
-    "format": "prettier --write"
+    "format": "prettier --write",
+    "start": "node server.js",
+    "build": "tsc"
   }
 }

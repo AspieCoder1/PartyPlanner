@@ -2,7 +2,6 @@ import * as React from 'react';
 import { useSelector } from 'react-redux';
 import { Store } from '../redux/store';
 import styles from './Chat.module.scss';
-import _ from 'lodash';
 
 type Message = {
 	body: string;
