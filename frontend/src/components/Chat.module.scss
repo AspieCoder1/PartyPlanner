@@ -1,0 +1,83 @@
+@import "../styles/colours";
+
+.content {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  max-height: 100vh;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  grid-column: 1 / span 6;
+  height:100%;
+  margin-left: 140px;
+  margin-right: 140px;
+  flex-grow: 1;
+  margin-bottom: 32px;
+}
+
+.chatArea {
+  padding: 16px 8px 8px 8px;
+  row-gap: 8px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  background: lighten($grey, 10);
+  flex-grow: 1;
+  overflow: auto;
+}
+
+.chatSubmit {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 16px;
+  border-top: $grey 1px solid;
+}
+
+.noMessages {
+  justify-items: center;
+  justify-content: center;
+}
+
+.chatInput {
+  font-size: 16px;
+  padding: 8px;
+  border: none;
+  border-bottom: $grey 1px solid;
+  outline: none;
+  color: $black;
+  flex-grow: 1;
+  margin-right: 64px;
+}
+
+.chatButton {
+  margin: 0px;
+  border: none;
+  background: $dark-purple;
+  color: white;
+  font-weight: 500;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+.chatInput::placeholder {
+  color: $grey;
+  font-size: 16px;
+}
+
+.message {
+  margin: 0px;
+  background: $dark-purple;
+  border-radius: 8px;
+  color: white;
+  grid-column: 2;
+  font-weight: 300;
+  font-size: 16px;
+  padding: 8px;
+}

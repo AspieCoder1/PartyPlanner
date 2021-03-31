@@ -2,8 +2,9 @@ import * as React from 'react';
 import useChat from '../hooks/useChat';
 import { useParams } from 'react-router';
 import Header from './Header';
-import {Helmet} from 'react-helmet';
+import { Helmet } from 'react-helmet';
 import _ from 'lodash';
+import styles from './Chat.module.scss';
 
 const Chat = () => {
 	const { id } = useParams<{ id: string }>();
@@ -20,27 +21,36 @@ const Chat = () => {
 	};
 
 	return (
-		<>
+		<div className={styles.content}>
 			<Helmet>
-				<title>{id}|Chat</title>
+				<title>Chat for {id}</title>
 			</Helmet>
 			<Header />
-			<h1>Chat for {id}</h1>
-			<div>
-				{messages.length > 0 ? messages.map((msg) => <p key={_.uniqueId()}>{msg}</p>) : null}
+			<div className={styles.container}>
+				<div className={styles.chatArea}>
+					{messages.length > 0 ? (
+						messages.map((msg) => (
+							<p className={styles.message} key={_.uniqueId()}>
+								{msg}
+							</p>
+						))
+					) : (
+						<p className={styles.noMessages}>You have no messages currently</p>
+					)}
+				</div>
+				<div className={styles.chatSubmit}>
+					<input
+						value={newMessage}
+						onChange={handleNewMessageChange}
+						placeholder='Write message...'
+						className={styles.chatInput}
+					/>
+					<button onClick={handleSendMessage} className={styles.chatButton}>
+						Send
+					</button>
+				</div>
 			</div>
-			<div>
-				<textarea
-					value={newMessage}
-					onChange={handleNewMessageChange}
-					placeholder='Write message...'
-					className='new-message-input-field'
-				/>
-				<button onClick={handleSendMessage} className='send-message-button'>
-					Send
-				</button>
-			</div>
-		</>
+		</div>
 	);
 };
 
