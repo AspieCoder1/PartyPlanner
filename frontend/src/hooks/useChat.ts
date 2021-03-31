@@ -12,6 +12,8 @@ const useChat = (chatID: string): HookReturn => {
 
 	useEffect(() => {
 		socketRef.current = io(`${process.env.REACT_APP_CHAT_URL}`);
+		socketRef.current?.emit('join', chatID);
+
 		socketRef.current.on('hello', () => {
 			console.log('hello from server');
 		});
@@ -29,6 +31,7 @@ const useChat = (chatID: string): HookReturn => {
 	}, [chatID]);
 
 	const sendMessage = (msgBody: string): void => {
+		setMessages(messages => ([...messages, msgBody]));
 		socketRef.current?.emit('new_msg', {
 			msg: msgBody,
 			room: chatID,
