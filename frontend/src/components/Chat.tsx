@@ -2,6 +2,7 @@ import * as React from 'react';
 import useChat from '../hooks/useChat';
 import { useParams } from 'react-router';
 import Header from './Header';
+import {Helmet} from 'react-helmet';
 import _ from 'lodash';
 
 const Chat = () => {
@@ -20,6 +21,9 @@ const Chat = () => {
 
 	return (
 		<>
+			<Helmet>
+				<title>{id}|Chat</title>
+			</Helmet>
 			<Header />
 			<h1>Chat for {id}</h1>
 			<div>
