@@ -4,6 +4,7 @@ import history from '../utils/history';
 import Landing from '../components/Landing';
 import Dashboard from '../components/Dashboard';
 import CreateParty from '../components/CreateParty';
+import Chat from '../components/Chat';
 
 const AppRouter = (): JSX.Element => (
 	<Router history={history}>
@@ -16,6 +17,9 @@ const AppRouter = (): JSX.Element => (
 			</Route>
 			<Route exact path='/create'>
 				<CreateParty />
+			</Route>
+			<Route exact path='/chat/:id'>
+				<Chat/>
 			</Route>
 		</Switch>
 	</Router>
