@@ -1,4 +1,3 @@
-import { isNull } from 'lodash';
 import validator from 'validator';
 
 interface newPartyObject {

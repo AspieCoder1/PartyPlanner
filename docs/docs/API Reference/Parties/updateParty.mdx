@@ -1,0 +1,76 @@
+---
+name: Update Party
+menu: Parties
+---
+
+# Update Party
+Update an existing party
+- URL: `/update/:id`
+- Method: `PATCH`
+- Auth required: NO
+
+## Parameters
+|Parameter|Description                                            |
+|---------|-------------------------------------------------------|
+|id       |The id of the party you would like to update.          |
+
+## Request body
+|Key         |Description                                         |
+|------------|----------------------------------------------------|
+|name        | Name of the updated party                          |
+|organiser   | Username of the organiser                          |
+|description | Description of the updated party                   |
+|location    | location of the updated party                      |
+|date        | Date of updated party                              |
+|time        | Time of the updated party                          |
+|ageRate     | Age rating of the updated party                    |
+|attendeesID | Attendees of updated party                         |
+|todoID      | TodoID of updated party (Boolean or String tbd     |
+|publicParty | Public/Private scope of the updated party          |
+
+## Headers
+This endpoint does not require any custom headers to be set.
+
+## Success Response
+Code: `200 OK`
+### Example Response
+```json
+    {
+      	"_id": "507f1f77bcf86cd799439011",
+		"name": "My awesome party",
+		"organiser": "johnSmmith1",
+		"description": "This is a test party",
+		"location": "This is a test location",
+		"date": "2021-04-04",
+		"time": "11:30",
+		"ageRate": "false",
+		"attendeesID": "['username1', 'username2']"
+		"todoID": "Y",
+		"publicParty": "false",
+    }
+```
+
+## Errors
+- `400`, in the case that an party of that id does not exist.	(Sends message)
+- `400`, in the case that validation fails. (Sends errors)
+- OR in the case of a server error you would get a `500` error in the form of `{code: 5xx, body: 'Oh snap, something went wrong on our end.'}`
+
+## Example request
+```js
+var axios = require("axios");
+const updates = {
+	name: 'my updated party',
+	organiser: 'test user',
+	description: 'This is a test party',
+	location: 'This is a test location',
+	date: '2021-04-04',
+	ageRate: false,
+	time: '11:30',
+};
+
+axios.patch('/api/parties/update/507f1f77bcf86cd799439011', updates).then(res => {
+    console.log(res.body);
+}).catch(err => {
+    console.log(err)
+})
+```

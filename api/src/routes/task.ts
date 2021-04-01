@@ -63,7 +63,7 @@ taskRouter.get(
 			if (_.isEmpty(foundCreatedTasks)) {
 				res.status(400).send('You have no tasks');
 			} else {
-				const results = foundCreatedTasks.map( (task: ITask) => ({
+				const results = foundCreatedTasks.map((task: ITask) => ({
 					id: task._id,
 					taskname: task.taskname,
 					taskdesc: task.taskdesc,
@@ -72,7 +72,6 @@ taskRouter.get(
 					taskcreator: task.taskcreator,
 					taskcompleted: task.taskcompleted,
 				}));
-				console.log(results);
 				res.status(200).json(results);
 			}
 		} catch (e) {
