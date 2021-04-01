@@ -26,7 +26,7 @@ class CreateParty extends Component {
 			publicParty: false,
 			ageRate: false,
 			location: '',
-			users: [],
+			attendeesID: [],
 		};
 	}
 

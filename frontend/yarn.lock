@@ -1816,6 +1816,11 @@
   resolved "https://registry.yarnpkg.com/@types/react-calendar/-/react-calendar-3.1.4.tgz#7d6cb69eab5abfc93a870a025866bc67bf46c8c7"
   integrity sha512-7yDdyPnNaKqOIp97NmPhDxaXb7pBSag+pYWBtt+vBJyyqqiMMtXzv5bdEWjVN7AWmfWdmzGsP8kg+TzvGvwwQg==
 
+"@types/react-clock@*":
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/@types/react-clock/-/react-clock-3.0.0.tgz#43226ae01da98788f7a30a435b7522aba76eaade"
+  integrity sha512-I6zNSVOmzwcofYgBEtjLZq7T8RFD1QGJg3YPeqDrDUPxmuVTwOzBXU5DaeUN1SgNjQ7uUMeyUqTH/2lnxIkS2Q==
+
 "@types/react-dom@^17.0.1":
   version "17.0.2"
   resolved "https://registry.npmjs.org/@types/react-dom/-/react-dom-17.0.2.tgz"
@@ -1863,6 +1868,13 @@
   integrity sha512-3Fi2O6Zzq/f3QR9dRnlnHso9bMl7weKCviFmfF6B4LS1Uat6Hkm15k0ZAQuDz+UBq6B3+g+NM6IT2nr5QgPzCw==
   dependencies:
     "@types/react" "*"
+
+"@types/react-time-picker@^4.0.1":
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/@types/react-time-picker/-/react-time-picker-4.0.1.tgz#e0c7afda295205cfe12971b28b2d910c5a31a020"
+  integrity sha512-9CKWwJTtQe8jwlpyfHcxpE0lJKa25zRkYyIee1LSuhyxghlRC9Lipcw861gd7o4IXmNDtvVyGZ6lZ1soEQT7tA==
+  dependencies:
+    "@types/react-clock" "*"
 
 "@types/react@*", "@types/react@^17.0.2":
   version "17.0.3"
@@ -9771,10 +9783,10 @@ react-test-renderer@^17.0.1:
     react-shallow-renderer "^16.13.1"
     scheduler "^0.20.1"
 
-react-time-picker@^4.2.0:
-  version "4.2.0"
-  resolved "https://registry.yarnpkg.com/react-time-picker/-/react-time-picker-4.2.0.tgz#01b7eb97b34cb8cbef9fdc025eee962edd5b0e62"
-  integrity sha512-E1URE2c23sDA4/Gw27086+69RxRttLMwZopjfx8nIYEdajseghDaY7oBcNiuQ53d0fJyIgIU5WnSTHTGbENEqQ==
+react-time-picker@^4.2.1:
+  version "4.2.1"
+  resolved "https://registry.yarnpkg.com/react-time-picker/-/react-time-picker-4.2.1.tgz#b27f0bbc2e58534f20dbf10b14d0b8f3334fcb07"
+  integrity sha512-T0aEabJ3bz54l8LV3pdpB5lOZuO3pRIbry5STcUV58UndlrWLcHpdpvS1IC8JLNXhbLxzGs1MmpASb5k1ddlsg==
   dependencies:
     "@wojtekmaj/date-utils" "^1.0.0"
     get-user-locale "^1.2.0"
@@ -9915,6 +9927,14 @@ redux-thunk@^2.3.0:
 redux@^4.0.0:
   version "4.0.5"
   resolved "https://registry.npmjs.org/redux/-/redux-4.0.5.tgz"
+  integrity sha512-VSz1uMAH24DM6MF72vcojpYPtrTUu3ByVWfPL1nPfVRb5mZVTve5GnNCUV53QM/BZ66xfWrm0CTWoM+Xlz8V1w==
+  dependencies:
+    loose-envify "^1.4.0"
+    symbol-observable "^1.2.0"
+
+redux@^4.0.5:
+  version "4.0.5"
+  resolved "https://registry.yarnpkg.com/redux/-/redux-4.0.5.tgz#4db5de5816e17891de8a80c424232d06f051d93f"
   integrity sha512-VSz1uMAH24DM6MF72vcojpYPtrTUu3ByVWfPL1nPfVRb5mZVTve5GnNCUV53QM/BZ66xfWrm0CTWoM+Xlz8V1w==
   dependencies:
     loose-envify "^1.4.0"
