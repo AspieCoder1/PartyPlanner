@@ -110,7 +110,7 @@ partyRouter.get(
 				attendeesID: { $all: [idTofind] },
 			});
 			if (_.isEmpty(foundHostingParties)) {
-				res.status(400).send('You have no parties');
+				res.status(404).send('You have no parties');
 			} else {
 				res.status(200).json(foundHostingParties); // send to hosting party html page
 			}
@@ -133,7 +133,7 @@ partyRouter.post(
 				await foundParty.save();
 				res.status(200).send(foundParty);
 			} else {
-				res.status(400).send('This party cannot be joined/does not exists.');
+				res.status(404).send('This party cannot be joined/does not exists.');
 			}
 		} catch (e) {
 			res.status(500).json('Oops something went wrong');
@@ -147,13 +147,14 @@ partyRouter.get(
 	async (req: express.Request, res: express.Response) => {
 		try {
 			const idTofind = req.params.id;
-			const foundHostingParties = await Party.find({
+			const foundParties = await Party.find({
 				attendeesID: { $in: [idTofind] },
 			});
-			if (_.isEmpty(foundHostingParties)) {
-				res.status(400).send('You have no parties');
+
+			if (_.isEmpty(foundParties)) {
+				res.status(404).send('You have no parties');
 			} else {
-				res.status(200).json(foundHostingParties); // send to hosting party html page
+				res.status(200).json(foundParties); // send to hosting party html page
 			}
 		} catch (e) {
 			res.status(500).json('Oops something went wrong');
@@ -167,8 +168,8 @@ partyRouter.get(
 	async (req: express.Request, res: express.Response) => {
 		try {
 			const foundPublicParties = await Party.find({ publicParty: true });
-			if (!foundPublicParties) {
-				res.status(400).send('No public parties found.');
+			if (foundPublicParties.length === 0) {
+				res.status(404).send('No public parties found.');
 			} else {
 				res.status(200).json(foundPublicParties); // send to public party html/react page
 			}
