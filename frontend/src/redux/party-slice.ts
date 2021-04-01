@@ -31,6 +31,7 @@ export type Party = {
 }
 
 type NewPartyState = {
+  id: string,
   name: string;
 	organiser: string;
 	description: string;
@@ -77,6 +78,38 @@ export const getParties = createAsyncThunk(
 	}
 );
 
+
+export const editParty = createAsyncThunk(
+	'parties/editParty',
+	async (id: string, thunkAPI) => {
+		try {
+			const { data } = await axios.get(`api/parties/edit/${id}`);
+			return data;
+		} catch (err) {
+			let msg = 'Oops something went wrong';
+			if (typeof err.response.data !== 'undefined') {
+				msg = err.response.data;
+			}
+			return thunkAPI.rejectWithValue(msg);
+		}
+	}
+);
+
+
+export const updateParty = createAsyncThunk(
+  'parties/updateParty',
+  async (updateParty: NewPartyState, thunkAPI) => {
+    try {
+      const { data } = await axios.patch(`api/parties/update/${updateParty.id}`, updateParty);
+      return data;
+    } catch (err) {
+      const data: PartyErrors = err.response.data as PartyErrors;
+			return thunkAPI.rejectWithValue(data);
+    }
+  }
+);
+
+
 const partySlice = createSlice({
 	name: 'party',
 	initialState,
@@ -100,6 +133,25 @@ const partySlice = createSlice({
         getParties.rejected,
         (state: PartyState, action: PayloadAction<string>) => {
           state.error = action.payload;
+        }
+      )
+      .addCase(
+        editParty.fulfilled,
+        (state: PartyState, action: PayloadAction<any[]>) => {
+          state.parties = action.payload;
+          state.error = '';
+        }
+      )
+      .addCase(
+        editParty.rejected,
+        (state: PartyState, action: PayloadAction<string>) => {
+          state.error = action.payload;
+        }
+      )
+      .addCase(
+        updateParty.fulfilled,
+        (state: PartyState, action: PayloadAction<Party>) => {
+          state.parties.push(action.payload);
         }
       )
       .addCase(
