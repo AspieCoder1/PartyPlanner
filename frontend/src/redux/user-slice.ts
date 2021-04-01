@@ -106,11 +106,12 @@ const userSlice = createSlice({
 				loginUser.fulfilled,
 				(
 					state: UserState,
-					action: PayloadAction<{ success: boolean; token: string; id: string }>
+					action: PayloadAction<{ success: boolean; token: string; id: string; userName: string; }>
 				) => {
 					state.token = action.payload.token;
 					state.id = action.payload.id;
 					state.errors = {};
+					state.userName = action.payload.userName;
 					localStorage.setItem('token', action.payload.token);
 				}
 			)
