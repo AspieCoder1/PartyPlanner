@@ -83,6 +83,7 @@ const taskSlice = createSlice({
 		// @ts-ignore
 		builder
 			.addCase(getTasks.pending, (state: TaskState) => {
+				state.error = '';
 				state.loading = true;
 			})
 			.addCase(

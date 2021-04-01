@@ -45,27 +45,6 @@ export class Dashboard extends React.Component<IProps, State> {
 		tasks: [],
 	};
 
-	static getDerivedStateFromProps(props: IProps, state: State): State {
-		const partyError = props.parties.error ? props.parties.error : '';
-		if (
-			state.partyError !== props.parties.error ||
-			state.parties !== props.parties.parties
-		) {
-			return {
-				...state,
-				partyError,
-				parties: props.parties.parties,
-			};
-		}
-		return state;
-	}
-
-	getParties = (): void => {
-		this.setState({ partyLoading: true });
-		this.props.getParties(this.props.user.userName);
-		this.setState({ partyLoading: false });
-	};
-
 	addTask = (taskToAdd: TaskToAdd): void => {
 		console.log(taskToAdd.taskdue);
 		const taskduedate = taskToAdd.taskdue;
@@ -73,7 +52,7 @@ export class Dashboard extends React.Component<IProps, State> {
 		const task = {
 			...taskToAdd,
 			taskduedate,
-			taskcreator: this.props.user.userName
+			taskcreator: this.props.user.userName,
 		};
 		this.props.addTask(task);
 		console.log(task);
@@ -96,23 +75,13 @@ export class Dashboard extends React.Component<IProps, State> {
 					<div className={styles.parties}>
 						<h1>My Parties</h1>
 						<Link to={'/create'}> Create a party</Link>
-						{this.state.partyLoading ? (
-							<p>Loading...</p>
-						) : (
-							<MyParties
-								error={this.state.partyError}
-								getParties={this.getParties}
-							/>
-						)}
+						<MyParties
+						/>
 					</div>
 					<div className={styles.todos}>
 						<h1>My Tasks</h1>
 						<button onClick={this.openModal}>Add Task</button>
-						{this.state.todoLoading ? (
-							<p>Loading...</p>
-						) : (
-							<MyTodos />
-						)}
+						<MyTodos />
 					</div>
 				</div>
 				<ReactModal isOpen={this.state.modalOpen}>

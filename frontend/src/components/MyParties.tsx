@@ -1,23 +1,26 @@
-import * as React from 'react';
+import React, { useEffect } from 'react';
 import styles from './MyParties.module.scss';
+import { useDispatch, useSelector } from 'react-redux';
+import { Store } from '../redux/store';
+import { getParties } from '../redux/party-slice';
 
-type Props = {
-	getParties: () => void;
-	error: string;
+const MyParties = (): JSX.Element => {
+	const id = useSelector((state: Store) => state.user.id);
+	const error = useSelector((state: Store) => state.parties.error);
+	const parties = useSelector((state: Store) => state.parties.parties);
+	const loading = useSelector((state: Store) => state.parties.loading);
+	const dispatch = useDispatch();
+
+	useEffect(() => {
+		dispatch(getParties(id));
+	}, []);
+
+	return (
+		<>
+			{error ? <p className={styles.error}>{error}</p> : null}
+			{loading ? <p>Loading...</p> : null}
+			{parties.length > 0 ? <p>Party goes here</p> : null}
+		</>
+	);
 };
-
-class MyParties extends React.Component<Props, unknown> {
-	componentDidMount(): void {
-		this.props.getParties();
-	}
-
-	render(): React.ReactNode {
-		return (
-			<>
-				{this.props.error ? <p className={styles.error}>{this.props.error}</p> : null}
-			</>
-		);
-	}
-}
-
 export default MyParties;

@@ -6,11 +6,13 @@ const apiRoute = process.env.REACT_APP_BACKEND_URL || '';
 export type PartyState = {
 	parties: any[];
 	error: string;
+	loading: boolean;
 };
 
-const initialState: PartyState = {
+export const initialState: PartyState = {
 	parties: [],
 	error: '',
+	loading: false,
 };
 
 export const getParties = createAsyncThunk(
@@ -40,10 +42,14 @@ const partySlice = createSlice({
 	extraReducers: (builder) => {
 		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 		// @ts-ignore
-		builder
+		builder.addCase(getParties.pending, (state: PartyState) => {
+			state.loading = true;
+			state.error = '';
+		})
 			.addCase(
 				getParties.fulfilled,
 				(state: PartyState, action: PayloadAction<any>) => {
+					state.loading = false;
 					state.parties = action.payload;
 					state.error = '';
 				}
@@ -51,6 +57,7 @@ const partySlice = createSlice({
 			.addCase(
 				getParties.rejected,
 				(state: PartyState, action: PayloadAction<string>) => {
+					state.loading = false;
 					state.error = action.payload;
 				}
 			);
