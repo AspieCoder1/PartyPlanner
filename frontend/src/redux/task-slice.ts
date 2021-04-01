@@ -1,6 +1,8 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 
+const apiRoute = process.env.REACT_APP_BACKEND_URL || '';
+
 export type Task = {
 	id: string;
 	taskname: string;
@@ -31,7 +33,7 @@ export const getTasks = createAsyncThunk(
 	'tasks/getTasks',
 	async (id: string, thunkAPI) => {
 		try {
-			const { data } = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/todos/my-tasks/${id}`);
+			const { data } = await axios.get(`${apiRoute}/api/todos/my-tasks/${id}`);
 			return data;
 		} catch (err) {
 			let msg = 'Oops something went wrong';
@@ -47,7 +49,7 @@ export const addTask = createAsyncThunk(
 	'tasks/createTask',
 	async (taskToAdd: TaskToAdd, thunkAPI) => {
 		try {
-			const { data } = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/todos/create`, taskToAdd);
+			const { data } = await axios.post(`${apiRoute}/api/todos/create`, taskToAdd);
 			return data;
 		} catch (err) {
 			let msg = 'Oops something went wrong';

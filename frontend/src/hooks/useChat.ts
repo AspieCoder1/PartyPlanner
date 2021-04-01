@@ -12,12 +12,13 @@ type HookReturn = {
 };
 
 const useChat = (chatID: string, userName: string): HookReturn => {
-	console.log(userName);
 	const [messages, setMessages] = useState<Message[]>([]);
 	const socketRef = useRef<Socket>();
 
 	useEffect(() => {
-		socketRef.current = io(`${process.env.REACT_APP_CHAT_URL}`);
+		const socketURL = process.env.REACT_APP_CHAT_URL || '';
+		console.log(socketURL);
+		socketRef.current = io(`${socketURL}`);
 		socketRef.current?.emit('join', chatID);
 
 		socketRef.current.on('hello', () => {

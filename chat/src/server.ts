@@ -18,6 +18,8 @@ type NewMessageEvent = {
 	room: string;
 };
 
+const port = process.env.PORT || 9001;
+
 io.on('connection', (socket: Socket) => {
 	console.log(`Connected to socket ${socket.id}`);
 
@@ -30,4 +32,4 @@ io.on('connection', (socket: Socket) => {
 	});
 });
 
-httpServer.listen(9001);
+httpServer.listen(port);

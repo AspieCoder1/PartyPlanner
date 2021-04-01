@@ -21,6 +21,7 @@ services:
       - '80:80'
     depends_on:
       - backend
+      - chat
   backend:
     build:
       context: ./api
@@ -35,9 +36,13 @@ services:
     build:
       context: ./chat
       dockerfile: Dockerfile
+    networks:
+      - frontend
     env_file:
       - ./compose.env
     expose:
       - '5000'
+    environment:
+      - PORT=5000
 networks:
   frontend:

@@ -1,6 +1,8 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 
+const apiRoute = process.env.REACT_APP_BACKEND_URL || '';
+
 export type PartyState = {
 	parties: any[];
 	error: string;
@@ -15,7 +17,7 @@ export const getParties = createAsyncThunk(
 	'parties/getParties',
 	async (id: string, thunkAPI) => {
 		try {
-			const { data } = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/parties/invited-parties/${id}`);
+			const { data } = await axios.get(`${apiRoute}/api/parties/invited-parties/${id}`);
 			return data;
 		} catch (err) {
 			let msg = 'Oops something went wrong';
