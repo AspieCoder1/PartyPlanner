@@ -20,11 +20,13 @@ type TaskToAdd = {
 };
 
 export type TaskState = {
+	loading: boolean;
 	tasks: Task[];
 	error: string;
 };
 
 export const initialState = {
+	loading: false,
 	tasks: [],
 	error: '',
 };
@@ -77,16 +79,21 @@ const taskSlice = createSlice({
 	extraReducers: (builder) =>
 		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 		// @ts-ignore
-		builder
+		builder.addCase(getTasks.pending, (state: TaskState) => {
+			state.loading = true;
+		})
 			.addCase(
 				getTasks.fulfilled,
 				(state: TaskState, action: PayloadAction<Task[]>) => {
+					state.loading = false;
 					state.tasks = action.payload;
 				}
 			)
 			.addCase(
 				getTasks.rejected,
 				(state: TaskState, action: PayloadAction<string>) => {
+					state.loading = false;
+					console.log(action.payload);
 					state.error = action.payload;
 				}
 			)

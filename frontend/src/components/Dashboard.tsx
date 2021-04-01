@@ -126,9 +126,9 @@ export class Dashboard extends React.Component<IProps, State> {
 							<p>Loading...</p>
 						) : (
 							<MyTodos
-								getTodos={this.getTasks}
-								error={this.state.todoError}
-								tasks={this.state.tasks}
+								// getTodos={this.getTasks}
+								// error={this.state.todoError}
+								// tasks={this.state.tasks}
 							/>
 						)}
 					</div>
