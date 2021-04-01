@@ -48,7 +48,6 @@ const initialState: PartyState = {
 	error: '',
 };
 
-<<<<<<< HEAD
 export const createParty = createAsyncThunk(
   'parties/createParty',
   async (newParty: NewPartyState, thunkAPI) => {
@@ -61,9 +60,6 @@ export const createParty = createAsyncThunk(
     }
   }
 );
-=======
-// export const addParty
->>>>>>> 448f85c4fe6ba09e9f700305b6506b15a17a4c4d
 
 export const getParties = createAsyncThunk(
 	'parties/getParties',
@@ -92,7 +88,6 @@ const partySlice = createSlice({
 	extraReducers: (builder) => {
 		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 		// @ts-ignore
-<<<<<<< HEAD
     builder
       .addCase(
         getParties.fulfilled,
@@ -113,22 +108,6 @@ const partySlice = createSlice({
           state.parties.push(action.payload);
         }
       );
-=======
-		builder
-			.addCase(
-				getParties.fulfilled,
-				(state: PartyState, action: PayloadAction<any[]>) => {
-					state.parties = action.payload;
-					state.error = '';
-				}
-			)
-			.addCase(
-				getParties.rejected,
-				(state: PartyState, action: PayloadAction<string>) => {
-					state.error = action.payload;
-				}
-			);
->>>>>>> 448f85c4fe6ba09e9f700305b6506b15a17a4c4d
 	},
 });
 
