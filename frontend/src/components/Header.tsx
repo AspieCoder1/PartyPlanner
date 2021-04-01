@@ -7,7 +7,9 @@ const Header = () => {
 		<header className={styles.header}>
 			<div className={styles.container}>
 				{/*console.log(logo);*/}
-				<div className={styles.title}><img src={logo} alt="PartyPlanner.io" /></div>
+				<div className={styles.title}>
+					<img src={logo} alt='PartyPlanner.io' />
+				</div>
 				<div className={styles.headerButtons}>
 					<button className={styles.logoutButton}>log out</button>
 				</div>

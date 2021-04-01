@@ -40,7 +40,7 @@ const useChat = (chatID: string, userName: string): HookReturn => {
 
 	const sendMessage = (msgBody: Message): void => {
 		setMessages((messages) => [...messages, msgBody]);
-		const {body} = msgBody;
+		const { body } = msgBody;
 		socketRef.current?.emit('new_msg', {
 			msg: { body, user: userName },
 			room: chatID,

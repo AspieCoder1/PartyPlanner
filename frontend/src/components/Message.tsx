@@ -19,20 +19,15 @@ const Message = ({ msg }: Props): JSX.Element => {
 		return (
 			<div className={styles.message}>
 				<p className={styles.messageName}>{user}</p>
-				<p className={styles.messageText}>
-					{body}
-				</p>
+				<p className={styles.messageText}>{body}</p>
 			</div>
 		);
 	} else {
 		return (
 			<div className={styles.otherUserMessage}>
 				<p className={styles.messageOtherName}>{user}</p>
-				<p className={styles.messageOtherText}>
-					{body}
-				</p>
+				<p className={styles.messageOtherText}>{body}</p>
 			</div>
-
 		);
 	}
 };

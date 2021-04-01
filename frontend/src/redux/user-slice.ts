@@ -38,7 +38,10 @@ export const registerUser = createAsyncThunk(
 	'users/registerUser',
 	async (newUser: RegisterUser, thunkAPI) => {
 		try {
-			const { data } = await axios.post(`${apiRoute}/api/users/register`, newUser);
+			const { data } = await axios.post(
+				`${apiRoute}/api/users/register`,
+				newUser
+			);
 			return data;
 		} catch (err) {
 			const data: UserErrors = err.response.data as UserErrors;
@@ -79,7 +82,7 @@ const userSlice = createSlice({
 		},
 		logOut: (state: UserState) => {
 			state = initialState;
-		}
+		},
 	},
 	extraReducers: (builder) => {
 		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -106,7 +109,12 @@ const userSlice = createSlice({
 				loginUser.fulfilled,
 				(
 					state: UserState,
-					action: PayloadAction<{ success: boolean; token: string; id: string; userName: string; }>
+					action: PayloadAction<{
+						success: boolean;
+						token: string;
+						id: string;
+						userName: string;
+					}>
 				) => {
 					state.token = action.payload.token;
 					state.id = action.payload.id;

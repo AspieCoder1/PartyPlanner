@@ -19,7 +19,9 @@ export const getParties = createAsyncThunk(
 	'parties/getParties',
 	async (id: string, thunkAPI) => {
 		try {
-			const { data } = await axios.get(`${apiRoute}/api/parties/invited-parties/${id}`);
+			const { data } = await axios.get(
+				`${apiRoute}/api/parties/invited-parties/${id}`
+			);
 			return data;
 		} catch (err) {
 			let msg = 'Oops something went wrong';
@@ -42,10 +44,11 @@ const partySlice = createSlice({
 	extraReducers: (builder) => {
 		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 		// @ts-ignore
-		builder.addCase(getParties.pending, (state: PartyState) => {
-			state.loading = true;
-			state.error = '';
-		})
+		builder
+			.addCase(getParties.pending, (state: PartyState) => {
+				state.loading = true;
+				state.error = '';
+			})
 			.addCase(
 				getParties.fulfilled,
 				(state: PartyState, action: PayloadAction<any>) => {

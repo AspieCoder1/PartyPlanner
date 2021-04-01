@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 import MyTodos from './MyTodos';
 import ReactModal from 'react-modal';
 import { AddTaskForm } from './AddTaskForm';
-import {addTask} from '../redux/task-slice';
+import { addTask } from '../redux/task-slice';
 
 type TaskToAdd = {
 	taskname: string;
