@@ -17,23 +17,20 @@ const useChat = (chatID: string, userName: string): HookReturn => {
 
 	useEffect(() => {
 		const socketURL = process.env.REACT_APP_CHAT_URL || '';
-		console.log(socketURL);
 		socketRef.current = io(`${socketURL}`);
 		socketRef.current?.emit('join', chatID);
 
-		socketRef.current.on('hello', () => {
-			console.log('hello from server');
-		});
+		// socketRef.current.on('hello', () => {
+		// 	console.log('hello from server');
+		// });
 
 		socketRef.current?.on('new_msg', (msg: Message) => {
-			console.log(msg);
 			setMessages((messages) => [...messages, msg]);
 		});
 
 		// This now disconnects the socket and cleans everything up
 		// Prevents us from having a hanging connection
 		return () => {
-			console.log('disconnecting');
 			socketRef.current?.disconnect();
 		};
 	}, [chatID]);

@@ -15,7 +15,7 @@ const Chat = (): JSX.Element => {
 	const { messages, sendMessage } = useChat(id, userName);
 	const [newMessage, setNewMessage] = React.useState<string>('');
 
-	const handleNewMessageChange = (e: any) => {
+	const handleNewMessageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setNewMessage(e.target.value);
 	};
 

@@ -45,10 +45,7 @@ export const AddTaskForm = (props: IProps): JSX.Element => {
 
 	const formik = useFormik({
 		initialValues: initialValues,
-		onSubmit: async (
-			values: AddTaskFormValues,
-			{ setSubmitting, setStatus }
-		) => {
+		onSubmit: async (values: AddTaskFormValues, { setSubmitting }) => {
 			setSubmitting(true);
 			props.onSubmit(values);
 			setSubmitting(false);

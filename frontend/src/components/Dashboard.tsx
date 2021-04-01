@@ -31,13 +31,11 @@ const Dashboard = (): JSX.Element => {
 
 	const onSubmit = (taskToAdd: TaskToAdd): void => {
 		const taskduedate = taskToAdd.taskdue;
-
 		const task = {
 			...taskToAdd,
 			taskduedate,
 			taskcreator: userName,
 		};
-		console.log(task);
 		dispatch(addTask(task));
 	};
 

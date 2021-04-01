@@ -55,7 +55,6 @@ export const loginUser = createAsyncThunk(
 	async (newUser: LoginUser, thunkAPI) => {
 		try {
 			const { data } = await axios.post(`${apiRoute}/api/users/login`, newUser);
-			console.log(data);
 			return data;
 		} catch (err) {
 			const data: UserErrors = err.response.data as UserErrors;
@@ -81,7 +80,10 @@ const userSlice = createSlice({
 			state.errors = action.payload;
 		},
 		logOut: (state: UserState) => {
-			state = initialState;
+			state.errors = {};
+			state.userName = '';
+			state.token = '';
+			state.id = '';
 		},
 	},
 	extraReducers: (builder) => {

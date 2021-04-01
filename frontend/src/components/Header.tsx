@@ -2,11 +2,10 @@ import * as React from 'react';
 import styles from './Header.module.scss';
 import logo from '../img/partyplanner.png';
 
-const Header = () => {
+const Header = (): JSX.Element => {
 	return (
 		<header className={styles.header}>
 			<div className={styles.container}>
-				{/*console.log(logo);*/}
 				<div className={styles.title}>
 					<img src={logo} alt='PartyPlanner.io' />
 				</div>

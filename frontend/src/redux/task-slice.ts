@@ -55,7 +55,6 @@ export const addTask = createAsyncThunk(
 				`${apiRoute}/api/todos/create`,
 				taskToAdd
 			);
-			console.log(data);
 			return data;
 		} catch (err) {
 			let msg = 'Oops something went wrong';
