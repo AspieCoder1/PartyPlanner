@@ -20,8 +20,6 @@ const MyTodos = (): JSX.Element => {
 	return (
 		<div>
 			{error ? <p className={styles.error}>{error}</p> : null}
-			{console.log(tasks)}
-			{console.log(error)}
 			{tasksLoading ? <div>Loading...</div> : null}
 			{tasks.length > 0
 				? tasks.map((task: TaskType) => <Task key={task.id} task={task} />)

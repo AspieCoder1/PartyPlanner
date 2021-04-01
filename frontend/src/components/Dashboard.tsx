@@ -21,7 +21,6 @@ type TaskToAdd = {
 type IProps = {
 	user: UserState;
 	parties: PartyState;
-	todos: TaskState;
 	getParties: (id: string) => void;
 	getTasks: (id: string) => void;
 	addTask: (taskToAdd: TaskToAdd) => void;
@@ -31,7 +30,6 @@ type State = {
 	partyLoading: boolean;
 	todoLoading: boolean;
 	partyError: string;
-	todoError: string;
 	modalOpen: boolean;
 	parties: any[];
 	tasks: any[];
@@ -42,7 +40,6 @@ export class Dashboard extends React.Component<IProps, State> {
 		partyLoading: false,
 		todoLoading: false,
 		partyError: '',
-		todoError: '',
 		modalOpen: false,
 		parties: [],
 		tasks: [],
@@ -50,19 +47,14 @@ export class Dashboard extends React.Component<IProps, State> {
 
 	static getDerivedStateFromProps(props: IProps, state: State): State {
 		const partyError = props.parties.error ? props.parties.error : '';
-		const todoError = props.todos.error ? props.todos.error : '';
 		if (
 			state.partyError !== props.parties.error ||
-			state.todoError !== props.todos.error ||
-			state.tasks !== props.todos.tasks ||
 			state.parties !== props.parties.parties
 		) {
 			return {
 				...state,
 				partyError,
-				todoError,
 				parties: props.parties.parties,
-				tasks: props.todos.tasks,
 			};
 		}
 		return state;
@@ -72,12 +64,6 @@ export class Dashboard extends React.Component<IProps, State> {
 		this.setState({ partyLoading: true });
 		this.props.getParties(this.props.user.userName);
 		this.setState({ partyLoading: false });
-	};
-
-	getTasks = (): void => {
-		this.setState({ todoLoading: true });
-		this.props.getTasks(this.props.user.userName);
-		this.setState({ todoLoading: false });
 	};
 
 	addTask = (taskToAdd: TaskToAdd): void => {
@@ -125,11 +111,7 @@ export class Dashboard extends React.Component<IProps, State> {
 						{this.state.todoLoading ? (
 							<p>Loading...</p>
 						) : (
-							<MyTodos
-								// getTodos={this.getTasks}
-								// error={this.state.todoError}
-								// tasks={this.state.tasks}
-							/>
+							<MyTodos />
 						)}
 					</div>
 				</div>
@@ -144,7 +126,6 @@ export class Dashboard extends React.Component<IProps, State> {
 const mapStateToProps = (state: Store) => ({
 	user: state.user,
 	parties: state.parties,
-	todos: state.todos,
 });
 const mapDispatchToProps = {
 	getParties,

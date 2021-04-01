@@ -51,7 +51,10 @@ export const addTask = createAsyncThunk(
 	'tasks/createTask',
 	async (taskToAdd: TaskToAdd, thunkAPI) => {
 		try {
-			const { data } = await axios.post(`${apiRoute}/api/todos/create`, taskToAdd);
+			const { data } = await axios.post(
+				`${apiRoute}/api/todos/create`,
+				taskToAdd
+			);
 			return data;
 		} catch (err) {
 			let msg = 'Oops something went wrong';
@@ -72,16 +75,16 @@ const taskSlice = createSlice({
 			state.error = action.payload;
 		},
 		setTodos: (state: TaskState, action: PayloadAction<Task[]>) => {
-			console.log(action.payload);
 			state.tasks = action.payload;
 		},
 	},
 	extraReducers: (builder) =>
 		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 		// @ts-ignore
-		builder.addCase(getTasks.pending, (state: TaskState) => {
-			state.loading = true;
-		})
+		builder
+			.addCase(getTasks.pending, (state: TaskState) => {
+				state.loading = true;
+			})
 			.addCase(
 				getTasks.fulfilled,
 				(state: TaskState, action: PayloadAction<Task[]>) => {
@@ -93,14 +96,12 @@ const taskSlice = createSlice({
 				getTasks.rejected,
 				(state: TaskState, action: PayloadAction<string>) => {
 					state.loading = false;
-					console.log(action.payload);
 					state.error = action.payload;
 				}
 			)
 			.addCase(
 				addTask.fulfilled,
 				(state: TaskState, action: PayloadAction<Task>) => {
-
 					state.tasks.push(action.payload);
 				}
 			),
