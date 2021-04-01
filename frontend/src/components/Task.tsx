@@ -11,17 +11,22 @@ type Props = {
 };
 
 const handleCompleted = (completed: boolean) => {
-	return completed ? <p className={styles.taskCompleted}>Completed</p> : <p className={styles.notCompleted}>Not completed</p>;
+	return completed ? (
+		<p className={styles.taskCompleted}>Completed</p>
+	) : (
+		<p className={styles.notCompleted}>Not completed</p>
+	);
 };
 
-export const Task = ({ task }: Props) => {
-	console.log(`Task: ${task}`);
+export const Task = ({ task }: Props): JSX.Element => {
 	return (
 		<div key={task.id} className={styles.taskContainer}>
 			{handleCompleted(task.taskcompleted)}
 			<p className={styles.taskText}>{task.taskname}</p>
 			<p className={styles.taskText}>
-				{task.taskduedate ? dayjs(task.taskduedate).from(Date.now()) : 'N/A'}
+				{task.taskduedate
+					? `due ${dayjs(task.taskduedate).from(Date.now())}`
+					: 'N/A'}
 			</p>
 		</div>
 	);

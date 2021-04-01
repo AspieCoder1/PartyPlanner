@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 import MyTodos from './MyTodos';
 import ReactModal from 'react-modal';
 import { AddTaskForm } from './AddTaskForm';
+import {addTask} from '../redux/task-slice';
 
 type TaskToAdd = {
 	taskname: string;
@@ -28,7 +29,7 @@ const Dashboard = (): JSX.Element => {
 		setModalOpen(true);
 	};
 
-	const addTask = (taskToAdd: TaskToAdd): void => {
+	const onSubmit = (taskToAdd: TaskToAdd): void => {
 		const taskduedate = taskToAdd.taskdue;
 
 		const task = {
@@ -36,8 +37,8 @@ const Dashboard = (): JSX.Element => {
 			taskduedate,
 			taskcreator: userName,
 		};
-		dispatch(addTask(task));
 		console.log(task);
+		dispatch(addTask(task));
 	};
 
 	return (
@@ -57,7 +58,7 @@ const Dashboard = (): JSX.Element => {
 				</div>
 			</div>
 			<ReactModal isOpen={modalOpen}>
-				<AddTaskForm closeModal={closeModal} onSubmit={addTask} />
+				<AddTaskForm closeModal={closeModal} onSubmit={onSubmit} />
 			</ReactModal>
 		</>
 	);

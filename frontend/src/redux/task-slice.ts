@@ -55,6 +55,7 @@ export const addTask = createAsyncThunk(
 				`${apiRoute}/api/todos/create`,
 				taskToAdd
 			);
+			console.log(data);
 			return data;
 		} catch (err) {
 			let msg = 'Oops something went wrong';
@@ -103,6 +104,7 @@ const taskSlice = createSlice({
 			.addCase(
 				addTask.fulfilled,
 				(state: TaskState, action: PayloadAction<Task>) => {
+					state.error = '';
 					state.tasks.push(action.payload);
 				}
 			),

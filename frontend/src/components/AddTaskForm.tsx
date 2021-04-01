@@ -50,8 +50,7 @@ export const AddTaskForm = (props: IProps): JSX.Element => {
 			{ setSubmitting, setStatus }
 		) => {
 			setSubmitting(true);
-			const errors = await props.onSubmit(values);
-			setStatus(errors);
+			props.onSubmit(values);
 			setSubmitting(false);
 		},
 		validationSchema: AddTaskSchema,
