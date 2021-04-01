@@ -1,6 +1,8 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 
+const apiRoute = process.env.REACT_APP_BACKEND_URL || '';
+
 export interface UserErrors {
 	email?: string;
 	password?: string;
@@ -36,7 +38,7 @@ export const registerUser = createAsyncThunk(
 	'users/registerUser',
 	async (newUser: RegisterUser, thunkAPI) => {
 		try {
-			const { data } = await axios.post('/api/users/register', newUser);
+			const { data } = await axios.post(`${apiRoute}/api/users/register`, newUser);
 			return data;
 		} catch (err) {
 			const data: UserErrors = err.response.data as UserErrors;
@@ -49,7 +51,7 @@ export const loginUser = createAsyncThunk(
 	'users/loginUser',
 	async (newUser: LoginUser, thunkAPI) => {
 		try {
-			const { data } = await axios.post('/api/users/login', newUser);
+			const { data } = await axios.post(`${apiRoute}/api/users/login`, newUser);
 			return data;
 		} catch (err) {
 			const data: UserErrors = err.response.data as UserErrors;
@@ -74,6 +76,9 @@ const userSlice = createSlice({
 		setErrors: (state: UserState, action: PayloadAction<UserErrors>) => {
 			state.errors = action.payload;
 		},
+		logOut: (state: UserState) => {
+			state = initialState;
+		}
 	},
 	extraReducers: (builder) => {
 		// eslint-disable-next-line @typescript-eslint/ban-ts-comment

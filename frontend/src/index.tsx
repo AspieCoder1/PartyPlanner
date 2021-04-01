@@ -30,6 +30,8 @@ if (localStorage.token) {
 	}
 }
 
+console.log(process.env);
+
 ReactDOM.render(
 	<div>
 		<Provider store={store}>

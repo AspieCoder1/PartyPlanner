@@ -4,8 +4,8 @@ COPY package.json /app/
 COPY yarn.lock /app/
 RUN yarn
 COPY ./ /app/
-# ENV REACT_APP_BACKEND_URL=$REACT_APP_BACKEND_URL
-# ENV REACT_APP_CHAT_URL=$REACT_APP_CHAT_URL
+# ENV REACT_APP_BACKEND_URL='http://backend:5000'
+# ENV REACT_APP_CHAT_URL='http://chat:9001'
 RUN yarn build
 
 FROM nginx:latest
