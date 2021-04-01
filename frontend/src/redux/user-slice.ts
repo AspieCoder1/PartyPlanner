@@ -52,6 +52,7 @@ export const loginUser = createAsyncThunk(
 	async (newUser: LoginUser, thunkAPI) => {
 		try {
 			const { data } = await axios.post(`${apiRoute}/api/users/login`, newUser);
+			console.log(data);
 			return data;
 		} catch (err) {
 			const data: UserErrors = err.response.data as UserErrors;

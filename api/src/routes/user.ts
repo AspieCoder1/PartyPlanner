@@ -92,7 +92,7 @@ userRouter.post(
 					});
 					res
 						.status(200)
-						.json({ success: true, token: `Bearer ${token}`, id: user._id });
+						.json({ success: true, token: `Bearer ${token}`, id: user._id, userName: user.username });
 				} else {
 					res.status(401).json({ password: 'password is incorrect' });
 				}
