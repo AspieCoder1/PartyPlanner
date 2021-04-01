@@ -61,7 +61,7 @@ taskRouter.get(
 			const idTofind = req.params.id;
 			const foundCreatedTasks = await Task.find({ taskcreator: idTofind });
 			if (_.isEmpty(foundCreatedTasks)) {
-				res.status(400).send('You have no tasks');
+				res.status(404).send('You have no tasks');
 			} else {
 				const results = foundCreatedTasks.map((task: ITask) => ({
 					id: task._id,
