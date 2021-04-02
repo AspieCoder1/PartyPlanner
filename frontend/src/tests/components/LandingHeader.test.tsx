@@ -16,7 +16,10 @@ describe('<LandingHeader/>', () => {
 		const clickRegister = jest.fn();
 
 		render(
-			<LandingHeader onClickLogin={clickLogin} onClickRegister={clickRegister} />
+			<LandingHeader
+				onClickLogin={clickLogin}
+				onClickRegister={clickRegister}
+			/>
 		);
 		screen.getByText('Login').click();
 		expect(clickLogin).toHaveBeenCalledTimes(1);
@@ -27,7 +30,10 @@ describe('<LandingHeader/>', () => {
 		const clickRegister = jest.fn();
 
 		render(
-			<LandingHeader onClickLogin={clickLogin} onClickRegister={clickRegister} />
+			<LandingHeader
+				onClickLogin={clickLogin}
+				onClickRegister={clickRegister}
+			/>
 		);
 		screen.getByText('Register').click();
 		expect(clickRegister).toHaveBeenCalledTimes(1);

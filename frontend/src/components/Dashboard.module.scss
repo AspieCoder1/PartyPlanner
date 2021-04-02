@@ -19,9 +19,26 @@
   grid-row: 2;
 }
 
-.todos {
+.tasks {
   grid-column: 8 / span 5;
   grid-row: 2;
   background: lighten($grey, 10);
   padding: 8px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.addbutton {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: none;
+  background: $dark-purple;
+  font-size: 24px;
+  color: white;
+  text-decoration: none;
 }

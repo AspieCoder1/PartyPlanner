@@ -31,9 +31,7 @@ export const Task = ({ task }: Props): JSX.Element => {
 					? `Due ${dayjs(task.taskduedate).from(Date.now())}`
 					: 'N/A'}
 			</p>
-			<p className={styles.taskDesc}>
-				{task.taskdesc}
-			</p>
+			<p className={styles.taskDesc}>{task.taskdesc}</p>
 		</div>
 	);
 };

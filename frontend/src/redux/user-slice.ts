@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
-import history from '../utils/history';
 
 const apiRoute = process.env.REACT_APP_BACKEND_URL || '';
 

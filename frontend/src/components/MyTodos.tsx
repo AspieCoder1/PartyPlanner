@@ -20,7 +20,7 @@ const MyTodos = (): JSX.Element => {
 	return (
 		<div className={styles.grid}>
 			{error ? <p className={styles.error}>{error}</p> : null}
-			{tasksLoading ? <p>Loading...</p> : null}
+			{tasksLoading ? <p className={styles.loading}>Loading...</p> : null}
 			{tasks.length > 0
 				? tasks.map((task: TaskType) => <Task key={task.id} task={task} />)
 				: null}

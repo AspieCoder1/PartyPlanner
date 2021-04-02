@@ -5,7 +5,7 @@ import reducer, {
 	setErrors,
 	registerUser,
 	loginUser,
-	initialState
+	initialState,
 } from '../../redux/user-slice';
 import axios from 'axios';
 import { configureStore } from '@reduxjs/toolkit';

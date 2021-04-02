@@ -49,9 +49,13 @@ const Dashboard = (): JSX.Element => {
 					<Link to={'/create'}> Create a party</Link>
 					<MyParties />
 				</div>
-				<div className={styles.todos}>
-					<h1>My Tasks</h1>
-					<button onClick={openModal}>Add Task</button>
+				<div className={styles.tasks}>
+					<div className={styles.header}>
+						<h1>My Tasks</h1>
+						<button className={styles.addbutton} onClick={openModal}>
+							+
+						</button>
+					</div>
 					<MyTodos />
 				</div>
 			</div>

@@ -3,8 +3,20 @@
 .grid {
   display: grid;
   row-gap: 8px;
+  margin-top: 8px;
 }
 
 .error {
   color: $error;
+  padding: 8px;
+  margin: 32px 0 32px 0;
+  border: $grey solid 1pt;
+  background: white;
+}
+
+.loading {
+  padding: 8px;
+  margin: 32px 0 32px 0;
+  border: $grey solid 1pt;
+  background: white;
 }
