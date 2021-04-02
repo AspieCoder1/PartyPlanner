@@ -40,7 +40,7 @@ const Dashboard = (): JSX.Element => {
 	};
 
 	return (
-		<>
+		<div className={styles.background}>
 			<Header />
 			<div className={styles.container}>
 				<h1 className={styles.title}>Hello, {userName}</h1>
@@ -58,7 +58,7 @@ const Dashboard = (): JSX.Element => {
 			<ReactModal isOpen={modalOpen}>
 				<AddTaskForm closeModal={closeModal} onSubmit={onSubmit} />
 			</ReactModal>
-		</>
+		</div>
 	);
 };
 

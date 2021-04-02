@@ -21,12 +21,18 @@ const handleCompleted = (completed: boolean) => {
 export const Task = ({ task }: Props): JSX.Element => {
 	return (
 		<div key={task.id} className={styles.taskContainer}>
-			{handleCompleted(task.taskcompleted)}
-			<p className={styles.taskText}>{task.taskname}</p>
-			<p className={styles.taskText}>
+			<div className={styles.taskHeader}>
+				<p className={styles.taskTitle}>{task.taskname}</p>
+				{handleCompleted(task.taskcompleted)}
+			</div>
+
+			<p className={styles.taskDate}>
 				{task.taskduedate
-					? `due ${dayjs(task.taskduedate).from(Date.now())}`
+					? `Due ${dayjs(task.taskduedate).from(Date.now())}`
 					: 'N/A'}
+			</p>
+			<p className={styles.taskDesc}>
+				{task.taskdesc}
 			</p>
 		</div>
 	);

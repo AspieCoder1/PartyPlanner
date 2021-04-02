@@ -18,7 +18,7 @@ const MyTodos = (): JSX.Element => {
 	}, []);
 
 	return (
-		<div>
+		<div className={styles.grid}>
 			{error ? <p className={styles.error}>{error}</p> : null}
 			{tasksLoading ? <p>Loading...</p> : null}
 			{tasks.length > 0
