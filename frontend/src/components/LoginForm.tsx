@@ -5,7 +5,6 @@ import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
 import { Store } from '../redux/store';
 import { loginUser, UserErrors } from '../redux/user-slice';
-import { closeButton, submitButton } from './buttonStyles';
 
 type IProps = {
 	closeModal: () => void;
@@ -45,8 +44,7 @@ export const LoginForm = (props: IProps): JSX.Element => {
 			<div className={styles.header}>
 				<h1>Log In</h1>
 				<button
-					style={closeButton}
-					className={styles.closeButton}
+					className={styles.closebutton}
 					onClick={props.closeModal}
 				>
 					&times;
@@ -96,8 +94,7 @@ export const LoginForm = (props: IProps): JSX.Element => {
 				)}
 				<button
 					data-testid='submitButton'
-					style={submitButton}
-					className={styles.buttonSubmit}
+					className={styles.buttonsubmit}
 					type='submit'
 					disabled={formik.isSubmitting}
 				>

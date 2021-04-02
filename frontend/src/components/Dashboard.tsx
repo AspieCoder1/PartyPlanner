@@ -10,14 +10,7 @@ import ReactModal from 'react-modal';
 import { AddTaskForm } from './AddTaskForm';
 import { addTask } from '../redux/task-slice';
 
-type TaskToAdd = {
-	taskname: string;
-	taskdesc: string;
-	taskdue: string;
-};
-
 const Dashboard = (): JSX.Element => {
-	const dispatch = useDispatch();
 	const userName = useSelector((state: Store) => state.user.userName);
 	const [modalOpen, setModalOpen] = useState<boolean>(false);
 
@@ -27,16 +20,6 @@ const Dashboard = (): JSX.Element => {
 
 	const openModal = () => {
 		setModalOpen(true);
-	};
-
-	const onSubmit = (taskToAdd: TaskToAdd): void => {
-		const taskduedate = taskToAdd.taskdue;
-		const task = {
-			...taskToAdd,
-			taskduedate,
-			taskcreator: userName,
-		};
-		dispatch(addTask(task));
 	};
 
 	return (
@@ -60,7 +43,7 @@ const Dashboard = (): JSX.Element => {
 				</div>
 			</div>
 			<ReactModal isOpen={modalOpen}>
-				<AddTaskForm closeModal={closeModal} onSubmit={onSubmit} />
+				<AddTaskForm closeModal={closeModal}/>
 			</ReactModal>
 		</div>
 	);

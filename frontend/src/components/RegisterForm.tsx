@@ -55,8 +55,7 @@ export const RegisterForm = (props: IProps): JSX.Element => {
 			<div className={styles.header}>
 				<h1>Register</h1>
 				<button
-					style={closeButton}
-					className={styles.closeModal}
+					className={styles.closebutton}
 					onClick={props.closeModal}
 				>
 					&times;
@@ -127,7 +126,7 @@ export const RegisterForm = (props: IProps): JSX.Element => {
 				<button
 					data-testid='submitButton'
 					id='submit'
-					style={submitButton}
+					className={styles.buttonsubmit}
 					type='submit'
 					disabled={formik.isSubmitting}
 				>

@@ -2,11 +2,12 @@ import * as React from 'react';
 import { useFormik } from 'formik';
 import styles from './AddTaskForm.module.scss';
 import * as Yup from 'yup';
-import { closeButton, submitButton } from './buttonStyles';
+import { useDispatch, useSelector } from 'react-redux';
+import { Store } from '../redux/store';
+import { addTask } from '../redux/task-slice';
 
 type IProps = {
 	closeModal: () => void;
-	onSubmit: (user: AddTaskFormValues) => void;
 };
 
 interface AddTaskFormValues {
@@ -15,7 +16,19 @@ interface AddTaskFormValues {
 	taskdue: string;
 }
 
-export const AddTaskForm = (props: IProps): JSX.Element => {
+export const AddTaskForm = ({closeModal}: IProps): JSX.Element => {
+	const dispatch = useDispatch();
+	const userName = useSelector((state: Store) => state.user.userName);
+
+	const getValues = (taskToAdd: AddTaskFormValues) => {
+		const taskduedate = taskToAdd.taskdue;
+		return {
+			...taskToAdd,
+			taskduedate,
+			taskcreator: userName,
+		};
+	};
+
 	const initialValues: AddTaskFormValues = {
 		taskname: '',
 		taskdesc: '',
@@ -31,8 +44,10 @@ export const AddTaskForm = (props: IProps): JSX.Element => {
 		initialValues: initialValues,
 		onSubmit: async (values: AddTaskFormValues, { setSubmitting }) => {
 			setSubmitting(true);
-			props.onSubmit(values);
+			const taskToAdd = getValues(values);
+			await dispatch(addTask(taskToAdd));
 			setSubmitting(false);
+			closeModal();
 		},
 		validationSchema: AddTaskSchema,
 	});
@@ -41,9 +56,8 @@ export const AddTaskForm = (props: IProps): JSX.Element => {
 			<div className={styles.header}>
 				<h1>Create Task</h1>
 				<button
-					style={closeButton}
-					className={styles.closeModal}
-					onClick={props.closeModal}
+					className={styles.closebutton}
+					onClick={closeModal}
 				>
 					&times;
 				</button>
@@ -76,7 +90,7 @@ export const AddTaskForm = (props: IProps): JSX.Element => {
 				<button
 					data-testid='submitButton'
 					id='submit'
-					style={submitButton}
+					className={styles.buttonsubmit}
 					type='submit'
 					disabled={formik.isSubmitting}
 				>
