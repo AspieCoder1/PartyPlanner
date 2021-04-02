@@ -96,24 +96,20 @@ const Landing = (): JSX.Element => {
 				overlayClassName={styles.overlay}
 				className={styles.modal}
 				isOpen={loginModalOpen}
-				appElement={document.getElementById('login-form') as HTMLElement}
+				ariaHideApp={false}
 			>
-				<div id='login-form'>
-					<LoginForm closeModal={closeLoginModal} onSubmit={onLoginSubmit} />
-				</div>
+				<LoginForm closeModal={closeLoginModal} onSubmit={onLoginSubmit} />
 			</ReactModal>
 			<ReactModal
 				overlayClassName={styles.overlay}
 				className={styles.modal}
 				isOpen={registerModalOpen}
-				appElement={document.getElementById('register-form') as HTMLElement}
+				ariaHideApp={false}
 			>
-				<div id='register-form'>
-					<RegisterForm
-						closeModal={closeRegisterModal}
-						onSubmit={onRegisterSubmit}
-					/>
-				</div>
+				<RegisterForm
+					closeModal={closeRegisterModal}
+					onSubmit={onRegisterSubmit}
+				/>
 			</ReactModal>
 		</>
 	);
