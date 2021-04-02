@@ -6,7 +6,7 @@ import { MemoryRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from '../../redux/store';
 
-describe('Test dashboard component', () => {
+describe('<Dashboard/>', () => {
 	it('should render username correctly', () => {
 		render(
 			<Provider store={store}>

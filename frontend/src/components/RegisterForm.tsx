@@ -2,26 +2,10 @@ import * as React from 'react';
 import { useFormik } from 'formik';
 import styles from './LoginForm.module.scss';
 import * as Yup from 'yup';
-import CSS from 'csstype';
 import { useDispatch, useSelector } from 'react-redux';
 import { Store } from '../redux/store';
 import { registerUser } from '../redux/user-slice';
-
-const buttonStyles: CSS.Properties = {
-	color: '#ddd9da',
-	border: 'none',
-	background: 'none',
-	fontSize: '24px',
-};
-
-const submitButton: CSS.Properties = {
-	background: '#6f3473',
-	border: 'none',
-	color: 'white',
-	fontSize: '24px',
-	marginTop: '16px',
-	padding: '8px',
-};
+import { closeButton, submitButton } from './buttonStyles';
 
 interface RegisterFormValues {
 	email: string;
@@ -71,7 +55,7 @@ export const RegisterForm = (props: IProps): JSX.Element => {
 			<div className={styles.header}>
 				<h1>Register</h1>
 				<button
-					style={buttonStyles}
+					style={closeButton}
 					className={styles.closeModal}
 					onClick={props.closeModal}
 				>
