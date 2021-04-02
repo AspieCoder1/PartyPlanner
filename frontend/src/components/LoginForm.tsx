@@ -3,6 +3,9 @@ import { useFormik } from 'formik';
 import styles from './LoginForm.module.scss';
 import * as Yup from 'yup';
 import CSS from 'csstype';
+import { useDispatch, useSelector } from 'react-redux';
+import { Store } from '../redux/store';
+import { loginUser, UserErrors } from '../redux/user-slice';
 
 const buttonStyles: CSS.Properties = {
 	color: '#ddd9da',
@@ -22,7 +25,6 @@ const submitButton: CSS.Properties = {
 
 type IProps = {
 	closeModal: () => void;
-	onSubmit: (user: LoginFormValues) => void;
 };
 
 interface LoginFormValues {
@@ -31,6 +33,9 @@ interface LoginFormValues {
 }
 
 export const LoginForm = (props: IProps): JSX.Element => {
+	const dispatch = useDispatch();
+	const errors: UserErrors = useSelector((state: Store) => state.user.errors);
+
 	const initialValues: LoginFormValues = {
 		email: '',
 		password: '',
@@ -43,10 +48,9 @@ export const LoginForm = (props: IProps): JSX.Element => {
 
 	const formik = useFormik({
 		initialValues: initialValues,
-		onSubmit: async (values: LoginFormValues, { setSubmitting, setStatus }) => {
+		onSubmit: async (values: LoginFormValues, { setSubmitting }) => {
 			setSubmitting(true);
-			const errors = await props.onSubmit(values);
-			setStatus(errors);
+			await dispatch(loginUser(values));
 			setSubmitting(false);
 		},
 		validationSchema: LoginSchema,
@@ -74,9 +78,9 @@ export const LoginForm = (props: IProps): JSX.Element => {
 					onChange={formik.handleChange}
 					value={formik.values.email}
 				/>
-				{formik.status && formik.status.email ? (
+				{errors.email ? (
 					<p id='emailError' className={styles.error}>
-						{formik.status.email}
+						{errors.email}
 					</p>
 				) : (
 					formik.errors.email &&
@@ -94,9 +98,9 @@ export const LoginForm = (props: IProps): JSX.Element => {
 					onChange={formik.handleChange}
 					value={formik.values.password}
 				/>
-				{formik.status && formik.status.password ? (
+				{errors.password ? (
 					<p id='emailError' className={styles.error}>
-						{formik.status.password}
+						{errors.password}
 					</p>
 				) : (
 					formik.errors.password &&

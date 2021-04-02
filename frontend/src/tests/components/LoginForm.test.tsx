@@ -2,13 +2,23 @@ import * as React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { LoginForm } from '../../components/LoginForm';
+import { Provider } from 'react-redux';
+import { setErrors } from '../../redux/user-slice';
+
+import store from '../../redux/store';
 
 describe('LoginForm component', () => {
-	it('Should display error if email and password not provided', async () => {
-		const closeModel = jest.fn();
-		const onSubmit = jest.fn();
+	const renderForm = (closeModal: jest.Mock) =>
+		render(
+			<Provider store={store}>
+				<LoginForm closeModal={closeModal} />
+			</Provider>
+		);
 
-		render(<LoginForm closeModal={closeModel} onSubmit={onSubmit} />);
+	it('Should display error if email and password not provided', async () => {
+		const closeModal = jest.fn();
+
+		renderForm(closeModal);
 
 		fireEvent.click(screen.getByTestId('submitButton'));
 
@@ -18,10 +28,9 @@ describe('LoginForm component', () => {
 	});
 
 	it('Should display error if email is invalid', async () => {
-		const closeModel = jest.fn();
-		const onSubmit = jest.fn();
+		const closeModal = jest.fn();
 
-		render(<LoginForm closeModal={closeModel} onSubmit={onSubmit} />);
+		renderForm(closeModal);
 
 		userEvent.type(screen.getByPlaceholderText('e-mail'), 'test');
 		fireEvent.click(screen.getByTestId('submitButton'));
@@ -32,36 +41,13 @@ describe('LoginForm component', () => {
 		});
 	});
 
-	it('Should handle submit correctly', async () => {
-		const closeModel = jest.fn();
-		const onSubmit = jest.fn();
-
-		render(<LoginForm closeModal={closeModel} onSubmit={onSubmit} />);
-
-		userEvent.type(screen.getByPlaceholderText('e-mail'), 'test@test.com');
-		userEvent.type(
-			screen.getByPlaceholderText('password'),
-			'wfsdfgsdfgfsdgfdg'
-		);
-		fireEvent.click(screen.getByTestId('submitButton'));
-
-		await waitFor(() => {
-			expect(onSubmit).toHaveBeenCalledTimes(1);
-			expect(onSubmit).toHaveBeenLastCalledWith({
-				email: 'test@test.com',
-				password: 'wfsdfgsdfgfsdgfdg',
-			});
-		});
-	});
-
 	it('Should run close modal when close modal is clicked', () => {
-		const closeModel = jest.fn();
-		const onSubmit = jest.fn();
+		const closeModal = jest.fn();
 
-		render(<LoginForm closeModal={closeModel} onSubmit={onSubmit} />);
+		renderForm(closeModal);
 
 		fireEvent.click(screen.getByText('\u00D7'));
-		expect(closeModel).toHaveBeenCalledTimes(1);
+		expect(closeModal).toHaveBeenCalledTimes(1);
 	});
 
 	it('should handle API error', () => {
@@ -70,17 +56,16 @@ describe('LoginForm component', () => {
 			password: 'Password is incorrect',
 		};
 
-		const closeModel = jest.fn();
-		const onSubmit = jest.fn(() => Promise.resolve({ ...errors }));
+		const closeModal = jest.fn();
 
-		render(<LoginForm closeModal={closeModel} onSubmit={onSubmit} />);
+		render(
+			<Provider store={store}>
+				<LoginForm closeModal={closeModal} />
+			</Provider>
+		);
 
-		userEvent.type(screen.getByPlaceholderText('e-mail'), 'test@test.com');
-		userEvent.type(screen.getByPlaceholderText('password'), 'test-password');
-
-		waitFor(() => {
-			expect(screen.getByText(errors.email)).toBeTruthy();
-			expect(screen.getByText(errors.password)).toBeTruthy();
-		});
+		store.dispatch(setErrors(errors));
+		expect(screen.getByText(errors.email)).toBeTruthy();
+		expect(screen.getByText(errors.password)).toBeTruthy();
 	});
 });

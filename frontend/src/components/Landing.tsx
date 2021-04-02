@@ -59,13 +59,6 @@ const Landing = (): JSX.Element => {
 		return errors;
 	};
 
-	const onLoginSubmit = async (
-		userToLogin: userLoginObject
-	): Promise<UserErrors> => {
-		await dispatch(loginUser(userToLogin));
-		return errors;
-	};
-
 	const status = useSelector((state: Store) => state.user.status);
 	useEffect(() => {
 		if (status === 'success') {
@@ -98,7 +91,7 @@ const Landing = (): JSX.Element => {
 				isOpen={loginModalOpen}
 				ariaHideApp={false}
 			>
-				<LoginForm closeModal={closeLoginModal} onSubmit={onLoginSubmit} />
+				<LoginForm closeModal={closeLoginModal} />
 			</ReactModal>
 			<ReactModal
 				overlayClassName={styles.overlay}
