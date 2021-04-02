@@ -3,6 +3,9 @@ import { useFormik } from 'formik';
 import styles from './LoginForm.module.scss';
 import * as Yup from 'yup';
 import CSS from 'csstype';
+import { useDispatch, useSelector } from 'react-redux';
+import { Store } from '../redux/store';
+import { registerUser } from '../redux/user-slice';
 
 const buttonStyles: CSS.Properties = {
 	color: '#ddd9da',
@@ -28,10 +31,12 @@ interface RegisterFormValues {
 
 type IProps = {
 	closeModal: () => void;
-	onSubmit: (user: RegisterFormValues) => void;
 };
 
 export const RegisterForm = (props: IProps): JSX.Element => {
+	const dispatch = useDispatch();
+	const errors = useSelector((state: Store) => state.user.errors);
+
 	const initialValues: RegisterFormValues = {
 		email: '',
 		username: '',
@@ -53,13 +58,9 @@ export const RegisterForm = (props: IProps): JSX.Element => {
 
 	const formik = useFormik({
 		initialValues: initialValues,
-		onSubmit: async (
-			values: RegisterFormValues,
-			{ setSubmitting, setStatus }
-		) => {
+		onSubmit: async (values: RegisterFormValues, { setSubmitting }) => {
 			setSubmitting(true);
-			const errors = await props.onSubmit(values);
-			setStatus(errors);
+			await dispatch(registerUser(values));
 			setSubmitting(false);
 		},
 		validationSchema: LoginSchema,
@@ -87,9 +88,9 @@ export const RegisterForm = (props: IProps): JSX.Element => {
 					onChange={formik.handleChange}
 					value={formik.values.email}
 				/>
-				{formik.status && formik.status.email ? (
+				{errors.email ? (
 					<p id='emailError' className={styles.error}>
-						{formik.status.email}
+						{errors.email}
 					</p>
 				) : (
 					formik.errors.email &&
@@ -107,9 +108,9 @@ export const RegisterForm = (props: IProps): JSX.Element => {
 					onChange={formik.handleChange}
 					value={formik.values.username}
 				/>
-				{formik.status && formik.status.username ? (
+				{errors.username ? (
 					<p id='usernameError' className={styles.error}>
-						{formik.status.username}
+						{errors.username}
 					</p>
 				) : (
 					formik.errors.username &&
@@ -127,9 +128,9 @@ export const RegisterForm = (props: IProps): JSX.Element => {
 					onChange={formik.handleChange}
 					value={formik.values.password}
 				/>
-				{formik.status && formik.status.password ? (
+				{errors.password ? (
 					<p id='passwordError' className={styles.error}>
-						{formik.status.password}
+						{errors.password}
 					</p>
 				) : (
 					formik.errors.password &&

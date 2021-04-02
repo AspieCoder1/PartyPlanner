@@ -7,7 +7,7 @@ import { setErrors } from '../../redux/user-slice';
 
 import store from '../../redux/store';
 
-describe('LoginForm component', () => {
+describe('<LoginForm/>', () => {
 	const renderForm = (closeModal: jest.Mock) =>
 		render(
 			<Provider store={store}>

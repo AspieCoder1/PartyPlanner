@@ -5,35 +5,13 @@ import img from '../img/landingImage.svg';
 import ReactModal from 'react-modal';
 import { LoginForm } from './LoginForm';
 import { RegisterForm } from './RegisterForm';
-import {
-	registerUser,
-	loginUser,
-	setErrors,
-	UserState,
-	UserErrors,
-} from '../redux/user-slice';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Store } from '../redux/store';
-import * as _ from 'lodash';
 import history from '../utils/history';
 
-type userToRegister = {
-	email: string;
-	username: string;
-	password: string;
-};
-
-type userLoginObject = {
-	email: string;
-	password: string;
-};
-
 const Landing = (): JSX.Element => {
-	// Redux connection setup
-	const dispatch = useDispatch();
-	const errors: UserErrors = useSelector((state: Store) => state.user.errors);
-
 	// State
+	const status = useSelector((state: Store) => state.user.status);
 	const [loginModalOpen, setLoginModalOpen] = useState<boolean>(false);
 	const [registerModalOpen, setRegisterModalOpen] = useState<boolean>(false);
 
@@ -51,15 +29,6 @@ const Landing = (): JSX.Element => {
 		setRegisterModalOpen(false);
 	};
 
-	// Form Submission
-	const onRegisterSubmit = async (
-		userToRegister: userToRegister
-	): Promise<UserErrors> => {
-		await dispatch(registerUser(userToRegister));
-		return errors;
-	};
-
-	const status = useSelector((state: Store) => state.user.status);
 	useEffect(() => {
 		if (status === 'success') {
 			history.push('/dashboard');
@@ -99,10 +68,7 @@ const Landing = (): JSX.Element => {
 				isOpen={registerModalOpen}
 				ariaHideApp={false}
 			>
-				<RegisterForm
-					closeModal={closeRegisterModal}
-					onSubmit={onRegisterSubmit}
-				/>
+				<RegisterForm closeModal={closeRegisterModal} />
 			</ReactModal>
 		</>
 	);
