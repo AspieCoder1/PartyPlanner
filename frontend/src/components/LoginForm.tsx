@@ -62,7 +62,7 @@ export const LoginForm = (props: IProps): JSX.Element => {
 				<h1>Log In</h1>
 				<button
 					style={buttonStyles}
-					className={styles.closeModal}
+					className={styles.closeButton}
 					onClick={props.closeModal}
 				>
 					&times;
@@ -112,8 +112,8 @@ export const LoginForm = (props: IProps): JSX.Element => {
 				)}
 				<button
 					data-testid='submitButton'
-					id='submit'
 					style={submitButton}
+					className={styles.buttonSubmit}
 					type='submit'
 					disabled={formik.isSubmitting}
 				>
