@@ -55,9 +55,15 @@ userRouter.post(
 						newUser.password = hash;
 						const savedUser = await newUser.save();
 
+						const payload = { username: savedUser.username, id: savedUser._id };
+						const token = jwt.sign(payload, process.env.jwt_key, {
+							expiresIn: 3600,
+						});
+
 						const returnObject = {
 							userName: savedUser.username,
 							id: savedUser._id,
+							token: `Bearer ${token}`
 						};
 
 						res.status(200).json(returnObject);

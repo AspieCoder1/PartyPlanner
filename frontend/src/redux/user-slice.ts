@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
+import history from '../utils/history';
 
 const apiRoute = process.env.REACT_APP_BACKEND_URL || '';
 
@@ -14,9 +15,11 @@ export interface UserState {
 	token: string;
 	userName: string;
 	errors: UserErrors;
+	status: string;
 }
 
-const initialState: UserState = {
+export const initialState: UserState = {
+	status: '',
 	id: '',
 	token: '',
 	userName: '',
@@ -90,23 +93,33 @@ const userSlice = createSlice({
 		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 		// @ts-ignore
 		builder
+			.addCase(registerUser.pending, (state: UserState) => {
+				state.status = 'pending';
+			})
 			.addCase(
 				registerUser.fulfilled,
 				(
 					state: UserState,
-					action: PayloadAction<{ id: string; userName: string }>
+					action: PayloadAction<{ id: string; userName: string; token: string }>
 				) => {
+					state.status = 'success';
 					state.id = action.payload.id;
 					state.userName = action.payload.userName;
+					state.token = action.payload.token;
 					state.errors = {};
+					localStorage.setItem('token', action.payload.token);
 				}
 			)
 			.addCase(
 				registerUser.rejected,
 				(state: UserState, action: PayloadAction<UserErrors>) => {
+					state.status = 'failed';
 					state.errors = action.payload;
 				}
 			)
+			.addCase(loginUser.pending, (state: UserState) => {
+				state.status = 'pending';
+			})
 			.addCase(
 				loginUser.fulfilled,
 				(
@@ -118,6 +131,7 @@ const userSlice = createSlice({
 						userName: string;
 					}>
 				) => {
+					state.status = 'success';
 					state.token = action.payload.token;
 					state.id = action.payload.id;
 					state.errors = {};
@@ -128,6 +142,7 @@ const userSlice = createSlice({
 			.addCase(
 				loginUser.rejected,
 				(state: UserState, action: PayloadAction<UserErrors>) => {
+					state.status = 'failed';
 					state.errors = action.payload;
 				}
 			);
