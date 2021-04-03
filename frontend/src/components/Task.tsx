@@ -9,21 +9,30 @@ dayjs.extend(relativeTime);
 type Props = {
 	task: TaskType;
 	deleteTask: (id: string) => void;
+	toggle: (id: string, completed: boolean) => void;
 };
 
-const handleCompleted = (completed: boolean) => {
-	return completed ? (
-		<p className={styles.taskCompleted}>Completed</p>
-	) : (
-		<p className={styles.notCompleted}>Not completed</p>
-	);
-};
 
-export const Task = ({ task, deleteTask }: Props): JSX.Element => {
+
+export const Task = ({ task, deleteTask, toggle }: Props): JSX.Element => {
+	const handleCompleted = (completed: boolean) => {
+		return completed ? (
+			<p className={styles.taskCompleted} onClick={() => toggle(task.id, task.taskcompleted)}>Completed</p>
+		) : (
+			<p className={styles.notCompleted} onClick={() => toggle(task.id, task.taskcompleted)}>Not completed</p>
+		);
+	};
+
+
 	return (
 		<div key={task.id} className={styles.taskContainer}>
 			<div className={styles.closeContainer}>
-				<button className={styles.closeButton} onClick={() => deleteTask(task.id)}>&times;</button>
+				<button
+					className={styles.closeButton}
+					onClick={() => deleteTask(task.id)}
+				>
+					&times;
+				</button>
 			</div>
 			<div className={styles.taskHeader}>
 				<p className={styles.taskTitle}>{task.taskname}</p>

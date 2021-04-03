@@ -7,6 +7,7 @@ import {
 	Task as TaskType,
 	getTasks,
 	deleteTask as deleteTaskAction,
+	toggleCompleted,
 } from '../redux/task-slice';
 
 const MyTodos = (): JSX.Element => {
@@ -20,6 +21,10 @@ const MyTodos = (): JSX.Element => {
 		await dispatch(deleteTaskAction(id));
 	};
 
+	const toggle = (id: string, completed: boolean): void => {
+		dispatch(toggleCompleted({ id, completed }));
+	};
+
 	useEffect(() => {
 		dispatch(getTasks(userName));
 	}, []);
@@ -30,7 +35,14 @@ const MyTodos = (): JSX.Element => {
 			{tasksLoading ? <p className={styles.loading}>Loading...</p> : null}
 			{tasks.length > 0
 				? tasks.map((task: TaskType) => {
-					return <Task key={task.id} task={task} deleteTask={deleteTask} />;
+					return (
+						<Task
+							key={task.id}
+							task={task}
+							deleteTask={deleteTask}
+							toggle={toggle}
+						/>
+					);
 				})
 				: null}
 		</div>

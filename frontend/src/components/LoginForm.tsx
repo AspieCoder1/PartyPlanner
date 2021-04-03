@@ -43,10 +43,7 @@ export const LoginForm = (props: IProps): JSX.Element => {
 		<div>
 			<div className={styles.header}>
 				<h1>Log In</h1>
-				<button
-					className={styles.closebutton}
-					onClick={props.closeModal}
-				>
+				<button className={styles.closebutton} onClick={props.closeModal}>
 					&times;
 				</button>
 			</div>

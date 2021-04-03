@@ -16,7 +16,7 @@ interface AddTaskFormValues {
 	taskdue: string;
 }
 
-export const AddTaskForm = ({closeModal}: IProps): JSX.Element => {
+export const AddTaskForm = ({ closeModal }: IProps): JSX.Element => {
 	const dispatch = useDispatch();
 	const userName = useSelector((state: Store) => state.user.userName);
 
@@ -55,10 +55,7 @@ export const AddTaskForm = ({closeModal}: IProps): JSX.Element => {
 		<div>
 			<div className={styles.header}>
 				<h1>Create Task</h1>
-				<button
-					className={styles.closebutton}
-					onClick={closeModal}
-				>
+				<button className={styles.closebutton} onClick={closeModal}>
 					&times;
 				</button>
 			</div>

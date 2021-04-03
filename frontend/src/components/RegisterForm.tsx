@@ -54,10 +54,7 @@ export const RegisterForm = (props: IProps): JSX.Element => {
 		<div>
 			<div className={styles.header}>
 				<h1>Register</h1>
-				<button
-					className={styles.closebutton}
-					onClick={props.closeModal}
-				>
+				<button className={styles.closebutton} onClick={props.closeModal}>
 					&times;
 				</button>
 			</div>
