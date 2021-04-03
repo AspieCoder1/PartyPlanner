@@ -70,7 +70,7 @@ taskRouter.delete(
 		try {
 			const delTask = await Task.findByIdAndDelete(taskID);
 			if (!delTask) {
-				res.status(400).send('No task of this id exists');
+				res.status(404).send('No task of this id exists');
 			} else {
 				res.status(200).json(delTask);
 			}
