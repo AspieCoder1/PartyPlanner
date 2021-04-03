@@ -4,6 +4,8 @@
   display: grid;
   row-gap: 8px;
   margin-top: 8px;
+  max-height: 70vh;
+  overflow-y: auto;
 }
 
 .error {
@@ -20,4 +22,5 @@
   margin: 32px 0 32px 0;
   border: $grey solid 1pt;
   background: white;
+  text-align: center;
 }
