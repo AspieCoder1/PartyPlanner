@@ -194,7 +194,7 @@ partyRouter.patch(
 			const idToUpdate = req.params.id;
 			const existing = await Party.findById(idToUpdate);
 			if (_.isEmpty(existing)) {
-				res.status(400).json('This party does not exist');
+				res.status(404).json('This party does not exist');
 			} else {
 				const result = await Party.findByIdAndUpdate(idToUpdate, updates, {
 					new: true,

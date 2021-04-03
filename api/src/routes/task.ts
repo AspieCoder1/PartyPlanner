@@ -97,4 +97,25 @@ taskRouter.delete(
 	}
 );
 
+taskRouter.patch(
+	'/update/:id',
+	async (req: express.Request, res: express.Response) => {
+		const { updates = {} } = req.body;
+		try {
+			const id = req.params.id;
+			const getTask = await Task.findById(id);
+			if (_.isEmpty(getTask)) {
+				res.status(404).json('No task with that id found');
+			} else {
+				const updated = await Task.findByIdAndUpdate(id, updates, {
+					new: true,
+				});
+				res.status(200).json(updated);
+			}
+		} catch (err) {
+			res.status(500).json('Oops something went wrong');
+		}
+	}
+);
+
 export default taskRouter;
