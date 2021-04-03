@@ -83,23 +83,6 @@ partyRouter.delete(
 	}
 );
 
-//get party data to edit the party
-partyRouter.get(
-	'/edit/:id',
-	async (req: express.Request, res: express.Response) => {
-		try {
-			const foundParty = await Party.findById(req.params.id);
-			if (_.isEmpty(foundParty)) {
-				res.status(400).json('An exact party like this already exists');
-			} else {
-				res.status(200).json({ party: foundParty });
-			}
-		} catch (e) {
-			res.status(500).json('Oops something went wrong');
-		}
-	}
-);
-
 // get parties that they are the organiser/host of
 partyRouter.get(
 	'/my-parties/:id',

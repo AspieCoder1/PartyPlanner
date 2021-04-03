@@ -315,30 +315,6 @@ describe('DELETE /:id', () => {
 	});
 });
 
-describe('GET /edit/:id', () => {
-	it('Responds with 200 and get a party', async () => {
-		const mockParty = {
-			_id: new mongoose.Types.ObjectId(),
-			name: 'My Party',
-			organiser: 'test user',
-			description: 'This is a test party',
-			location: 'This is a test location',
-			date: '2021-04-04',
-			ageRate: false,
-			time: '11:30',
-		};
-		const res = await request(app).post('/create').send(mockParty);
-		const delRes = await request(app).get(`/edit/${res.body._id}`);
-		expect(delRes.status).toBe(200);
-	});
-
-	it('Responds with 400 and saw the party does not exist', async () => {
-		const testId = new mongoose.Types.ObjectId();
-		const res = await request(app).get(`/edit/${testId}`);
-		expect(res.status).toBe(400);
-	});
-});
-
 describe('GET /my-parties/:id', () => {
 	it('Responds with 200 and get parties that they are the organiser of', async () => {
 		const userID = 'johnSmith1';
@@ -436,6 +412,11 @@ describe('POST /join/:id', () => {
 			.send({ attenderID: userID });
 		expect(delRes.status).toBe(404);
 	});
+
+	it('expect 500 if id not valid', async () => {
+		const { status } = await request(app).post('/join/23443');
+		expect(status).toBe(500);
+	});
 });
 
 describe('GET /public-parties', () => {
@@ -459,7 +440,6 @@ describe('GET /public-parties', () => {
 
 	it('should give a 404 if not public parties are found', async () => {
 		const res = await request(app).get('/public-parties');
-		console.log(res.body);
 		expect(res.status).toBe(404);
 	});
 });
