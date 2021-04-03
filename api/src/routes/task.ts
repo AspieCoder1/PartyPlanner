@@ -36,23 +36,6 @@ taskRouter.post(
 	}
 );
 
-//get task data to edit the task
-taskRouter.get(
-	'/edit/:id',
-	async (req: express.Request, res: express.Response) => {
-		try {
-			const foundTask = await Task.findById(req.params.id);
-			if (_.isEmpty(foundTask)) {
-				res.status(400).json('An exact party like this already exists');
-			} else {
-				res.status(200).json({ party: foundTask });
-			}
-		} catch (e) {
-			res.status(500).json('Oops something went wrong');
-		}
-	}
-);
-
 // get tasks that they are the creator of
 taskRouter.get(
 	'/my-tasks/:id',
