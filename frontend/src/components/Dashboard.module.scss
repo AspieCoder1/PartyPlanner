@@ -15,7 +15,7 @@
 }
 
 .parties {
-  grid-column: 1 / span 7;
+  grid-column: 1 / span 6;
   grid-row: 2;
 }
 
@@ -23,7 +23,6 @@
   grid-column: 8 / span 5;
   grid-row: 2;
   background: lighten($grey, 10);
-  padding: 8px;
 }
 
 .header {
@@ -33,12 +32,9 @@
 }
 
 .addbutton {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
   border: none;
-  background: $dark-purple;
   font-size: 24px;
-  color: white;
+  color: $dark-purple;
   text-decoration: none;
+  background: none;
 }

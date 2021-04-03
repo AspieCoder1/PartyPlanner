@@ -28,8 +28,12 @@ const Dashboard = (): JSX.Element => {
 			<div className={styles.container}>
 				<h1 className={styles.title}>Hello, {userName}</h1>
 				<div className={styles.parties}>
-					<h1>My Parties</h1>
-					<Link to={'/create'}> Create a party</Link>
+					<div className={styles.header}>
+						<h1>My Parties</h1>
+						<Link className={styles.addbutton} to={'/create'}>
+							+
+						</Link>
+					</div>
 					<MyParties />
 				</div>
 				<div className={styles.tasks}>
@@ -43,7 +47,7 @@ const Dashboard = (): JSX.Element => {
 				</div>
 			</div>
 			<ReactModal isOpen={modalOpen}>
-				<AddTaskForm closeModal={closeModal}/>
+				<AddTaskForm closeModal={closeModal} />
 			</ReactModal>
 		</div>
 	);
