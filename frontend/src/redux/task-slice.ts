@@ -67,6 +67,18 @@ export const addTask = createAsyncThunk(
 	}
 );
 
+export const deleteTask = createAsyncThunk(
+	'tasks/delete',
+	async (id: string, thunkAPI) => {
+		try {
+			await axios.delete(`${apiRoute}/api/todos/${id}`);
+			return id;
+		} catch (e) {
+			return thunkAPI.rejectWithValue('Couldn\'t delete the task');
+		}
+	}
+);
+
 const taskSlice = createSlice({
 	name: 'tasks',
 	initialState,
@@ -105,6 +117,15 @@ const taskSlice = createSlice({
 				(state: TaskState, action: PayloadAction<Task>) => {
 					state.error = '';
 					state.tasks.push(action.payload);
+				}
+			)
+			.addCase(
+				deleteTask.fulfilled,
+				(state: TaskState, action: PayloadAction<string>) => {
+					state.tasks = state.tasks.filter((task: Task) => task.id !== action.payload);
+					if(state.tasks.length === 0) {
+						state.error = 'You have no tasks';
+					}
 				}
 			),
 });

@@ -1,4 +1,5 @@
 import reducer, {
+	deleteTask,
 	getTasks,
 	initialState,
 	setErrors,
@@ -76,5 +77,47 @@ describe('todo slice', () => {
 		await store.dispatch(getTasks('test'));
 		const state: TaskState = store.getState();
 		expect(state.error).toBe('Todos not found');
+	});
+
+	it('should correctly delete a task', async () => {
+		mockAxios.delete.mockImplementationOnce(() => Promise.resolve());
+
+		const data = [
+			{
+				id: 'test',
+				taskname: 'Task 1',
+				taskdesc: 'Task 1',
+				taskduedate: 'Task 1',
+				taskduetime: 'Task 1',
+				taskcreator: 'Task 1',
+				taskcompleted: true,
+			},
+			{
+				id: 'test1',
+				taskname: 'Task 1',
+				taskdesc: 'Task 1',
+				taskduedate: 'Task 1',
+				taskduetime: 'Task 1',
+				taskcreator: 'Task 1',
+				taskcompleted: true,
+			},
+		];
+
+		const expectedData = [
+			{
+				id: 'test',
+				taskname: 'Task 1',
+				taskdesc: 'Task 1',
+				taskduedate: 'Task 1',
+				taskduetime: 'Task 1',
+				taskcreator: 'Task 1',
+				taskcompleted: true,
+			},
+		];
+
+		const store = configureStore({ reducer: reducer });
+		await store.dispatch(setTodos(data));
+		await store.dispatch(deleteTask('test1'));
+		expect(store.getState().tasks).toEqual(expectedData);
 	});
 });

@@ -43,3 +43,16 @@
   color: $black;
   padding: 0;
 }
+
+.closeButton {
+  padding: 0;
+  border: none;
+  background: none;
+  color: $grey;
+  margin-left: auto;
+}
+
+.closeContainer {
+  display: flex;
+  flex-direction: row-reverse;
+}
