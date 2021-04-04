@@ -46,8 +46,6 @@ type NewPartyState = {
 	publicParty: boolean;
 }
 
-const initialState: PartyState = {
-
 export const initialState: PartyState = {
 
 	parties: [],
