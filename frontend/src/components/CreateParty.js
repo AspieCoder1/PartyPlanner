@@ -26,7 +26,7 @@ class CreateParty extends Component {
 			publicParty: false,
 			ageRate: false,
 			location: '',
-			users: [],
+			attendeesID: [],
 		};
 	}
 
@@ -41,9 +41,10 @@ class CreateParty extends Component {
 			publicParty: this.state.publicParty,
 			ageRate: this.state.ageRate,
 			location: this.state.location,
-			attendeesID: [],
+			attendeesID: [this.state.username],
 		};
 		console.log(party);
+		// this.props.addParty(party)
 	}
 
 	onChangeUsername(e) {
@@ -200,3 +201,5 @@ class CreateParty extends Component {
 }
 
 export default CreateParty;
+// const mapDispatchToProps = { addParty }
+// export default connect({}, mapDispatchToProps)(CreateParty)
