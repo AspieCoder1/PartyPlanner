@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import CSS from 'csstype';
+import styles from './AddTaskForm.module.scss';
 import DatePicker from 'react-date-picker';
 import TimePicker from 'react-time-picker';
 import '../styles/slider.css';
@@ -23,7 +24,7 @@ const submitButton: CSS.Properties = {
 };
 
 type IProps = {
-  // closeModal: () => void;
+  closeModal: () => void;
   onSubmit: (party: CreatePartyFormValues) => void;
 };
 
@@ -76,29 +77,34 @@ export const CreatePartyForm = (props: IProps): JSX.Element => {
   
   return (
 		<div>
-			<div>
+			<div className={styles.header}>
 				<h1>Create Party</h1>
 				<button
 					style={buttonStyles}
+					className={styles.closeModal}
+					onClick={props.closeModal}
 				>
 					&times;
 				</button>
 			</div>
-			<form onSubmit={formik.handleSubmit}>
-				<input
+			<form className={styles.form} onSubmit={formik.handleSubmit}>
+        <input
+          className={styles.input}
 					type='text'
 					name='name'
 					placeholder='Party Name'
 					onChange={formik.handleChange}
 					value={formik.values.name}
 				/>
-				<textarea
+        <textarea
+          className={styles.textarea}
 					name='description'
 					placeholder='Party Description'
 					onChange={formik.handleChange}
 					value={formik.values.description}
         />
         <textarea
+          className={styles.textarea}
 					name='location'
 					placeholder='Party location'
 					onChange={formik.handleChange}
