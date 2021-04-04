@@ -14,3 +14,8 @@ h1 {
 button {
   outline: none;
 }
+
+body {
+  margin: 0;
+  background: lighten($grey, 10);
+}

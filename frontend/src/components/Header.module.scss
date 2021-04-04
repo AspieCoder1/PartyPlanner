@@ -2,9 +2,11 @@
 
 .header {
   border-bottom: $grey solid 1px;
-  margin-bottom: 0px;
-  margin-top: 16px;
+  margin-bottom: 0;
+  padding-top: 16px;
+  background: white;
 }
+
 
 .container {
   display: flex;

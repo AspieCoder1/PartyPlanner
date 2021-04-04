@@ -315,30 +315,6 @@ describe('DELETE /:id', () => {
 	});
 });
 
-describe('GET /edit/:id', () => {
-	it('Responds with 200 and get a party', async () => {
-		const mockParty = {
-			_id: new mongoose.Types.ObjectId(),
-			name: 'My Party',
-			organiser: 'test user',
-			description: 'This is a test party',
-			location: 'This is a test location',
-			date: '2021-04-04',
-			ageRate: false,
-			time: '11:30',
-		};
-		const res = await request(app).post('/create').send(mockParty);
-		const delRes = await request(app).get(`/edit/${res.body._id}`);
-		expect(delRes.status).toBe(200);
-	});
-
-	it('Responds with 400 and saw the party does not exist', async () => {
-		const testId = new mongoose.Types.ObjectId();
-		const res = await request(app).get(`/edit/${testId}`);
-		expect(res.status).toBe(400);
-	});
-});
-
 describe('GET /my-parties/:id', () => {
 	it('Responds with 200 and get parties that they are the organiser of', async () => {
 		const userID = 'johnSmith1';
@@ -373,12 +349,12 @@ describe('GET /my-parties/:id', () => {
 			attendeesID: ['adamsmith', 'johnSmith1', 'tomas'],
 			time: '11:30',
 		};
-		const res = await request(app).post('/create').send(mockParty);
-		const delRes = await request(app).get('/my-parties/johnSmith1');
-		expect(delRes.status).toBe(200);
+		await request(app).post('/create').send(mockParty);
+		const { status } = await request(app).get('/my-parties/johnSmith1');
+		expect(status).toBe(200);
 	});
 
-	it('Responds with 400 and return that they have no parties', async () => {
+	it('Responds with 404 and return that they have no parties', async () => {
 		const userID = 'johnSmith1';
 		const mockParty = {
 			_id: new mongoose.Types.ObjectId(),
@@ -394,7 +370,7 @@ describe('GET /my-parties/:id', () => {
 
 		await request(app).post('/create').send(mockParty);
 		const delRes = await request(app).get('/my-parties/johnSmith1');
-		expect(delRes.status).toBe(400);
+		expect(delRes.status).toBe(404);
 	});
 });
 
@@ -417,7 +393,7 @@ describe('POST /join/:id', () => {
 		expect(delRes.status).toBe(200);
 	});
 
-	it('Respond with 400 since party does not exists', async () => {
+	it('Respond with 404 since party does not exists', async () => {
 		const userID = 'johnSmith1';
 		const mockParty = {
 			_id: new mongoose.Types.ObjectId(),
@@ -434,7 +410,12 @@ describe('POST /join/:id', () => {
 		const delRes = await request(app)
 			.post(`/join/${partyID}`)
 			.send({ attenderID: userID });
-		expect(delRes.status).toBe(400);
+		expect(delRes.status).toBe(404);
+	});
+
+	it('expect 500 if id not valid', async () => {
+		const { status } = await request(app).post('/join/23443');
+		expect(status).toBe(500);
 	});
 });
 
@@ -449,11 +430,17 @@ describe('GET /public-parties', () => {
 			date: '2021-04-04',
 			ageRate: false,
 			time: '11:30',
-			publicParty: true,
+			public: true,
 		};
+
 		await request(app).post('/create').send(mockParty);
-		const delRes = await request(app).get('/public-parties');
-		expect(delRes.status).toBe(200);
+		const { status } = await request(app).get('/public-parties');
+		expect(status).toBe(200);
+	});
+
+	it('should give a 404 if not public parties are found', async () => {
+		const res = await request(app).get('/public-parties');
+		expect(res.status).toBe(404);
 	});
 });
 
@@ -470,26 +457,26 @@ describe('GET /invited-parties/:id', () => {
 			time: '11:30',
 			publicParty: true,
 		};
-		const res = await request(app).post('/create').send(mockParty);
+		const { body } = await request(app).post('/create').send(mockParty);
+
 		await request(app)
-			.post(`/join/${res.body._id}`)
+			.post(`/join/${body._id}`)
 			.send({ attenderID: 'johnSmith1' });
 		const IDtoFind = 'johnSmith1';
 		const delRes = await request(app).get(`/invited-parties/${IDtoFind}`);
 		expect(delRes.status).toBe(200);
 	});
 
-	it('Responds with 400 and return no invited parties', async () => {
+	it('Responds with 404 and return no invited parties', async () => {
 		const IDtoFind = 'johnSmith1';
 		const delRes = await request(app).get(`/invited-parties/${IDtoFind}`);
-		expect(delRes.status).toBe(400);
+		expect(delRes.status).toBe(404);
 	});
 });
 
 describe('PATCH /update/:id', () => {
 	it('Responds with 200 and update the party', async () => {
 		const userID = 'johnSmith1';
-		const partyID = new mongoose.Types.ObjectId();
 		const mockParty = {
 			name: 'My Party',
 			organiser: 'johnSmith1',
@@ -522,7 +509,6 @@ describe('PATCH /update/:id', () => {
 
 	it('Responds with 404 and return that the party does not exist', async () => {
 		const userID = 'johnSmith1';
-		const partyID = new mongoose.Types.ObjectId();
 		const mockParty = {
 			name: 'My Party',
 			organiser: 'johnSmith1',
@@ -544,17 +530,16 @@ describe('PATCH /update/:id', () => {
 			attendeesID: [userID],
 			time: '11:30',
 		};
-		const res = await request(app).post('/create').send(mockParty);
+		await request(app).post('/create').send(mockParty);
 		const newID = new mongoose.Types.ObjectId();
-		const delRes = await request(app)
+		const { status } = await request(app)
 			.patch(`/update/${newID}`)
 			.send({ updates });
-		expect(delRes.status).toBe(400);
+		expect(status).toBe(404);
 	});
 
 	it('Responds with 400 and return that the party has not passed validation', async () => {
 		const userID = 'johnSmith1';
-		const partyID = new mongoose.Types.ObjectId();
 		const mockParty = {
 			name: 'My Party',
 			organiser: 'johnSmith1',
@@ -577,9 +562,9 @@ describe('PATCH /update/:id', () => {
 			time: '11:30',
 		};
 		const res = await request(app).post('/create').send(mockParty);
-		const delRes = await request(app)
+		const { status } = await request(app)
 			.patch(`/update/${res.body.id}`)
 			.send({ updates });
-		expect(delRes.status).toBe(400);
+		expect(status).toBe(400);
 	});
 });

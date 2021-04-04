@@ -55,9 +55,15 @@ userRouter.post(
 						newUser.password = hash;
 						const savedUser = await newUser.save();
 
+						const payload = { username: savedUser.username, id: savedUser._id };
+						const token = jwt.sign(payload, process.env.jwt_key, {
+							expiresIn: 3600,
+						});
+
 						const returnObject = {
 							userName: savedUser.username,
 							id: savedUser._id,
+							token: `Bearer ${token}`,
 						};
 
 						res.status(200).json(returnObject);
@@ -90,9 +96,12 @@ userRouter.post(
 					const token = jwt.sign(payload, process.env.jwt_key, {
 						expiresIn: 3600,
 					});
-					res
-						.status(200)
-						.json({ success: true, token: `Bearer ${token}`, id: user._id });
+					res.status(200).json({
+						success: true,
+						token: `Bearer ${token}`,
+						id: user._id,
+						userName: user.username,
+					});
 				} else {
 					res.status(401).json({ password: 'password is incorrect' });
 				}

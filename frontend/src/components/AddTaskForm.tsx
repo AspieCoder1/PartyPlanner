@@ -2,27 +2,12 @@ import * as React from 'react';
 import { useFormik } from 'formik';
 import styles from './AddTaskForm.module.scss';
 import * as Yup from 'yup';
-import CSS from 'csstype';
-
-const buttonStyles: CSS.Properties = {
-	color: '#ddd9da',
-	border: 'none',
-	background: 'none',
-	fontSize: '24px',
-};
-
-const submitButton: CSS.Properties = {
-	background: '#6f3473',
-	border: 'none',
-	color: 'white',
-	fontSize: '24px',
-	marginTop: '16px',
-	padding: '8px',
-};
+import { useDispatch, useSelector } from 'react-redux';
+import { Store } from '../redux/store';
+import { addTask } from '../redux/task-slice';
 
 type IProps = {
 	closeModal: () => void;
-	onSubmit: (user: AddTaskFormValues) => void;
 };
 
 interface AddTaskFormValues {
@@ -31,7 +16,19 @@ interface AddTaskFormValues {
 	taskdue: string;
 }
 
-export const AddTaskForm = (props: IProps): JSX.Element => {
+export const AddTaskForm = ({ closeModal }: IProps): JSX.Element => {
+	const dispatch = useDispatch();
+	const userName = useSelector((state: Store) => state.user.userName);
+
+	const getValues = (taskToAdd: AddTaskFormValues) => {
+		const taskduedate = taskToAdd.taskdue;
+		return {
+			...taskToAdd,
+			taskduedate,
+			taskcreator: userName,
+		};
+	};
+
 	const initialValues: AddTaskFormValues = {
 		taskname: '',
 		taskdesc: '',
@@ -45,14 +42,12 @@ export const AddTaskForm = (props: IProps): JSX.Element => {
 
 	const formik = useFormik({
 		initialValues: initialValues,
-		onSubmit: async (
-			values: AddTaskFormValues,
-			{ setSubmitting, setStatus }
-		) => {
+		onSubmit: async (values: AddTaskFormValues, { setSubmitting }) => {
 			setSubmitting(true);
-			const errors = await props.onSubmit(values);
-			setStatus(errors);
+			const taskToAdd = getValues(values);
+			await dispatch(addTask(taskToAdd));
 			setSubmitting(false);
+			closeModal();
 		},
 		validationSchema: AddTaskSchema,
 	});
@@ -60,11 +55,7 @@ export const AddTaskForm = (props: IProps): JSX.Element => {
 		<div>
 			<div className={styles.header}>
 				<h1>Create Task</h1>
-				<button
-					style={buttonStyles}
-					className={styles.closeModal}
-					onClick={props.closeModal}
-				>
+				<button className={styles.closebutton} onClick={closeModal}>
 					&times;
 				</button>
 			</div>
@@ -96,7 +87,7 @@ export const AddTaskForm = (props: IProps): JSX.Element => {
 				<button
 					data-testid='submitButton'
 					id='submit'
-					style={submitButton}
+					className={styles.buttonsubmit}
 					type='submit'
 					disabled={formik.isSubmitting}
 				>

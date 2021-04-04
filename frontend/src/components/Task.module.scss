@@ -1,28 +1,58 @@
 @import '../styles/colours';
 
 .taskContainer {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  justify-content: space-between;
-  padding: 0px;
+  padding: 8px;
   margin: 0px;
-  //border: $grey solid 1pt;
+  border: $grey solid 1pt;
+  background: white;
 }
 
-.taskText {
-  grid-row: 1;
+.taskHeader {
+  display: flex;
+  justify-content: space-between;
+}
+
+.taskTitle {
   margin: 0;
   color: $black;
+  font-weight: 500;
 }
 
 .taskCompleted {
-  grid-row: 1;
   margin: 0;
   color: $success;
+  font-weight: 500;
 }
 
 .notCompleted {
-  grid-row: 1;
   margin: 0;
   color: $error;
+  font-weight: 500;
+}
+
+.taskDate {
+  color: $grey;
+  margin: 8px 0 0 0;
+  padding: 0;
+  font-size: 16px;
+}
+
+.taskDesc {
+  margin: 8px 0 0 0;
+  font-size: 16px;
+  color: $black;
+  padding: 0;
+}
+
+.closeButton {
+  padding: 0;
+  border: none;
+  background: none;
+  color: $grey;
+  margin-left: auto;
+}
+
+.closeContainer {
+  display: flex;
+  flex-direction: row-reverse;
 }

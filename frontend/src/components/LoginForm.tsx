@@ -2,27 +2,12 @@ import * as React from 'react';
 import { useFormik } from 'formik';
 import styles from './LoginForm.module.scss';
 import * as Yup from 'yup';
-import CSS from 'csstype';
-
-const buttonStyles: CSS.Properties = {
-	color: '#ddd9da',
-	border: 'none',
-	background: 'none',
-	fontSize: '24px',
-};
-
-const submitButton: CSS.Properties = {
-	background: '#6f3473',
-	border: 'none',
-	color: 'white',
-	fontSize: '24px',
-	marginTop: '16px',
-	padding: '8px',
-};
+import { useDispatch, useSelector } from 'react-redux';
+import { Store } from '../redux/store';
+import { loginUser, UserErrors } from '../redux/user-slice';
 
 type IProps = {
 	closeModal: () => void;
-	onSubmit: (user: LoginFormValues) => void;
 };
 
 interface LoginFormValues {
@@ -31,6 +16,9 @@ interface LoginFormValues {
 }
 
 export const LoginForm = (props: IProps): JSX.Element => {
+	const dispatch = useDispatch();
+	const errors: UserErrors = useSelector((state: Store) => state.user.errors);
+
 	const initialValues: LoginFormValues = {
 		email: '',
 		password: '',
@@ -43,10 +31,9 @@ export const LoginForm = (props: IProps): JSX.Element => {
 
 	const formik = useFormik({
 		initialValues: initialValues,
-		onSubmit: async (values: LoginFormValues, { setSubmitting, setStatus }) => {
+		onSubmit: async (values: LoginFormValues, { setSubmitting }) => {
 			setSubmitting(true);
-			const errors = await props.onSubmit(values);
-			setStatus(errors);
+			await dispatch(loginUser(values));
 			setSubmitting(false);
 		},
 		validationSchema: LoginSchema,
@@ -56,11 +43,7 @@ export const LoginForm = (props: IProps): JSX.Element => {
 		<div>
 			<div className={styles.header}>
 				<h1>Log In</h1>
-				<button
-					style={buttonStyles}
-					className={styles.closeModal}
-					onClick={props.closeModal}
-				>
+				<button className={styles.closebutton} onClick={props.closeModal}>
 					&times;
 				</button>
 			</div>
@@ -74,9 +57,9 @@ export const LoginForm = (props: IProps): JSX.Element => {
 					onChange={formik.handleChange}
 					value={formik.values.email}
 				/>
-				{formik.status && formik.status.email ? (
+				{errors.email ? (
 					<p id='emailError' className={styles.error}>
-						{formik.status.email}
+						{errors.email}
 					</p>
 				) : (
 					formik.errors.email &&
@@ -94,9 +77,9 @@ export const LoginForm = (props: IProps): JSX.Element => {
 					onChange={formik.handleChange}
 					value={formik.values.password}
 				/>
-				{formik.status && formik.status.password ? (
+				{errors.password ? (
 					<p id='emailError' className={styles.error}>
-						{formik.status.password}
+						{errors.password}
 					</p>
 				) : (
 					formik.errors.password &&
@@ -108,8 +91,7 @@ export const LoginForm = (props: IProps): JSX.Element => {
 				)}
 				<button
 					data-testid='submitButton'
-					id='submit'
-					style={submitButton}
+					className={styles.buttonsubmit}
 					type='submit'
 					disabled={formik.isSubmitting}
 				>
