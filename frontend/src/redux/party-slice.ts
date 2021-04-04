@@ -20,7 +20,8 @@ export interface PartyErrors {
 }
 
 export type Party = {
-  name: string;
+	id: string;
+	name: string;
 	organiser: string;
 	description: string;
 	location: string;
@@ -30,40 +31,40 @@ export type Party = {
 	attendeesID: string[];
 	todoID: string;
 	publicParty: boolean;
-}
+};
 
 type NewPartyState = {
-  id: string,
-  name: string;
+	name: string;
 	organiser: string;
 	description: string;
 	location: string;
 	date: string;
 	time: string;
 	ageRate: boolean;
-	attendeesID: string[];
-	todoID: string;
 	publicParty: boolean;
-}
+};
 
 export const initialState: PartyState = {
-
 	parties: [],
 	error: '',
 	loading: false,
 };
 
 export const createParty = createAsyncThunk(
-  'parties/createParty',
-  async (newParty: NewPartyState, thunkAPI) => {
-    try {
-      const { data } = await axios.post(`${apiRoute}/api/parties/create`, newParty);
-      return data;
-    } catch (err) {
-      const data: PartyErrors = err.response.data as PartyErrors;
+	'parties/createParty',
+	async (newParty: NewPartyState, thunkAPI) => {
+		try {
+			const { data } = await axios.post(
+				`${apiRoute}/api/parties/create`,
+				newParty
+			);
+			return data;
+		} catch (err) {
+			const data: PartyErrors = err.response.data as PartyErrors;
+			console.log(data);
 			return thunkAPI.rejectWithValue(data);
-    }
-  }
+		}
+	}
 );
 
 export const getParties = createAsyncThunk(
@@ -84,37 +85,21 @@ export const getParties = createAsyncThunk(
 	}
 );
 
-
-export const editParty = createAsyncThunk(
-	'parties/editParty',
-	async (id: string, thunkAPI) => {
+export const updateParty = createAsyncThunk(
+	'parties/updateParty',
+	async (updateParty: { id: string; updates: any }, thunkAPI) => {
 		try {
-			const { data } = await axios.get(`${apiRoute}/api/parties/edit/${id}`);
+			const { data } = await axios.patch(
+				`${apiRoute}/api/parties/update/${updateParty.id}`,
+				updateParty
+			);
 			return data;
 		} catch (err) {
-			let msg = 'Oops something went wrong';
-			if (typeof err.response.data !== 'undefined') {
-				msg = err.response.data;
-			}
-			return thunkAPI.rejectWithValue(msg);
+			const data: PartyErrors = err.response.data as PartyErrors;
+			return thunkAPI.rejectWithValue(data);
 		}
 	}
 );
-
-
-export const updateParty = createAsyncThunk(
-  'parties/updateParty',
-  async (updateParty: NewPartyState, thunkAPI) => {
-    try {
-      const { data } = await axios.patch(`${apiRoute}/api/parties/update/${updateParty.id}`, updateParty);
-      return data;
-    } catch (err) {
-      const data: PartyErrors = err.response.data as PartyErrors;
-			return thunkAPI.rejectWithValue(data);
-    }
-  }
-);
-
 
 const partySlice = createSlice({
 	name: 'party',
@@ -127,45 +112,33 @@ const partySlice = createSlice({
 	extraReducers: (builder) => {
 		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 		// @ts-ignore
-    builder
-      .addCase(
-        getParties.fulfilled,
-        (state: PartyState, action: PayloadAction<any[]>) => {
-          state.parties = action.payload;
-          state.error = '';
-        }
-      )
-      .addCase(
-        getParties.rejected,
-        (state: PartyState, action: PayloadAction<string>) => {
-          state.error = action.payload;
-        }
-      )
-      .addCase(
-        editParty.fulfilled,
-        (state: PartyState, action: PayloadAction<any[]>) => {
-          state.parties = action.payload;
-          state.error = '';
-        }
-      )
-      .addCase(
-        editParty.rejected,
-        (state: PartyState, action: PayloadAction<string>) => {
-          state.error = action.payload;
-        }
-      )
-      .addCase(
-        updateParty.fulfilled,
-        (state: PartyState, action: PayloadAction<Party>) => {
-          state.parties.push(action.payload);
-        }
-      )
-      .addCase(
-        createParty.fulfilled,
-        (state: PartyState, action: PayloadAction<Party>) => {
-          state.parties.push(action.payload);
-        }
-      )
+		builder
+			.addCase(
+				getParties.fulfilled,
+				(state: PartyState, action: PayloadAction<any[]>) => {
+					state.parties = action.payload;
+					state.error = '';
+				}
+			)
+			.addCase(
+				getParties.rejected,
+				(state: PartyState, action: PayloadAction<string>) => {
+					state.error = action.payload;
+				}
+			)
+			.addCase(
+				updateParty.fulfilled,
+				(state: PartyState, action: PayloadAction<Party>) => {
+					state.parties.push(action.payload);
+				}
+			)
+			.addCase(
+				createParty.fulfilled,
+				(state: PartyState, action: PayloadAction<Party>) => {
+					state.parties.push(action.payload);
+					state.error = '';
+				}
+			);
 	},
 });
 
