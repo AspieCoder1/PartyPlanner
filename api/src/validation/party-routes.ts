@@ -61,9 +61,5 @@ export const validateNewParty = (newParty: newPartyObject): Ierrors => {
 		errors.time = 'A time is required';
 	}
 
-	if (!validator.isBoolean(newParty.ageRate.toString())) {
-		errors.ageRate = 'An age rating is required';
-	}
-
 	return errors;
 };

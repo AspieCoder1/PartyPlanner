@@ -18,12 +18,12 @@ const AppRouter = (): JSX.Element => (
 			</Route>
 			<Route exact path='/create'>
 				<CreateParty />
-      </Route>
-      <Route exact path='/edit'>
+			</Route>
+			<Route exact path='/edit'>
 				<EditParty />
 			</Route>
 			<Route exact path='/chat/:id'>
-				<Chat/>
+				<Chat />
 			</Route>
 		</Switch>
 	</Router>

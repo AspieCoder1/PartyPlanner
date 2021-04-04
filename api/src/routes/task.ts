@@ -36,23 +36,6 @@ taskRouter.post(
 	}
 );
 
-//get task data to edit the task
-taskRouter.get(
-	'/edit/:id',
-	async (req: express.Request, res: express.Response) => {
-		try {
-			const foundTask = await Task.findById(req.params.id);
-			if (_.isEmpty(foundTask)) {
-				res.status(400).json('An exact party like this already exists');
-			} else {
-				res.status(200).json({ party: foundTask });
-			}
-		} catch (e) {
-			res.status(500).json('Oops something went wrong');
-		}
-	}
-);
-
 // get tasks that they are the creator of
 taskRouter.get(
 	'/my-tasks/:id',
@@ -61,7 +44,7 @@ taskRouter.get(
 			const idTofind = req.params.id;
 			const foundCreatedTasks = await Task.find({ taskcreator: idTofind });
 			if (_.isEmpty(foundCreatedTasks)) {
-				res.status(400).send('You have no tasks');
+				res.status(404).send('You have no tasks');
 			} else {
 				const results = foundCreatedTasks.map((task: ITask) => ({
 					id: task._id,
@@ -87,11 +70,32 @@ taskRouter.delete(
 		try {
 			const delTask = await Task.findByIdAndDelete(taskID);
 			if (!delTask) {
-				res.status(400).send('No task of this id exists');
+				res.status(404).send('No task of this id exists');
 			} else {
 				res.status(200).json(delTask);
 			}
 		} catch (e) {
+			res.status(500).json('Oops something went wrong');
+		}
+	}
+);
+
+taskRouter.patch(
+	'/update/:id',
+	async (req: express.Request, res: express.Response) => {
+		const { updates = {} } = req.body;
+		try {
+			const id = req.params.id;
+			const getTask = await Task.findById(id);
+			if (_.isEmpty(getTask)) {
+				res.status(404).json('No task with that id found');
+			} else {
+				const updated = await Task.findByIdAndUpdate(id, updates, {
+					new: true,
+				});
+				res.status(200).json(updated);
+			}
+		} catch (err) {
 			res.status(500).json('Oops something went wrong');
 		}
 	}

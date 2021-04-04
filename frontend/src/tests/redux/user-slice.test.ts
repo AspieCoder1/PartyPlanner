@@ -5,6 +5,7 @@ import reducer, {
 	setErrors,
 	registerUser,
 	loginUser,
+	initialState,
 } from '../../redux/user-slice';
 import axios from 'axios';
 import { configureStore } from '@reduxjs/toolkit';
@@ -16,12 +17,7 @@ describe('Test user slice', () => {
 	it('should have correct initial state', () => {
 		const state = reducer(undefined, { type: '' });
 
-		expect(state).toEqual({
-			id: '',
-			token: '',
-			userName: '',
-			errors: {},
-		});
+		expect(state).toEqual(initialState);
 	});
 
 	it('should set id correctly', () => {

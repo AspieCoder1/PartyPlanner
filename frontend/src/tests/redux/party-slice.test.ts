@@ -1,5 +1,9 @@
 import axios from 'axios';
-import reducer, { setParties, getParties } from '../../redux/party-slice';
+import reducer, {
+	setParties,
+	getParties,
+	initialState,
+} from '../../redux/party-slice';
 import { configureStore } from '@reduxjs/toolkit';
 
 jest.mock('axios');
@@ -8,10 +12,7 @@ const mockAxios = axios as jest.Mocked<typeof axios>;
 describe('Testing party slice', () => {
 	it('should have correct initial state', () => {
 		const state = reducer(undefined, { type: '' });
-		expect(state).toEqual({
-			parties: [],
-			error: '',
-		});
+		expect(state).toEqual(initialState);
 	});
 
 	it('should correctly set parties', () => {

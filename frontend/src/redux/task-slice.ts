@@ -4,30 +4,62 @@ import axios from 'axios';
 const apiRoute = process.env.REACT_APP_BACKEND_URL || '';
 
 export type Task = {
-	id: string;
-	taskname: string;
-	taskdesc: string;
-	taskduedate: string;
-	taskduetime: string;
-	taskcreator: string;
-	taskcompleted: boolean;
+  id: string;
+  taskname: string;
+  taskdesc: string;
+  taskduedate: string;
+  taskduetime: string;
+  taskcreator: string;
+  taskcompleted: boolean;
 };
 
 type TaskToAdd = {
-	taskname: string;
-	taskdesc: string;
-	taskdue: string;
+  taskname: string;
+  taskdesc: string;
+  taskdue: string;
 };
 
 export type TaskState = {
-	tasks: Task[];
-	error: string;
+  loading: boolean;
+  tasks: Task[];
+  error: string;
 };
 
-export const initialState = {
-	tasks: [],
-	error: '',
+type ToggleArgs = {
+  id: string;
+  completed: boolean;
 };
+
+type ToggleArgsFulfilled = {
+	id: string;
+	toggle: boolean;
+};
+
+
+export const initialState = {
+	loading: false,
+	tasks: [],
+	error: ''
+};
+
+export const toggleCompleted = createAsyncThunk(
+	'tasks/toggleCompleted',
+	async (toggleArgs: ToggleArgs, thunkAPI) => {
+		const { id, completed } = toggleArgs;
+		const toggle = !completed;
+		const updates: Partial<Task> = {
+			taskcompleted: toggle
+		};
+
+
+		try {
+			await axios.patch(`${apiRoute}/api/todos/update/${id}`, { updates });
+			return { toggle, id };
+		} catch (e) {
+			return thunkAPI.rejectWithValue('Oops something went wrong');
+		}
+	}
+);
 
 export const getTasks = createAsyncThunk(
 	'tasks/getTasks',
@@ -49,7 +81,10 @@ export const addTask = createAsyncThunk(
 	'tasks/createTask',
 	async (taskToAdd: TaskToAdd, thunkAPI) => {
 		try {
-			const { data } = await axios.post(`${apiRoute}/api/todos/create`, taskToAdd);
+			const { data } = await axios.post(
+				`${apiRoute}/api/todos/create`,
+				taskToAdd
+			);
 			return data;
 		} catch (err) {
 			let msg = 'Oops something went wrong';
@@ -62,6 +97,18 @@ export const addTask = createAsyncThunk(
 	}
 );
 
+export const deleteTask = createAsyncThunk(
+	'tasks/delete',
+	async (id: string, thunkAPI) => {
+		try {
+			await axios.delete(`${apiRoute}/api/todos/${id}`);
+			return id;
+		} catch (e) {
+			return thunkAPI.rejectWithValue('Couldn\'t delete the task');
+		}
+	}
+);
+
 const taskSlice = createSlice({
 	name: 'tasks',
 	initialState,
@@ -70,33 +117,56 @@ const taskSlice = createSlice({
 			state.error = action.payload;
 		},
 		setTodos: (state: TaskState, action: PayloadAction<Task[]>) => {
-			console.log(action.payload);
 			state.tasks = action.payload;
-		},
+		}
 	},
 	extraReducers: (builder) =>
-		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-		// @ts-ignore
+	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+	// @ts-ignore
 		builder
+			.addCase(getTasks.pending, (state: TaskState) => {
+				state.error = '';
+				state.loading = true;
+			})
 			.addCase(
 				getTasks.fulfilled,
 				(state: TaskState, action: PayloadAction<Task[]>) => {
+					state.loading = false;
 					state.tasks = action.payload;
 				}
 			)
 			.addCase(
 				getTasks.rejected,
 				(state: TaskState, action: PayloadAction<string>) => {
+					state.loading = false;
 					state.error = action.payload;
 				}
 			)
 			.addCase(
 				addTask.fulfilled,
 				(state: TaskState, action: PayloadAction<Task>) => {
-
+					state.error = '';
 					state.tasks.push(action.payload);
 				}
-			),
+			)
+			.addCase(
+				deleteTask.fulfilled,
+				(state: TaskState, action: PayloadAction<string>) => {
+					state.tasks = state.tasks.filter(
+						(task: Task) => task.id !== action.payload
+					);
+					if (state.tasks.length === 0) {
+						state.error = 'You have no tasks';
+					}
+				}
+			)
+			.addCase(
+				toggleCompleted.fulfilled,
+				(state: TaskState, action: PayloadAction<ToggleArgsFulfilled>) => {
+					const { id, toggle } = action.payload;
+					state.tasks.filter((task: Task) => task.id === id)[0].taskcompleted = toggle;
+				}
+			)
 });
 
 export const { setErrors, setTodos } = taskSlice.actions;

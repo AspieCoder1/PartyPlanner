@@ -6,7 +6,6 @@ import todoRouter from './routes/task';
 import './db/mongoose';
 import * as cors from 'cors';
 
-
 const app: express.Application = express();
 const port = process.env.PORT || 3000;
 

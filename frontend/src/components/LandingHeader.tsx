@@ -12,7 +12,9 @@ export default class LandingHeader extends React.Component<IProps, never> {
 		return (
 			<header className={styles.header}>
 				<div className={styles.container}>
-					<div className={styles.title}><img src={logo} alt="PartyPlanner.io" /></div>
+					<div className={styles.title}>
+						<img src={logo} alt='PartyPlanner.io' />
+					</div>
 					<div className={styles.headerButtons}>
 						<button
 							onClick={this.props.onClickLogin}

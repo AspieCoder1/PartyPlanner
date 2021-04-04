@@ -32,7 +32,7 @@ Note that this should return an array of JSON objects of the parties which are p
 ```
 
 ## Errors
-- `400`, in the case there are no public parties. This would look like `{code: 400, error_msg: 'No public parties at the moment'}`.
+- `404`, in the case there are no public parties. This would look like `{code: 404, error_msg: 'No public parties at the moment'}`.
 - OR in the case of a server error you would get a `500` error in the form of `{code: 5xx, error_msg: 'Oh snap, something went wrong on our end.'}`
 
 ## Example request

@@ -23,6 +23,7 @@ if (localStorage.token) {
 	if (decoded.exp < currentTime) {
 		// Logout user
 		window.location.href = '/';
+		localStorage.removeItem('token');
 	} else {
 		store.dispatch(setUsername(decoded.username));
 		store.dispatch(setToken(localStorage.token));
