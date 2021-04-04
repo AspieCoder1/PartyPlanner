@@ -42,6 +42,7 @@ interface CreatePartyFormValues {
 }
 
 export const CreatePartyForm = (props: IProps): JSX.Element => {
+  //get values from db
 	const initialValues: CreatePartyFormValues = {
     name: '',
     organiser: '',

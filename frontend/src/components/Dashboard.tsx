@@ -5,7 +5,7 @@ import { UserState } from '../redux/user-slice';
 import styles from './Dashboard.module.scss';
 import Header from './Header';
 import MyParties from './MyParties';
-import { getParties, PartyState } from '../redux/party-slice';
+import { getParties, PartyState, createParty, editParty, updateParty } from '../redux/party-slice';
 import { Link } from 'react-router-dom';
 import MyTodos from './MyTodos';
 import { TaskState, getTasks, addTask } from '../redux/task-slice';
@@ -18,13 +18,27 @@ type TaskToAdd = {
 	taskdue: string;
 };
 
+type PartyToAdd = {
+	name: string;
+	organiser: string;
+	description: string;
+	location: string;
+	date: string;
+	time: string;
+	ageRate: boolean;
+	attendeesID: string[];
+	todoID: string;
+	publicParty: boolean;
+};
+
 type IProps = {
 	user: UserState;
 	parties: PartyState;
 	todos: TaskState;
 	getParties: (id: string) => void;
 	getTasks: (id: string) => void;
-	addTask: (taskToAdd: TaskToAdd) => void;
+  addTask: (taskToAdd: TaskToAdd) => void;
+  createParty: (partyToAdd: PartyToAdd) => void;
 };
 
 type State = {
@@ -93,6 +107,14 @@ export class Dashboard extends React.Component<IProps, State> {
 		console.log(task);
 	};
 
+  createParty = (partyToAdd: PartyToAdd): void => {
+    const party = {
+      ...partyToAdd
+    };
+    party.organiser = this.props.user.userName;
+    this.props.createParty(party);
+  }
+
 	openModal = (): void => {
 		this.setState({ modalOpen: true });
 	};
@@ -149,7 +171,8 @@ const mapStateToProps = (state: Store) => ({
 const mapDispatchToProps = {
 	getParties,
 	getTasks,
-	addTask,
+  addTask,
+  //createParty,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

@@ -1,6 +1,8 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 
+const apiRoute = process.env.REACT_APP_BACKEND_URL || '';
+
 export type PartyState = {
 	parties: any[];
 	error: string;
@@ -53,7 +55,7 @@ export const createParty = createAsyncThunk(
   'parties/createParty',
   async (newParty: NewPartyState, thunkAPI) => {
     try {
-      const { data } = await axios.post('api/parties/create', newParty);
+      const { data } = await axios.post(`${apiRoute}/api/parties/create`, newParty);
       return data;
     } catch (err) {
       const data: PartyErrors = err.response.data as PartyErrors;
@@ -66,7 +68,7 @@ export const getParties = createAsyncThunk(
 	'parties/getParties',
 	async (id: string, thunkAPI) => {
 		try {
-			const { data } = await axios.get(`api/parties/invited-parties/${id}`);
+			const { data } = await axios.get(`${apiRoute}/api/parties/invited-parties/${id}`);
 			return data;
 		} catch (err) {
 			let msg = 'Oops something went wrong';
@@ -83,7 +85,7 @@ export const editParty = createAsyncThunk(
 	'parties/editParty',
 	async (id: string, thunkAPI) => {
 		try {
-			const { data } = await axios.get(`api/parties/edit/${id}`);
+			const { data } = await axios.get(`${apiRoute}/api/parties/edit/${id}`);
 			return data;
 		} catch (err) {
 			let msg = 'Oops something went wrong';
@@ -100,7 +102,7 @@ export const updateParty = createAsyncThunk(
   'parties/updateParty',
   async (updateParty: NewPartyState, thunkAPI) => {
     try {
-      const { data } = await axios.patch(`api/parties/update/${updateParty.id}`, updateParty);
+      const { data } = await axios.patch(`${apiRoute}/api/parties/update/${updateParty.id}`, updateParty);
       return data;
     } catch (err) {
       const data: PartyErrors = err.response.data as PartyErrors;
