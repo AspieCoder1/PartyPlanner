@@ -92,7 +92,7 @@ describe('POST /create', () => {
 	it('Should respond with 400 if organiser name is empty', async () => {
 		const expectedErrors = {
 			organiser:
-				'An organiser is required and must be at least 5 characters long',
+				'An organiser is required',
 		};
 
 		const mockParty = {
@@ -113,7 +113,7 @@ describe('POST /create', () => {
 	it('Should respond with 400 if organiser name is not provided', async () => {
 		const expectedErrors = {
 			organiser:
-				'An organiser is required and must be at least 5 characters long',
+				'An organiser is required',
 		};
 
 		const mockParty = {
