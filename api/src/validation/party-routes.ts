@@ -35,9 +35,8 @@ export const validateNewParty = (newParty: newPartyObject): Ierrors => {
 			'Party name is required and must be at least 5 characters long';
 	}
 
-	if (validator.isEmpty(newParty.organiser) || newParty.organiser.length < 5) {
-		errors.organiser =
-			'An organiser is required and must be at least 5 characters long';
+	if (validator.isEmpty(newParty.organiser)) {
+		errors.organiser = 'An organiser is required';
 	}
 
 	if (

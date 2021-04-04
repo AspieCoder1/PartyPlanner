@@ -1,18 +1,18 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Store } from '../redux/store';
 import styles from './Dashboard.module.scss';
 import Header from './Header';
 import MyParties from './MyParties';
-import { Link } from 'react-router-dom';
 import MyTodos from './MyTodos';
 import ReactModal from 'react-modal';
 import { AddTaskForm } from './AddTaskForm';
-import { addTask } from '../redux/task-slice';
+import CreateParty from './CreateParty';
 
 const Dashboard = (): JSX.Element => {
 	const userName = useSelector((state: Store) => state.user.userName);
 	const [modalOpen, setModalOpen] = useState<boolean>(false);
+	const [partyModalOpen, setPartyModalOpen] = useState<boolean>(false);
 
 	const closeModal = () => {
 		setModalOpen(false);
@@ -20,6 +20,14 @@ const Dashboard = (): JSX.Element => {
 
 	const openModal = () => {
 		setModalOpen(true);
+	};
+
+	const closePartyModal = () => {
+		setPartyModalOpen(false);
+	};
+
+	const openPartyModal = () => {
+		setPartyModalOpen(true);
 	};
 
 	return (
@@ -30,9 +38,9 @@ const Dashboard = (): JSX.Element => {
 				<div className={styles.parties}>
 					<div className={styles.header}>
 						<h1>My Parties</h1>
-						<Link className={styles.addbutton} to={'/create'}>
+						<button className={styles.addbutton} onClick={openPartyModal}>
 							+
-						</Link>
+						</button>
 					</div>
 					<MyParties />
 				</div>
@@ -48,6 +56,9 @@ const Dashboard = (): JSX.Element => {
 			</div>
 			<ReactModal isOpen={modalOpen}>
 				<AddTaskForm closeModal={closeModal} />
+			</ReactModal>
+			<ReactModal isOpen={partyModalOpen}>
+				<CreateParty closeModal={closePartyModal} />
 			</ReactModal>
 		</div>
 	);

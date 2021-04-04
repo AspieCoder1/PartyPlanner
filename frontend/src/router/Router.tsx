@@ -16,9 +16,6 @@ const AppRouter = (): JSX.Element => (
 			<Route exact path='/'>
 				<Landing />
 			</Route>
-			<Route exact path='/create'>
-				<CreateParty />
-			</Route>
 			<Route exact path='/edit'>
 				<EditParty />
 			</Route>

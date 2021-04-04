@@ -5,7 +5,7 @@ import { Store } from '../redux/store';
 import { getParties } from '../redux/party-slice';
 
 const MyParties = (): JSX.Element => {
-	const id = useSelector((state: Store) => state.user.id);
+	const id = useSelector((state: Store) => state.user.userName);
 	const error = useSelector((state: Store) => state.parties.error);
 	const parties = useSelector((state: Store) => state.parties.parties);
 	const loading = useSelector((state: Store) => state.parties.loading);

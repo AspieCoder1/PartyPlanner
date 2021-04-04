@@ -7,6 +7,8 @@ jobs:
   test-backend:
     docker:
       - image: circleci/node:10.16.3
+#    environment:
+#      NODE_OPTION: "--max_old_space_size=4096"
     working_directory: ~/repo
 
     steps:
@@ -32,8 +34,6 @@ jobs:
       - run:
           name: Backend tests
           command: cd api && yarn test
-    environment:
-      NODE_OPTION: "--max_old_space_size=4096"
   test-frontend:
     docker:
       # specify the version you desire here
