@@ -166,7 +166,6 @@ const partySlice = createSlice({
           state.parties.push(action.payload);
         }
       )
-    )
 	},
 });
 
