@@ -32,8 +32,8 @@ jobs:
       - run:
           name: Backend tests
           command: cd api && yarn test
-      environment:
-          NODE_OPTION: "--max_old_space_size=4096"
+    environment:
+      NODE_OPTION: "--max_old_space_size=4096"
   test-frontend:
     docker:
       # specify the version you desire here
