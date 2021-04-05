@@ -29,6 +29,7 @@ type IProps = {
 };
 
 interface UpdatePartyFormValues {
+  _id: string;
 	name: string;
 	organiser: string;
 	description: string;
@@ -36,6 +37,8 @@ interface UpdatePartyFormValues {
 	date: string;
 	time: string;
 	ageRate: boolean;
+	attendeesID: string[];
+	todoID: string;
 	publicParty: boolean;
 }
 
@@ -43,18 +46,23 @@ const EditParty = (props: IProps): JSX.Element => {
 	const dispatch = useDispatch();
 	const errors = useSelector((state: Store) => state.parties.error);
   const userName = useSelector((state: Store) => state.user.userName);
-  //const partyID = useSelector((state: Store) => state.parties.id);
 
-	const initialValues: UpdatePartyFormValues = {
+  const initialValues: UpdatePartyFormValues = {
+    _id: '',
 		name: '',
 		organiser: userName,
 		description: '',
 		time: '00:01',
 		date: (new Date()).toString(),
 		publicParty: false,
-		ageRate: false,
+    ageRate: false,
+    attendeesID: [],
+    todoID: '',
 		location: '',
 	};
+
+  const partyID = useSelector((state: Store) => initialValues._id);
+
 
 	const UpdatePartySchema = Yup.object().shape({
 		name: Yup.string().required('Required').min(7),
@@ -68,10 +76,9 @@ const EditParty = (props: IProps): JSX.Element => {
 			console.log('submitting');
 			const partyToUpdate = {
 				...values,
-				organiser: userName,
 			};
 			setSubmitting(true);
-			//dispatch(updateParty(partyID, values));
+			dispatch(updateParty(partyID, partyToUpdate));
 			setSubmitting(false);
 		},
 		validationSchema: UpdatePartySchema,
