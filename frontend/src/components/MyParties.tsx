@@ -19,8 +19,8 @@ const MyParties = (): JSX.Element => {
 	return (
 		<div className={styles.grid}>
 			{error ? <p className={styles.error}>{error}</p> : null}
-			{loading ? <p>Loading...</p> : null}
-			{parties.length > 0 ? parties.map(party => <Party key={party.id} party={party} />) : null}
+			{loading ? <p className={styles.loading}>Loading...</p> : null}
+			{parties.length > 0 ? parties.map(party => <Party key={party._id} party={party} />) : null}
 		</div>
 	);
 };

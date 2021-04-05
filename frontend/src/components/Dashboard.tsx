@@ -54,10 +54,10 @@ const Dashboard = (): JSX.Element => {
 					<MyTodos />
 				</div>
 			</div>
-			<ReactModal isOpen={modalOpen}>
+			<ReactModal overlayClassName={styles.overlay} className={styles.modal} isOpen={modalOpen}>
 				<AddTaskForm closeModal={closeModal} />
 			</ReactModal>
-			<ReactModal isOpen={partyModalOpen}>
+			<ReactModal overlayClassName={styles.overlay} className={styles.modal} isOpen={partyModalOpen}>
 				<CreateParty closeModal={closePartyModal} />
 			</ReactModal>
 		</div>

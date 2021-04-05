@@ -113,17 +113,22 @@ const partySlice = createSlice({
 		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 		// @ts-ignore
 		builder
+			.addCase(getParties.pending, (state: PartyState) => {
+				state.loading = true;
+			})
 			.addCase(
 				getParties.fulfilled,
 				(state: PartyState, action: PayloadAction<any[]>) => {
 					state.parties = action.payload;
 					state.error = '';
+					state.loading = false;
 				}
 			)
 			.addCase(
 				getParties.rejected,
 				(state: PartyState, action: PayloadAction<string>) => {
 					state.error = action.payload;
+					state.loading = false;
 				}
 			)
 			.addCase(

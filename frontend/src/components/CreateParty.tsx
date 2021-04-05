@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Store } from '../redux/store';
 import Toggle from 'react-toggle';
 import { createParty } from '../redux/party-slice';
+import dayjs from 'dayjs';
 
 const buttonStyles: CSS.Properties = {
 	color: '#ddd9da',
@@ -41,7 +42,6 @@ interface CreatePartyFormValues {
 
 const CreateParty = (props: IProps): JSX.Element => {
 	const dispatch = useDispatch();
-	const errors = useSelector((state: Store) => state.parties.error);
 	const userName = useSelector((state: Store) => state.user.userName);
 
 	const initialValues: CreatePartyFormValues = {
@@ -64,11 +64,6 @@ const CreateParty = (props: IProps): JSX.Element => {
 	const formik = useFormik({
 		initialValues: initialValues,
 		onSubmit: async (values: CreatePartyFormValues, { setSubmitting }) => {
-			console.log('submitting');
-			const partyToCreate = {
-				...values,
-				organiser: userName,
-			};
 			setSubmitting(true);
 			dispatch(createParty(values));
 			setSubmitting(false);
@@ -97,7 +92,7 @@ const CreateParty = (props: IProps): JSX.Element => {
 					onChange={formik.handleChange}
 					value={formik.values.name}
 				/>
-				{formik.errors.name ? (
+				{formik.errors.name && formik.touched ? (
 					<p className={styles.error}>{formik.errors.name}</p>
 				) : null}
 				<textarea
@@ -107,13 +102,19 @@ const CreateParty = (props: IProps): JSX.Element => {
 					onChange={formik.handleChange}
 					value={formik.values.description}
 				/>
-				<textarea
+				{formik.errors.description && formik.touched ? (
+					<p className={styles.error}>{formik.errors.description}</p>
+				) : null}
+				<input
 					className={styles.textarea}
 					name='location'
 					placeholder='Party location'
 					onChange={formik.handleChange}
 					value={formik.values.location}
 				/>
+				{formik.errors.location && formik.touched ? (
+					<p className={styles.error}>{formik.errors.location}</p>
+				) : null}
 
 				<label>Date: &nbsp;</label>
 				<input
@@ -123,6 +124,7 @@ const CreateParty = (props: IProps): JSX.Element => {
 					placeholder='Party Date'
 					onChange={formik.handleChange}
 					value={formik.values.date}
+					min={dayjs().toString()}
 				/>
 				<label>Time: &nbsp;</label>
 				<input
@@ -132,18 +134,24 @@ const CreateParty = (props: IProps): JSX.Element => {
 					onChange={formik.handleChange}
 					name='time'
 				/>
-				<div className='form-group'>
-					<Toggle id='age-rate' onChange={formik.handleChange} name='ageRate' />
+				<div className={styles.toggleContainer}>
 					<label htmlFor='age-rate'>Over 18</label>
+					<Toggle
+						id='age-rate'
+						onChange={formik.handleChange}
+						name='ageRate'
+						icons={false}
+					/>
 				</div>
 
-				<div>
+				<div className={styles.toggleContainer}>
+					<label htmlFor='public-party'>Public party</label>
 					<Toggle
 						id='public-party'
 						onChange={formik.handleChange}
 						name='publicParty'
+						icons={false}
 					/>
-					<label htmlFor='public-party'>Public party</label>
 				</div>
 
 				<button
