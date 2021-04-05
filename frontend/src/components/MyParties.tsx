@@ -3,6 +3,7 @@ import styles from './MyParties.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { Store } from '../redux/store';
 import { getParties } from '../redux/party-slice';
+import Party from './Party';
 
 const MyParties = (): JSX.Element => {
 	const id = useSelector((state: Store) => state.user.userName);
@@ -19,7 +20,7 @@ const MyParties = (): JSX.Element => {
 		<div className={styles.grid}>
 			{error ? <p className={styles.error}>{error}</p> : null}
 			{loading ? <p>Loading...</p> : null}
-			{parties.length > 0 ? <p>Party goes here</p> : null}
+			{parties.length > 0 ? parties.map(party => <Party key={party.id} party={party} />) : null}
 		</div>
 	);
 };
