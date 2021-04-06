@@ -1,5 +1,12 @@
-import {Imageservice} from '../../src/image/Imageservice'; 
+import {ImageService} from '../../src/image/Imageservice';
+import * as path from 'path';
 
-let testImage = new Imageservice(); 
-let location = "testimage.png"
-testImage.uploadImage(location); 
+const testImage = new ImageService();
+const location = path.join(__dirname, 'testimage.png');
+console.log(location);
+const test = async () => {
+	const response =  await testImage.uploadImage(location);
+	console.log(response);
+};
+
+test();
