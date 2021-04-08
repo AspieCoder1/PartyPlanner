@@ -6,7 +6,9 @@ import styles from './CreateParty.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { Store } from '../redux/store';
 import Toggle from 'react-toggle';
-import { createParty } from '../redux/party-slice';
+import { updateParty, PartyUpdates } from '../redux/party-slice';
+import { useParams } from 'react-router';
+import { string } from 'yup';
 
 const buttonStyles: CSS.Properties = {
 	color: '#ddd9da',
@@ -14,6 +16,7 @@ const buttonStyles: CSS.Properties = {
 	background: 'none',
 	fontSize: '24px',
 };
+
 
 const submitButton: CSS.Properties = {
 	background: '#6f3473',
@@ -28,36 +31,46 @@ type IProps = {
 	closeModal: () => void;
 };
 
-interface CreatePartyFormValues {
+interface UpdatePartyFormValues {
 	name: string;
-	organiser: string;
 	description: string;
 	location: string;
 	date: string;
 	time: string;
-  ageRate: boolean;
-  attendeesID: string[];
+	ageRate: boolean;
 	publicParty: boolean;
 }
 
-const CreateParty = (props: IProps): JSX.Element => {
+const EditParty = (props: IProps): JSX.Element => {
 	const dispatch = useDispatch();
 	const errors = useSelector((state: Store) => state.parties.error);
-	const userName = useSelector((state: Store) => state.user.userName);
-
-	const initialValues: CreatePartyFormValues = {
-		name: '',
-		organiser: userName,
+  const userName = useSelector((state: Store) => state.user.userName);
+  const parties = useSelector((state: Store) => state.parties.parties);
+  const { id } = useParams<{ id: string; }>();
+  
+  const initialValues: UpdatePartyFormValues = {
+    name: '',
 		description: '',
-		time: '00:01',
+		time: '',
 		date: '',
-		publicParty: false,
-    ageRate: false,
-    attendeesID: [],
+		publicParty: Boolean(false),
+    ageRate: Boolean(true),
 		location: '',
-	};
+  };
+  
+  for (const party of parties) {
+    if (party.id == id) {
+      initialValues.name = party.name;
+      initialValues.description = party.description;
+      initialValues.time = party.time;
+      initialValues.date = party.date;
+      initialValues.publicParty = party.publicParty;
+      initialValues.ageRate = party.ageRate;
+      initialValues.location = party.location;
+    }
+  };
 
-	const CreatePartySchema = Yup.object().shape({
+	const UpdatePartySchema = Yup.object().shape({
 		name: Yup.string().required('Required').min(7),
 		description: Yup.string().required('Required').min(7),
 		location: Yup.string().required('Required').min(5),
@@ -65,23 +78,28 @@ const CreateParty = (props: IProps): JSX.Element => {
 
 	const formik = useFormik({
 		initialValues: initialValues,
-		onSubmit: async (values: CreatePartyFormValues, { setSubmitting }) => {
+		onSubmit: async (values: UpdatePartyFormValues, { setSubmitting }) => {
 			console.log('submitting');
-			const partyToCreate = {
-				...values,
-				organiser: userName,
+			const partyToUpdate: UpdatePartyFormValues = {
+        name: formik.values.name,
+        description: formik.values.description,
+        time: formik.values.time,
+        date: formik.values.date,
+        publicParty: formik.values.publicParty,
+        ageRate: formik.values.ageRate,
+        location: formik.values.location,
 			};
 			setSubmitting(true);
-			dispatch(createParty(values));
+			dispatch(updateParty({_id: id, updates: partyToUpdate}));
 			setSubmitting(false);
 		},
-		validationSchema: CreatePartySchema,
+		validationSchema: UpdatePartySchema,
 	});
 
 	return (
 		<div>
 			<div className={styles.header}>
-				<h1>Create Party</h1>
+				<h1>Edit Party</h1>
 				<button
 					style={buttonStyles}
 					className={styles.closeModal}
@@ -97,7 +115,7 @@ const CreateParty = (props: IProps): JSX.Element => {
 					name='name'
 					placeholder='Party Name'
 					onChange={formik.handleChange}
-					value={formik.values.name}
+					value={initialValues.name}
 				/>
 				{formik.errors.name ? (
 					<p className={styles.error}>{formik.errors.name}</p>
@@ -107,14 +125,15 @@ const CreateParty = (props: IProps): JSX.Element => {
 					name='description'
 					placeholder='Party Description'
 					onChange={formik.handleChange}
-					value={formik.values.description}
+          value={initialValues.description}
+          minLength={7}
 				/>
 				<textarea
 					className={styles.textarea}
 					name='location'
 					placeholder='Party location'
 					onChange={formik.handleChange}
-					value={formik.values.location}
+					value={initialValues.location}
 				/>
 
 				<label>Date: &nbsp;</label>
@@ -124,25 +143,26 @@ const CreateParty = (props: IProps): JSX.Element => {
 					name='date'
 					placeholder='Party Date'
 					onChange={formik.handleChange}
-					value={formik.values.date}
+					value={initialValues.date}
 				/>
 				<label>Time: &nbsp;</label>
 				<input
 					className={styles.input}
 					type='time'
-					value={formik.values.time}
+					value={initialValues.time}
 					onChange={formik.handleChange}
 					name='time'
 				/>
 				<div className='form-group'>
-					<Toggle id='age-rate' onChange={formik.handleChange} name='ageRate' />
+					<Toggle id='age-rate' checked={initialValues.ageRate} onChange={formik.handleChange} name='ageRate' />
 					<label htmlFor='age-rate'>Over 18</label>
 				</div>
 
 				<div>
 					<Toggle
-						id='public-party'
-						onChange={formik.handleChange}
+            id='public-party'
+            checked={initialValues.publicParty}
+            onChange={formik.handleChange}
 						name='publicParty'
 					/>
 					<label htmlFor='public-party'>Public party</label>
@@ -155,11 +175,11 @@ const CreateParty = (props: IProps): JSX.Element => {
 					type='submit'
 					disabled={formik.isSubmitting}
 				>
-					Create party
+					Update party
 				</button>
 			</form>
 		</div>
 	);
 };
 
-export default CreateParty;
+export default EditParty;
