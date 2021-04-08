@@ -3,7 +3,6 @@ import { Router, Switch, Route } from 'react-router-dom';
 import history from '../utils/history';
 import Landing from '../components/Landing';
 import Dashboard from '../components/Dashboard';
-import CreateParty from '../components/CreateParty';
 import Chat from '../components/Chat';
 import EditParty from '../components/EditParty';
 

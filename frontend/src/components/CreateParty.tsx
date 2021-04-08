@@ -35,7 +35,8 @@ interface CreatePartyFormValues {
 	location: string;
 	date: string;
 	time: string;
-	ageRate: boolean;
+  ageRate: boolean;
+  attendeesID: string[];
 	publicParty: boolean;
 }
 
@@ -51,7 +52,8 @@ const CreateParty = (props: IProps): JSX.Element => {
 		time: '00:01',
 		date: '',
 		publicParty: false,
-		ageRate: false,
+    ageRate: false,
+    attendeesID: [],
 		location: '',
 	};
 

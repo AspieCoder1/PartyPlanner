@@ -6,7 +6,9 @@ import styles from './CreateParty.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { Store } from '../redux/store';
 import Toggle from 'react-toggle';
-import { updateParty } from '../redux/party-slice';
+import { updateParty, PartyUpdates } from '../redux/party-slice';
+import { useParams } from 'react-router';
+import { string } from 'yup';
 
 const buttonStyles: CSS.Properties = {
 	color: '#ddd9da',
@@ -14,6 +16,7 @@ const buttonStyles: CSS.Properties = {
 	background: 'none',
 	fontSize: '24px',
 };
+
 
 const submitButton: CSS.Properties = {
 	background: '#6f3473',
@@ -29,16 +32,12 @@ type IProps = {
 };
 
 interface UpdatePartyFormValues {
-  _id: string;
 	name: string;
-	organiser: string;
 	description: string;
 	location: string;
 	date: string;
 	time: string;
 	ageRate: boolean;
-	attendeesID: string[];
-	todoID: string;
 	publicParty: boolean;
 }
 
@@ -46,23 +45,30 @@ const EditParty = (props: IProps): JSX.Element => {
 	const dispatch = useDispatch();
 	const errors = useSelector((state: Store) => state.parties.error);
   const userName = useSelector((state: Store) => state.user.userName);
-
+  const parties = useSelector((state: Store) => state.parties.parties);
+  const { id } = useParams<{ id: string; }>();
+  
   const initialValues: UpdatePartyFormValues = {
-    _id: '',
-		name: '',
-		organiser: userName,
+    name: '',
 		description: '',
-		time: '00:01',
-		date: (new Date()).toString(),
-		publicParty: false,
-    ageRate: false,
-    attendeesID: [],
-    todoID: '',
+		time: '',
+		date: '',
+		publicParty: Boolean(false),
+    ageRate: Boolean(true),
 		location: '',
-	};
-
-  const partyID = useSelector((state: Store) => initialValues._id);
-
+  };
+  
+  for (const party of parties) {
+    if (party.id == id) {
+      initialValues.name = party.name;
+      initialValues.description = party.description;
+      initialValues.time = party.time;
+      initialValues.date = party.date;
+      initialValues.publicParty = party.publicParty;
+      initialValues.ageRate = party.ageRate;
+      initialValues.location = party.location;
+    }
+  };
 
 	const UpdatePartySchema = Yup.object().shape({
 		name: Yup.string().required('Required').min(7),
@@ -74,11 +80,17 @@ const EditParty = (props: IProps): JSX.Element => {
 		initialValues: initialValues,
 		onSubmit: async (values: UpdatePartyFormValues, { setSubmitting }) => {
 			console.log('submitting');
-			const partyToUpdate = {
-				...values,
+			const partyToUpdate: UpdatePartyFormValues = {
+        name: formik.values.name,
+        description: formik.values.description,
+        time: formik.values.time,
+        date: formik.values.date,
+        publicParty: formik.values.publicParty,
+        ageRate: formik.values.ageRate,
+        location: formik.values.location,
 			};
 			setSubmitting(true);
-			dispatch(updateParty(partyID, partyToUpdate));
+			dispatch(updateParty({_id: id, updates: partyToUpdate}));
 			setSubmitting(false);
 		},
 		validationSchema: UpdatePartySchema,
@@ -103,7 +115,7 @@ const EditParty = (props: IProps): JSX.Element => {
 					name='name'
 					placeholder='Party Name'
 					onChange={formik.handleChange}
-					value={formik.values.name}
+					value={initialValues.name}
 				/>
 				{formik.errors.name ? (
 					<p className={styles.error}>{formik.errors.name}</p>
@@ -113,7 +125,7 @@ const EditParty = (props: IProps): JSX.Element => {
 					name='description'
 					placeholder='Party Description'
 					onChange={formik.handleChange}
-          value={formik.values.description}
+          value={initialValues.description}
           minLength={7}
 				/>
 				<textarea
@@ -121,7 +133,7 @@ const EditParty = (props: IProps): JSX.Element => {
 					name='location'
 					placeholder='Party location'
 					onChange={formik.handleChange}
-					value={formik.values.location}
+					value={initialValues.location}
 				/>
 
 				<label>Date: &nbsp;</label>
@@ -131,25 +143,25 @@ const EditParty = (props: IProps): JSX.Element => {
 					name='date'
 					placeholder='Party Date'
 					onChange={formik.handleChange}
-					value={formik.values.date}
+					value={initialValues.date}
 				/>
 				<label>Time: &nbsp;</label>
 				<input
 					className={styles.input}
 					type='time'
-					value={formik.values.time}
+					value={initialValues.time}
 					onChange={formik.handleChange}
 					name='time'
 				/>
 				<div className='form-group'>
-					<Toggle id='age-rate' checked={formik.values.ageRate} onChange={formik.handleChange} name='ageRate' />
+					<Toggle id='age-rate' checked={initialValues.ageRate} onChange={formik.handleChange} name='ageRate' />
 					<label htmlFor='age-rate'>Over 18</label>
 				</div>
 
 				<div>
 					<Toggle
             id='public-party'
-            checked={formik.values.publicParty}
+            checked={initialValues.publicParty}
             onChange={formik.handleChange}
 						name='publicParty'
 					/>
