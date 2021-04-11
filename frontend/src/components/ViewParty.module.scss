@@ -1,0 +1,70 @@
+@import "src/styles/colours.scss";
+
+.container {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  column-gap: 16px;
+  row-gap: 16px;
+  margin-left: 140px;
+  margin-right: 140px;
+  padding-top: 32px;
+}
+
+.title {
+  color: $dark-purple;
+  grid-column: 1 / span 12;
+  grid-row: 1;
+}
+
+.card {
+  padding: 8px;
+  background: white;
+  border: $grey 1px solid;
+}
+
+.spanThree {
+  @extend .card;
+  grid-column: auto / span 4;
+}
+
+.description {
+  @extend .card;
+  grid-row: 2;
+  grid-column: 1 / span 12;
+}
+
+.location {
+  @extend .card;
+  grid-column: auto / span 6;
+  grid-row: auto / auto;
+}
+
+.addbutton {
+  border: none;
+  font-size: 24px;
+  color: $dark-purple;
+  text-decoration: none;
+  background: none;
+}
+
+.overlay {
+  display: flex;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  justify-content: center;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.75);
+}
+
+.modal {
+  border: 1px solid $grey;
+  background: #fff;
+  -webkit-overflow-scrolling: touch;
+  border-radius: 4px;
+  outline: none;
+  padding: 20px;
+  width: 60%;
+}
