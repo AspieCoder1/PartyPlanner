@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import mapboxgl, {Map as MapType} from 'mapbox-gl';
+import mapboxgl, { Map as MapType } from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import styles from './Map.module.scss';
 import axios from 'axios';
@@ -8,7 +8,6 @@ mapboxgl.accessToken =
 	'pk.eyJ1IjoiYXNwaWVjb2RlciIsImEiOiJja25kYWdpMWsxZmwyMm9tcmxwenRmazVuIn0.CFsA0MiNkPyNTas4op_Glw';
 
 const Map = ({ address }: { address: string }): JSX.Element => {
-
 	const mapContainer = useRef<HTMLDivElement>(null);
 	const [lng, setLng] = useState(-70.9);
 	const [lat, setLat] = useState(42.35);
@@ -20,7 +19,7 @@ const Map = ({ address }: { address: string }): JSX.Element => {
 		const fetchData = async () => {
 			const addressString = new URLSearchParams(address).toString();
 			try {
-				const {data} = await axios.get(
+				const { data } = await axios.get(
 					`https://maps.googleapis.com/maps/api/geocode/json?address=${addressString}&key=AIzaSyD5S52SXFzOSKe_yb3QD0QN8pWJ5vp5hmI`
 				);
 				const location = data.results[0].geometry.location;
