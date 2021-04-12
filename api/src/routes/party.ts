@@ -83,6 +83,19 @@ partyRouter.delete(
 	}
 );
 
+// Get a party by an ID
+partyRouter.get('/:id', async (req: express.Request, res: express.Response) => {
+	try {
+		const id = req.params.id;
+		const foundParty: IParty = await Party.findOne({_id: id});
+		if (foundParty) {
+			res.status(200).json(foundParty);
+		}
+	} catch (e) {
+		res.status(500).json('Oops something went wrong');
+	}
+});
+
 // get parties that they are the organiser/host of
 partyRouter.get(
 	'/my-parties/:id',

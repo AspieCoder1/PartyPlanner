@@ -148,5 +148,11 @@ const userSlice = createSlice({
 	},
 });
 
-export const { setId, setToken, setUsername, setErrors } = userSlice.actions;
+export const {
+	setId,
+	setToken,
+	setUsername,
+	setErrors,
+	logOut,
+} = userSlice.actions;
 export default userSlice.reducer;
