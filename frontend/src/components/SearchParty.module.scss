@@ -28,6 +28,7 @@
   border-bottom: $grey 1px solid;
   outline: none;
   color: $black;
+  width: 50%;
 }
 
 .input::placeholder {
@@ -35,19 +36,21 @@
   color: $grey;
 }
 
-.closeButton {
-  color: $grey;
-  border: none;
-  background: none;
-  font-size: 24px;
-}
 
 .grid {
   display: grid;
-  row-gap: 8px;
+  row-gap: 16px;
   margin-top: 8px;
   max-height: 70vh;
   overflow-y: auto;
+  grid-template-columns: repeat(12, 1fr);
+  column-gap: 16px;
+}
+
+.container {
+  margin-top: 32px;
+  margin-left: 140px;
+  margin-right: 140px;
 }
 
 .error {
@@ -57,6 +60,8 @@
   margin: 0;
   background: white;
   text-align: center;
+  grid-row: 1;
+  grid-column: 1 / span 12;
 }
 
 .loading {
@@ -89,24 +94,9 @@
   margin-bottom: 30px;
   border-radius: 25px;
   background: $dark-purple;
-
-  .title{
-    font-size: 40px;
-    color: white;
-  }
-
-  .date{
-    font-size: 20px;
-    font-style: italic;
-    color: white;
-  }
-
-  .description{
-    font-size: 15px;
-    color: white;
-  }
-
 }
+
+
 
 .party:hover{
   background: $mid-purple;
@@ -115,4 +105,10 @@
 .center{
   text-align: center;
   align-content: center;
+}
+
+.searchBox {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 }

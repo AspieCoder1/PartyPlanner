@@ -20,7 +20,7 @@ partyRouter.post(
 			? req.body.attendeesID
 			: [req.body.organiser];
 		req.body.todoID = req.body.todoID ? req.body.todoID : '';
-		req.body.publicParty = req.body.public ? req.body.public : false;
+		req.body.publicParty = req.body.publicParty ? req.body.publicParty : false;
 
 		const party = {
 			name: req.body.name,

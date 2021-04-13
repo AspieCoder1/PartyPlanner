@@ -12,6 +12,8 @@ export type PartyState = {
 	fetchingPublicParties: boolean;
 	publicPartyError: string;
 	publicParties: Party[];
+	filtered: Party[];
+	filter: string;
 };
 
 export interface PartyErrors {
@@ -69,6 +71,8 @@ export const initialState: PartyState = {
 	fetchingPublicParties: false,
 	publicPartyError: '',
 	publicParties: [],
+	filtered: [],
+	filter: '',
 };
 
 export const createParty = createAsyncThunk(
@@ -159,6 +163,10 @@ const partySlice = createSlice({
 	name: 'party',
 	initialState,
 	reducers: {
+		setFilter: (state: PartyState, action: PayloadAction<string>) => {
+			const {payload} = action;
+			state.filter =  payload;
+		},
 		setParties: (state: PartyState, action: PayloadAction<Party[]>) => {
 			state.parties = action.payload;
 		},
@@ -223,6 +231,7 @@ const partySlice = createSlice({
 				(state: PartyState, action: PayloadAction<Party[]>) => {
 					state.fetchingPublicParties = false;
 					state.publicParties = action.payload;
+					state.filtered = action.payload;
 				}
 			)
 			.addCase(publicParties.pending, (state: PartyState) => {
@@ -238,6 +247,6 @@ const partySlice = createSlice({
 	},
 });
 
-export const { setParties, setParty } = partySlice.actions;
+export const { setParties, setParty, setFilter } = partySlice.actions;
 
 export default partySlice.reducer;

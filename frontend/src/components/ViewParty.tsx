@@ -9,8 +9,6 @@ import headerStyles from './Header.module.scss';
 import Map from './Map';
 import dayjs from 'dayjs';
 import { getParty, setParty } from '../redux/party-slice';
-import { logOut } from '../redux/user-slice';
-import history from '../utils/history';
 
 type Params = {
 	id: string;
@@ -30,12 +28,6 @@ const ViewParty = (): JSX.Element => {
 		};
 	}, []);
 
-	const logout = () => {
-		dispatch(logOut());
-		localStorage.removeItem('token');
-		history.push('/');
-	};
-
 	if (party) {
 		return (
 			<div>
@@ -49,9 +41,6 @@ const ViewParty = (): JSX.Element => {
 					>
 						pictures
 					</Link>
-					<button className={headerStyles.logoutButton} onClick={logout}>
-						log out
-					</button>
 				</Header>
 				<div className={styles.container}>
 					<h1 className={styles.title}>Hi {userName},</h1>

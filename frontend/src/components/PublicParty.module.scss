@@ -1,0 +1,51 @@
+@import "../styles/colours";
+
+.container {
+  display: flex;
+  background: white;
+  flex-direction: column;
+  border: 1pt solid $grey;
+  padding: 8px;
+  max-height: 100%;
+  grid-column: auto / span 3;
+}
+
+.title{
+  padding: 0;
+  margin: 0 0 8px;
+  font-size: 16px;
+  color: $black;
+  font-weight: 500;
+}
+
+.date{
+  padding: 0;
+  margin: 0 0 8px;
+  font-size: 16px;
+  color: $grey;
+}
+
+.description{
+  padding: 0;
+  margin: 0 0 8px;
+  font-size: 15px;
+  flex-grow: 1;
+  color: $black;
+  overflow: auto;
+  text-align: justify;
+}
+
+.button {
+  font-size: 18px;
+  margin-left: 8px;
+  margin-right: 8px;
+  border: none;
+  background: $dark-purple;
+  color: white;
+  padding: 8px 0 8px 0;
+}
+
+.titleGroup {
+  display: flex;
+  justify-content: space-between;
+}

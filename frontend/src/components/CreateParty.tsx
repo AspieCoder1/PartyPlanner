@@ -53,7 +53,7 @@ const CreateParty = (props: IProps): JSX.Element => {
 		date: '',
 		publicParty: false,
 		ageRate: false,
-		attendeesID: [],
+		attendeesID: [userName],
 		location: '',
 	};
 
