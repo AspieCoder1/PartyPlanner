@@ -29,7 +29,7 @@ export const SearchParty = (props: IProps): JSX.Element => {
 
     return (
         <div>
-            <div className={styles.header}>
+			<div className={styles.header}>
                 <h1>Search Parties</h1>
                 <button className={styles.closeButton} onClick={props.closeModal}>
                     &times;
@@ -55,19 +55,19 @@ export const SearchParty = (props: IProps): JSX.Element => {
                     <div className={styles.party} onClick={joinParty}>
                         <div className={styles.title}>CompSci Party</div>
                         <div className={styles.date}>15:00 20/04/2021</div>
-                        <div className={styles.description}>A party for First Year CompSci students only</div>
+						<div className={styles.description}>A party for First Year CompSci students only</div>
                     </div>
                     <div className={styles.party} onClick={joinParty}>
                         <div className={styles.title}>CompSci Party</div>
-                        <div className={styles.date}>15:00 20/04/2021</div>
-                        <div className={styles.description}>A party for First Year CompSci students only</div>
+						<div className={styles.date}>15:00 20/04/2021</div>
+						<div className={styles.description}>A party for First Year CompSci students only</div>
                     </div>
 
                     {/*Mapping parties out*/}
                     {parties.map((party: any) => <div className={styles.party}  onClick={joinParty} key={party._id}>
                         <div className={styles.title}>{party.name}</div>
-                        <div className={styles.date}>{party.time} {party.day}</div>
-                        <div className={styles.description}>{party.description}</div>
+						<div className={styles.date}>{party.time} {party.date}</div>
+						<div className={styles.description}>{party.description}</div>
                     </div>)}
                 </div>
                 <p className={styles.center}>No more parties available</p>
