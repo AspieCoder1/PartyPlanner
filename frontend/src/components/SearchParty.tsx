@@ -6,6 +6,7 @@ import { publicParties } from '../redux/party-slice';
 import Header from './Header';
 
 export const SearchParty = (): JSX.Element => {
+
 	const parties = useSelector((state: Store) => state.parties.parties);
 	const dispatch = useDispatch();
 	const [searchInput, setSearchInput] = useState<string>('');
