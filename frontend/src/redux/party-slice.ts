@@ -65,7 +65,6 @@ export const createParty = createAsyncThunk(
 			return data;
 		} catch (err) {
 			const data: PartyErrors = err.response.data as PartyErrors;
-			console.log(data);
 			return thunkAPI.rejectWithValue(data);
 		}
 	}
