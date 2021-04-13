@@ -9,6 +9,9 @@ export type PartyState = {
 	fetchingParty: boolean;
 	error: string;
 	loading: boolean;
+	fetchingPublicParties: boolean;
+	publicPartyError: string;
+	publicParties: Party[];
 };
 
 export interface PartyErrors {
@@ -63,6 +66,9 @@ export const initialState: PartyState = {
 	error: '',
 	fetchingParty: true,
 	loading: false,
+	fetchingPublicParties: false,
+	publicPartyError: '',
+	publicParties: [],
 };
 
 export const createParty = createAsyncThunk(
@@ -103,6 +109,24 @@ export const getParties = createAsyncThunk(
 		try {
 			const { data } = await axios.get(
 				`${apiRoute}/api/parties/invited-parties/${id}`
+			);
+			return data;
+		} catch (err) {
+			let msg = 'Oops something went wrong';
+			if (typeof err.response.data !== 'undefined') {
+				msg = err.response.data;
+			}
+			return thunkAPI.rejectWithValue(msg);
+		}
+	}
+);
+
+export const publicParties = createAsyncThunk(
+	'parties/publicParties',
+	async (random: string, thunkAPI) => {
+		try {
+			const {data} = await axios.get(
+				`${apiRoute}/api/parties/public-parties/`
 			);
 			return data;
 		} catch (err) {
@@ -193,7 +217,18 @@ const partySlice = createSlice({
 					state.fetchingParty = false;
 					state.error = action.payload;
 				}
-			);
+			)
+			.addCase(publicParties.fulfilled, (state: PartyState, action: PayloadAction<Party[]>) => {
+			state.fetchingPublicParties= false;
+			state.publicParties = action.payload;
+			})
+			.addCase(publicParties.pending, (state: PartyState) => {
+			state.fetchingPublicParties = true;
+			})
+			.addCase(publicParties.rejected, (state: PartyState, action: PayloadAction<string>) => {
+			state.fetchingPublicParties = false;
+			state.publicPartyError = action.payload;
+		});
 	},
 });
 

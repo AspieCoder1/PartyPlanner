@@ -43,7 +43,7 @@ const MyTodos = (): JSX.Element => {
 								toggle={toggle}
 							/>
 						);
-				  })
+				})
 				: null}
 		</div>
 	);
