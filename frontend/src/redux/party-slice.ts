@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { Mongoose } from 'mongoose';
 
 const apiRoute = process.env.REACT_APP_BACKEND_URL || '';
 
@@ -22,17 +23,27 @@ export interface PartyErrors {
 }
 
 export type Party = {
-	_id: string;
-	name: string;
-	organiser: string;
-	description: string;
-	location: string;
-	date: string;
-	time: string;
-	ageRate: boolean;
-	attendeesID: string[];
-	todoID: string;
-	publicParty: boolean;
+  _id: string;
+  name: string;
+  organiser: string;
+  description: string;
+  location: string;
+  date: string;
+  time: string;
+  ageRate: boolean;
+  attendeesID: string[];
+  todoID: string;
+  publicParty: boolean;
+};
+
+export type PartyUpdates = {
+  name: string;
+  description: string;
+  location: string;
+  date: string;
+  time: string;
+  ageRate: boolean;
+  publicParty: boolean;
 };
 
 type NewPartyState = {
@@ -42,7 +53,8 @@ type NewPartyState = {
 	location: string;
 	date: string;
 	time: string;
-	ageRate: boolean;
+  ageRate: boolean;
+  attendeesID: string[];
 	publicParty: boolean;
 };
 
@@ -106,10 +118,10 @@ export const getParties = createAsyncThunk(
 
 export const updateParty = createAsyncThunk(
 	'parties/updateParty',
-	async (updateParty: { id: string; updates: any }, thunkAPI) => {
+	async (updateParty: { _id: string; updates: PartyUpdates }, thunkAPI) => {
 		try {
 			const { data } = await axios.patch(
-				`${apiRoute}/api/parties/update/${updateParty.id}`,
+				`${apiRoute}/api/parties/update/${updateParty._id}`,
 				updateParty
 			);
 			return data;
