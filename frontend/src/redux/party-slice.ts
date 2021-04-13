@@ -74,7 +74,7 @@ export const getParty = createAsyncThunk(
 	'parties/getParty',
 	async (id: string, thunkAPI) => {
 		try {
-			const { data } = await axios.get(`${apiRoute}/api/parties/${id}`);
+			const { data } = await axios.get(`${apiRoute}/api/parties/party/${id}`);
 			return data;
 		} catch (err) {
 			let msg = 'Oops something went wrong';

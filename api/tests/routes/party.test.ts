@@ -432,7 +432,6 @@ describe('GET /public-parties', () => {
 			time: '11:30',
 			public: true,
 		};
-
 		await request(app).post('/create').send(mockParty);
 		const { status } = await request(app).get('/public-parties');
 		expect(status).toBe(200);

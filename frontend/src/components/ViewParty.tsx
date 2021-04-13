@@ -68,7 +68,6 @@ const ViewParty = (): JSX.Element => {
 						<p>{party.location}</p>
 						<Map address={party.location} />
 					</div>
-					<div className={styles.location} />
 				</div>
 			</div>
 		);
