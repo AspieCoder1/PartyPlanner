@@ -2,7 +2,7 @@ import styles from './SearchParty.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { Store } from '../redux/store';
 import React, { useEffect, useState } from 'react';
-import { Party, publicParties, setFilter } from '../redux/party-slice';
+import { filterParties, Party, publicParties} from '../redux/party-slice';
 import Header from './Header';
 import PublicParty from './PublicParty';
 
@@ -11,9 +11,7 @@ export const SearchParty = (): JSX.Element => {
 	const [searchInput, setSearchInput] = useState<string>('');
 
 	const parties = useSelector((state: Store) =>
-		state.parties.parties.filter(({ name }: Party) =>
-			name.toLowerCase().includes(state.parties.filter)
-		)
+		state.parties.filtered
 	);
 	const error = useSelector((state: Store) => state.parties.publicPartyError);
 
@@ -22,7 +20,7 @@ export const SearchParty = (): JSX.Element => {
 	}, []);
 
 	useEffect(() => {
-		dispatch(setFilter(searchInput));
+		dispatch(filterParties(searchInput));
 	}, [searchInput]);
 
 	const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {

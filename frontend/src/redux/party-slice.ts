@@ -163,9 +163,10 @@ const partySlice = createSlice({
 	name: 'party',
 	initialState,
 	reducers: {
-		setFilter: (state: PartyState, action: PayloadAction<string>) => {
+		filterParties: (state: PartyState, action: PayloadAction<string>) => {
 			const {payload} = action;
-			state.filter =  payload;
+			const filter = state.publicParties;
+			state.filtered = filter.filter(({name}: Party) => name.toLowerCase().includes(payload));
 		},
 		setParties: (state: PartyState, action: PayloadAction<Party[]>) => {
 			state.parties = action.payload;
@@ -247,6 +248,6 @@ const partySlice = createSlice({
 	},
 });
 
-export const { setParties, setParty, setFilter } = partySlice.actions;
+export const { setParties, setParty, filterParties } = partySlice.actions;
 
 export default partySlice.reducer;
