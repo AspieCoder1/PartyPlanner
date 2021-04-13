@@ -7,6 +7,7 @@ import Chat from '../components/Chat';
 import EditParty from '../components/EditParty';
 import ViewParty from '../components/ViewParty';
 import PageNotFound from '../components/404';
+import { SearchParty } from '../components/SearchParty';
 
 const AppRouter = (): JSX.Element => (
 	<Router history={history}>
@@ -25,6 +26,9 @@ const AppRouter = (): JSX.Element => (
 			</Route>
 			<Route exact path='/party/:id'>
 				<ViewParty />
+			</Route>
+			<Route exact path='/search'>
+				<SearchParty />
 			</Route>
 			<Route path='*'>
 				<PageNotFound />

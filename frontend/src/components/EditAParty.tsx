@@ -17,7 +17,6 @@ const buttonStyles: CSS.Properties = {
 	fontSize: '24px',
 };
 
-
 const submitButton: CSS.Properties = {
 	background: '#6f3473',
 	border: 'none',
@@ -44,31 +43,31 @@ interface UpdatePartyFormValues {
 const EditParty = (props: IProps): JSX.Element => {
 	const dispatch = useDispatch();
 	const errors = useSelector((state: Store) => state.parties.error);
-  const userName = useSelector((state: Store) => state.user.userName);
-  const parties = useSelector((state: Store) => state.parties.parties);
-  const { id } = useParams<{ id: string; }>();
-  
-  const initialValues: UpdatePartyFormValues = {
-    name: '',
+	const userName = useSelector((state: Store) => state.user.userName);
+	const parties = useSelector((state: Store) => state.parties.parties);
+	const { id } = useParams<{ id: string }>();
+
+	const initialValues: UpdatePartyFormValues = {
+		name: '',
 		description: '',
 		time: '',
 		date: '',
 		publicParty: Boolean(false),
-    ageRate: Boolean(true),
+		ageRate: Boolean(true),
 		location: '',
-  };
-  
-  for (const party of parties) {
-    if (party._id == id) {
-      initialValues.name = party.name;
-      initialValues.description = party.description;
-      initialValues.time = party.time;
-      initialValues.date = party.date;
-      initialValues.publicParty = party.publicParty;
-      initialValues.ageRate = party.ageRate;
-      initialValues.location = party.location;
-    }
-  };
+	};
+
+	for (const party of parties) {
+		if (party._id == id) {
+			initialValues.name = party.name;
+			initialValues.description = party.description;
+			initialValues.time = party.time;
+			initialValues.date = party.date;
+			initialValues.publicParty = party.publicParty;
+			initialValues.ageRate = party.ageRate;
+			initialValues.location = party.location;
+		}
+	}
 
 	const UpdatePartySchema = Yup.object().shape({
 		name: Yup.string().required('Required').min(7),
@@ -81,16 +80,16 @@ const EditParty = (props: IProps): JSX.Element => {
 		onSubmit: async (values: UpdatePartyFormValues, { setSubmitting }) => {
 			console.log('submitting');
 			const partyToUpdate: UpdatePartyFormValues = {
-        name: formik.values.name,
-        description: formik.values.description,
-        time: formik.values.time,
-        date: formik.values.date,
-        publicParty: formik.values.publicParty,
-        ageRate: formik.values.ageRate,
-        location: formik.values.location,
+				name: formik.values.name,
+				description: formik.values.description,
+				time: formik.values.time,
+				date: formik.values.date,
+				publicParty: formik.values.publicParty,
+				ageRate: formik.values.ageRate,
+				location: formik.values.location,
 			};
 			setSubmitting(true);
-			dispatch(updateParty({_id: id, updates: partyToUpdate}));
+			dispatch(updateParty({ _id: id, updates: partyToUpdate }));
 			setSubmitting(false);
 		},
 		validationSchema: UpdatePartySchema,
@@ -125,8 +124,8 @@ const EditParty = (props: IProps): JSX.Element => {
 					name='description'
 					placeholder='Party Description'
 					onChange={formik.handleChange}
-          value={initialValues.description}
-          minLength={7}
+					value={initialValues.description}
+					minLength={7}
 				/>
 				<textarea
 					className={styles.textarea}
@@ -154,15 +153,20 @@ const EditParty = (props: IProps): JSX.Element => {
 					name='time'
 				/>
 				<div className='form-group'>
-					<Toggle id='age-rate' checked={initialValues.ageRate} onChange={formik.handleChange} name='ageRate' />
+					<Toggle
+						id='age-rate'
+						checked={initialValues.ageRate}
+						onChange={formik.handleChange}
+						name='ageRate'
+					/>
 					<label htmlFor='age-rate'>Over 18</label>
 				</div>
 
 				<div>
 					<Toggle
-            id='public-party'
-            checked={initialValues.publicParty}
-            onChange={formik.handleChange}
+						id='public-party'
+						checked={initialValues.publicParty}
+						onChange={formik.handleChange}
 						name='publicParty'
 					/>
 					<label htmlFor='public-party'>Public party</label>

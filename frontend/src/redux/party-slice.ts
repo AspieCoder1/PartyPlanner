@@ -25,27 +25,27 @@ export interface PartyErrors {
 }
 
 export type Party = {
-  _id: string;
-  name: string;
-  organiser: string;
-  description: string;
-  location: string;
-  date: string;
-  time: string;
-  ageRate: boolean;
-  attendeesID: string[];
-  todoID: string;
-  publicParty: boolean;
+	_id: string;
+	name: string;
+	organiser: string;
+	description: string;
+	location: string;
+	date: string;
+	time: string;
+	ageRate: boolean;
+	attendeesID: string[];
+	todoID: string;
+	publicParty: boolean;
 };
 
 export type PartyUpdates = {
-  name: string;
-  description: string;
-  location: string;
-  date: string;
-  time: string;
-  ageRate: boolean;
-  publicParty: boolean;
+	name: string;
+	description: string;
+	location: string;
+	date: string;
+	time: string;
+	ageRate: boolean;
+	publicParty: boolean;
 };
 
 type NewPartyState = {
@@ -55,8 +55,8 @@ type NewPartyState = {
 	location: string;
 	date: string;
 	time: string;
-  ageRate: boolean;
-  attendeesID: string[];
+	ageRate: boolean;
+	attendeesID: string[];
 	publicParty: boolean;
 };
 
@@ -125,7 +125,7 @@ export const publicParties = createAsyncThunk(
 	'parties/publicParties',
 	async (random: string, thunkAPI) => {
 		try {
-			const {data} = await axios.get(
+			const { data } = await axios.get(
 				`${apiRoute}/api/parties/public-parties/`
 			);
 			return data;
@@ -218,17 +218,23 @@ const partySlice = createSlice({
 					state.error = action.payload;
 				}
 			)
-			.addCase(publicParties.fulfilled, (state: PartyState, action: PayloadAction<Party[]>) => {
-			state.fetchingPublicParties= false;
-			state.publicParties = action.payload;
-			})
+			.addCase(
+				publicParties.fulfilled,
+				(state: PartyState, action: PayloadAction<Party[]>) => {
+					state.fetchingPublicParties = false;
+					state.publicParties = action.payload;
+				}
+			)
 			.addCase(publicParties.pending, (state: PartyState) => {
-			state.fetchingPublicParties = true;
+				state.fetchingPublicParties = true;
 			})
-			.addCase(publicParties.rejected, (state: PartyState, action: PayloadAction<string>) => {
-			state.fetchingPublicParties = false;
-			state.publicPartyError = action.payload;
-		});
+			.addCase(
+				publicParties.rejected,
+				(state: PartyState, action: PayloadAction<string>) => {
+					state.fetchingPublicParties = false;
+					state.publicPartyError = action.payload;
+				}
+			);
 	},
 });
 
