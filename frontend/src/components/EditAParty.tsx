@@ -59,7 +59,7 @@ const EditParty = (props: IProps): JSX.Element => {
   };
   
   for (const party of parties) {
-    if (party.id == id) {
+    if (party._id == id) {
       initialValues.name = party.name;
       initialValues.description = party.description;
       initialValues.time = party.time;
