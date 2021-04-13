@@ -2,8 +2,9 @@
 
 .container {
   display: grid;
-  grid-template-columns: repeat(11, 1fr);
+  grid-template-columns: repeat(12, 1fr);
   column-gap: 16px;
+  row-gap: 16px;
   margin-left: 140px;
   margin-right: 140px;
   padding-top: 32px;
@@ -11,24 +12,31 @@
 
 .title {
   color: $dark-purple;
-  grid-column: 1 / span 4;
+  grid-column: 1 / span 12;
+  grid-row: 1;
 }
 
-.parties {
-  grid-column: 1 / span 6;
+.card {
+  padding: 8px;
+  background: white;
+  border: $grey 1px solid;
+}
+
+.spanThree {
+  @extend .card;
+  grid-column: auto / span 4;
+}
+
+.description {
+  @extend .card;
   grid-row: 2;
+  grid-column: 1 / span 12;
 }
 
-.tasks {
-  grid-column: 8 / span 5;
-  grid-row: 2;
-  background: lighten($grey, 10);
-}
-
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.location {
+  @extend .card;
+  grid-column: auto / span 12;
+  grid-row: auto / auto;
 }
 
 .addbutton {

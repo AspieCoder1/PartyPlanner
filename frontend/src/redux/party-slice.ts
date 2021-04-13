@@ -1,11 +1,12 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { Mongoose } from 'mongoose';
 
 const apiRoute = process.env.REACT_APP_BACKEND_URL || '';
 
 export type PartyState = {
-	parties: any[];
+	parties: Party[];
+	party: Party | undefined;
+	fetchingParty: boolean;
 	error: string;
 	loading: boolean;
 };
@@ -58,7 +59,9 @@ type NewPartyState = {
 
 export const initialState: PartyState = {
 	parties: [],
+	party: undefined,
 	error: '',
+	fetchingParty: true,
 	loading: false,
 };
 
@@ -73,8 +76,23 @@ export const createParty = createAsyncThunk(
 			return data;
 		} catch (err) {
 			const data: PartyErrors = err.response.data as PartyErrors;
-			console.log(data);
 			return thunkAPI.rejectWithValue(data);
+		}
+	}
+);
+
+export const getParty = createAsyncThunk(
+	'parties/getParty',
+	async (id: string, thunkAPI) => {
+		try {
+			const { data } = await axios.get(`${apiRoute}/api/parties/party/${id}`);
+			return data;
+		} catch (err) {
+			let msg = 'Oops something went wrong';
+			if (typeof err.response.data !== 'undefined') {
+				msg = err.response.data;
+			}
+			return thunkAPI.rejectWithValue(msg);
 		}
 	}
 );
@@ -117,25 +135,33 @@ const partySlice = createSlice({
 	name: 'party',
 	initialState,
 	reducers: {
-		setParties: (state, action) => {
+		setParties: (state: PartyState, action: PayloadAction<Party[]>) => {
 			state.parties = action.payload;
+		},
+		setParty: (state: PartyState, action: PayloadAction<Party | undefined>) => {
+			state.party = action.payload;
 		},
 	},
 	extraReducers: (builder) => {
 		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 		// @ts-ignore
 		builder
+			.addCase(getParties.pending, (state: PartyState) => {
+				state.loading = true;
+			})
 			.addCase(
 				getParties.fulfilled,
-				(state: PartyState, action: PayloadAction<any[]>) => {
+				(state: PartyState, action: PayloadAction<Party[]>) => {
 					state.parties = action.payload;
 					state.error = '';
+					state.loading = false;
 				}
 			)
 			.addCase(
 				getParties.rejected,
 				(state: PartyState, action: PayloadAction<string>) => {
 					state.error = action.payload;
+					state.loading = false;
 				}
 			)
 			.addCase(
@@ -150,10 +176,27 @@ const partySlice = createSlice({
 					state.parties.push(action.payload);
 					state.error = '';
 				}
+			)
+			.addCase(getParty.pending, (state: PartyState) => {
+				state.fetchingParty = true;
+			})
+			.addCase(
+				getParty.fulfilled,
+				(state: PartyState, action: PayloadAction<Party>) => {
+					state.fetchingParty = false;
+					state.party = action.payload;
+				}
+			)
+			.addCase(
+				getParty.rejected,
+				(state: PartyState, action: PayloadAction<string>) => {
+					state.fetchingParty = false;
+					state.error = action.payload;
+				}
 			);
 	},
 });
 
-export const { setParties } = partySlice.actions;
+export const { setParties, setParty } = partySlice.actions;
 
 export default partySlice.reducer;

@@ -12,17 +12,24 @@ type Props = {
 	toggle: (id: string, completed: boolean) => void;
 };
 
-
-
 export const Task = ({ task, deleteTask, toggle }: Props): JSX.Element => {
 	const handleCompleted = (completed: boolean) => {
 		return completed ? (
-			<p className={styles.taskCompleted} onClick={() => toggle(task.id, task.taskcompleted)}>Completed</p>
+			<p
+				className={styles.taskCompleted}
+				onClick={() => toggle(task.id, task.taskcompleted)}
+			>
+				Completed
+			</p>
 		) : (
-			<p className={styles.notCompleted} onClick={() => toggle(task.id, task.taskcompleted)}>Not completed</p>
+			<p
+				className={styles.notCompleted}
+				onClick={() => toggle(task.id, task.taskcompleted)}
+			>
+				Not completed
+			</p>
 		);
 	};
-
 
 	return (
 		<div key={task.id} className={styles.taskContainer}>

@@ -35,15 +35,15 @@ const MyTodos = (): JSX.Element => {
 			{tasksLoading ? <p className={styles.loading}>Loading...</p> : null}
 			{tasks.length > 0
 				? tasks.map((task: TaskType) => {
-					return (
-						<Task
-							key={task.id}
-							task={task}
-							deleteTask={deleteTask}
-							toggle={toggle}
-						/>
-					);
-				})
+						return (
+							<Task
+								key={task.id}
+								task={task}
+								deleteTask={deleteTask}
+								toggle={toggle}
+							/>
+						);
+				  })
 				: null}
 		</div>
 	);

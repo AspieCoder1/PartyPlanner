@@ -32,10 +32,10 @@
 .header-buttons {
   display: flex;
   align-content: center;
+  justify-content: space-between;
 }
 
 .logoutButton {
-  margin-right: 16px;
   border: none;
   color: $black;
   background: none;
@@ -47,4 +47,11 @@
   font-size: 16px;
   border: none;
   background: none;
+}
+
+.headerLink {
+  text-decoration: none;
+  color: $black;
+  font-size: 16px;
+  margin-right: 16px;
 }

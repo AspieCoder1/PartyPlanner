@@ -4,30 +4,30 @@ import axios from 'axios';
 const apiRoute = process.env.REACT_APP_BACKEND_URL || '';
 
 export type Task = {
-  id: string;
-  taskname: string;
-  taskdesc: string;
-  taskduedate: string;
-  taskduetime: string;
-  taskcreator: string;
-  taskcompleted: boolean;
+	id: string;
+	taskname: string;
+	taskdesc: string;
+	taskduedate: string;
+	taskduetime: string;
+	taskcreator: string;
+	taskcompleted: boolean;
 };
 
 type TaskToAdd = {
-  taskname: string;
-  taskdesc: string;
-  taskdue: string;
+	taskname: string;
+	taskdesc: string;
+	taskdue: string;
 };
 
 export type TaskState = {
-  loading: boolean;
-  tasks: Task[];
-  error: string;
+	loading: boolean;
+	tasks: Task[];
+	error: string;
 };
 
 type ToggleArgs = {
-  id: string;
-  completed: boolean;
+	id: string;
+	completed: boolean;
 };
 
 type ToggleArgsFulfilled = {
@@ -35,11 +35,10 @@ type ToggleArgsFulfilled = {
 	toggle: boolean;
 };
 
-
 export const initialState = {
 	loading: false,
 	tasks: [],
-	error: ''
+	error: '',
 };
 
 export const toggleCompleted = createAsyncThunk(
@@ -48,9 +47,8 @@ export const toggleCompleted = createAsyncThunk(
 		const { id, completed } = toggleArgs;
 		const toggle = !completed;
 		const updates: Partial<Task> = {
-			taskcompleted: toggle
+			taskcompleted: toggle,
 		};
-
 
 		try {
 			await axios.patch(`${apiRoute}/api/todos/update/${id}`, { updates });
@@ -104,7 +102,7 @@ export const deleteTask = createAsyncThunk(
 			await axios.delete(`${apiRoute}/api/todos/${id}`);
 			return id;
 		} catch (e) {
-			return thunkAPI.rejectWithValue('Couldn\'t delete the task');
+			return thunkAPI.rejectWithValue("Couldn't delete the task");
 		}
 	}
 );
@@ -118,11 +116,11 @@ const taskSlice = createSlice({
 		},
 		setTodos: (state: TaskState, action: PayloadAction<Task[]>) => {
 			state.tasks = action.payload;
-		}
+		},
 	},
 	extraReducers: (builder) =>
-	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-	// @ts-ignore
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+		// @ts-ignore
 		builder
 			.addCase(getTasks.pending, (state: TaskState) => {
 				state.error = '';
@@ -164,9 +162,11 @@ const taskSlice = createSlice({
 				toggleCompleted.fulfilled,
 				(state: TaskState, action: PayloadAction<ToggleArgsFulfilled>) => {
 					const { id, toggle } = action.payload;
-					state.tasks.filter((task: Task) => task.id === id)[0].taskcompleted = toggle;
+					state.tasks.filter(
+						(task: Task) => task.id === id
+					)[0].taskcompleted = toggle;
 				}
-			)
+			),
 });
 
 export const { setErrors, setTodos } = taskSlice.actions;
