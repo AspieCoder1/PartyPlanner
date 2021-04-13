@@ -430,7 +430,7 @@ describe('GET /public-parties', () => {
 			date: '2021-04-04',
 			ageRate: false,
 			time: '11:30',
-			public: true,
+			publicParty: true,
 		};
 		await request(app).post('/create').send(mockParty);
 		const { status } = await request(app).get('/public-parties');
