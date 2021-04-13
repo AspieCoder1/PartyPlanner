@@ -65,9 +65,9 @@ export const SearchParty = (props: IProps): JSX.Element => {
 
                     {/*Mapping parties out*/}
                     {parties.map((party: any) => <div className={styles.party}  onClick={joinParty} key={party._id}>
-                        <div className={styles.title}>CompSci Party</div>
-                        <div className={styles.date}>15:00 20/04/2021</div>
-                        <div className={styles.description}>party._id</div>
+                        <div className={styles.title}>{party.name}</div>
+                        <div className={styles.date}>{party.time} {party.day}</div>
+                        <div className={styles.description}>{party.description}</div>
                     </div>)}
                 </div>
                 <p className={styles.center}>No more parties available</p>
