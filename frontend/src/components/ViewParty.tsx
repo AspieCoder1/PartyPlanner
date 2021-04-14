@@ -3,15 +3,16 @@ import { useParams } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import { Store } from '../redux/store';
 import { Link } from 'react-router-dom';
-import Header from './Header';
+import Header from './shared/Header';
 import styles from './ViewParty.module.scss';
-import headerStyles from './Header.module.scss';
-import Map from './Map';
+import headerStyles from './shared/Header.module.scss';
+import Map from './dashboard/Map';
 import dayjs from 'dayjs';
 import { getParty, setParty } from '../redux/party-slice';
 import Attendees from './Attendees';
 import ReactModal from 'react-modal';
-import EditParty from './EditAParty';
+import EditParty from './EditParty';
+import Invite from './Invite';
 
 type Params = {
 	id: string;
@@ -23,6 +24,7 @@ const ViewParty = (): JSX.Element => {
 	const party = useSelector((state: Store) => state.parties.party);
 	const userName = useSelector((state: Store) => state.user.userName);
 	const [modalOpen, setModalOpen] = useState<boolean>(false);
+	const [inviteModalOpen, setInviteModalOpen] = useState<boolean>(false);
 
 	useEffect(() => {
 		dispatch(getParty(id));
@@ -34,6 +36,10 @@ const ViewParty = (): JSX.Element => {
 
 	const openModal = () => {
 		setModalOpen((modalOpen: boolean) => !modalOpen);
+	};
+
+	const openInviteModal = () => {
+		setInviteModalOpen((inviteModalOpen: boolean) => !inviteModalOpen);
 	};
 
 	if (party) {
@@ -48,12 +54,19 @@ const ViewParty = (): JSX.Element => {
 						Search
 					</Link>
 					{isOrganiser ? (
-						<button className={headerStyles.headerLink}>Invite</button>
+						<button
+							className={headerStyles.headerLink}
+							onClick={openInviteModal}
+						>
+							Invite
+						</button>
 					) : (
 						<></>
 					)}
 					{isOrganiser ? (
-						<button className={headerStyles.headerLink} onClick={openModal}>Edit</button>
+						<button className={headerStyles.headerLink} onClick={openModal}>
+							Edit
+						</button>
 					) : (
 						<></>
 					)}
@@ -86,8 +99,19 @@ const ViewParty = (): JSX.Element => {
 					</div>
 					{isOrganiser ? <Attendees attendees={party.attendeesID} /> : null}
 				</div>
-				<ReactModal isOpen={modalOpen}>
+				<ReactModal
+					className={styles.modal}
+					overlayClassName={styles.overlay}
+					isOpen={modalOpen}
+				>
 					<EditParty closeModal={openModal} />
+				</ReactModal>
+				<ReactModal
+					isOpen={inviteModalOpen}
+					className={styles.modal}
+					overlayClassName={styles.overlay}
+				>
+					<Invite closeModal={openInviteModal} />
 				</ReactModal>
 			</div>
 		);

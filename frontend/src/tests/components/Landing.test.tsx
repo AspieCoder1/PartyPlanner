@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { render, screen } from '@testing-library/react';
-import Landing from '../../components/Landing';
+import Landing from '../../components/landing/Landing';
 import store from '../../redux/store';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';

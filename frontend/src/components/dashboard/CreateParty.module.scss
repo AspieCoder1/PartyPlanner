@@ -1,0 +1,62 @@
+@import "../../styles/colours";
+
+.form {
+  margin-top: 32px;
+  display: grid;
+  grid-column: 1;
+  row-gap: 16px;
+}
+
+.error {
+  color: $error;
+  margin: 0px;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-content: center;
+}
+
+.submit-button {
+  background: $dark-purple;
+  color: #FFFFFF;
+}
+
+.input,.textarea {
+  font-size: 16px;
+  padding: 8px;
+  border: none;
+  border-bottom: $grey 1px solid;
+  outline: none;
+  color: $black;
+}
+
+.input::placeholder {
+  font-size: 16px;
+  color: $grey;
+}
+
+.toggleContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 15%;
+}
+
+.closeButton {
+  color: $grey;
+  border: none;
+  background: none;
+  font-size: 24px;
+}
+
+.buttonSubmit {
+  background: $dark-purple;
+  border: none;
+  color: white;
+  font-size: 24px;
+  margin-top: 16px;
+  padding: 8px;
+}

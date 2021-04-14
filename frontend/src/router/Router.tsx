@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { Route, Router, Switch } from 'react-router-dom';
 import history from '../utils/history';
-import Landing from '../components/Landing';
-import Dashboard from '../components/Dashboard';
-import Chat from '../components/Chat';
+import Landing from '../components/landing/Landing';
+import Dashboard from '../components/dashboard/Dashboard';
+import Chat from '../components/chat/Chat';
 import ViewParty from '../components/ViewParty';
 import PageNotFound from '../components/404';
-import { SearchParty } from '../components/SearchParty';
+import SearchParty from '../components/search/SearchParty';
 import PublicRoute from './PublicRoute';
 import PrivateRoute from './PrivateRoute';
 

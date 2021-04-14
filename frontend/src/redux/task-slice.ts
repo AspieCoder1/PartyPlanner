@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
-
-const apiRoute = process.env.REACT_APP_BACKEND_URL || '';
+import { apiRoute } from '../utils/api';
 
 export type Task = {
 	id: string;
@@ -102,7 +101,7 @@ export const deleteTask = createAsyncThunk(
 			await axios.delete(`${apiRoute}/api/todos/${id}`);
 			return id;
 		} catch (e) {
-			return thunkAPI.rejectWithValue('Couldn\'t delete the task');
+			return thunkAPI.rejectWithValue("Couldn't delete the task");
 		}
 	}
 );

@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { Store } from '../redux/store';
 
 type Props = {
-  children: ReactElement;
+	children: ReactElement;
 };
 
 const PublicRoute = ({ children }: Props): JSX.Element => {

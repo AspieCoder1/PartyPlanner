@@ -1,5 +1,5 @@
 import * as React from 'react';
-import LandingHeader from '../../components/LandingHeader';
+import LandingHeader from '../../components/landing/LandingHeader';
 import { render, screen } from '@testing-library/react';
 
 describe('<LandingHeader/>', () => {

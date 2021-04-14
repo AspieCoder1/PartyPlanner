@@ -7,7 +7,7 @@ import {
 	act,
 } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { RegisterForm } from '../../components/RegisterForm';
+import { RegisterForm } from '../../components/landing/RegisterForm';
 import { Provider } from 'react-redux';
 import store from '../../redux/store';
 import axios from 'axios';

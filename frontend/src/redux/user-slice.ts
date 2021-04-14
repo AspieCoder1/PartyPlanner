@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
-
-const apiRoute = process.env.REACT_APP_BACKEND_URL || '';
+import { apiRoute } from '../utils/api';
 
 export interface UserErrors {
 	email?: string;

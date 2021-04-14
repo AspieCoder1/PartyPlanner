@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
-
-const apiRoute = process.env.REACT_APP_BACKEND_URL || '';
+import { apiRoute } from '../utils/api';
 
 export type PartyState = {
 	parties: Party[];
@@ -270,11 +269,15 @@ const partySlice = createSlice({
 					action: PayloadAction<{ partyId: string; userId: string }>
 				) => {
 					const { partyId, userId } = action.payload;
-					const joinedParty: Party = state.publicParties.find(({ _id }: Party) => _id === partyId)!;
+					const joinedParty: Party = state.publicParties.find(
+						({ _id }: Party) => _id === partyId
+					)!;
 
 					if (joinedParty) {
 						state.parties.push(joinedParty);
-						state.filtered.find(({_id}: Party) => _id === partyId)?.attendeesID.push(userId);
+						state.filtered
+							.find(({ _id }: Party) => _id === partyId)
+							?.attendeesID.push(userId);
 					}
 				}
 			);
