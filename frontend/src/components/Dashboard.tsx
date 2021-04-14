@@ -8,6 +8,8 @@ import MyTodos from './MyTodos';
 import ReactModal from 'react-modal';
 import { AddTaskForm } from './AddTaskForm';
 import CreateParty from './CreateParty';
+import headerStyles from './Header.module.scss';
+import { Link } from 'react-router-dom';
 
 const Dashboard = (): JSX.Element => {
 	const userName = useSelector((state: Store) => state.user.userName);
@@ -32,7 +34,11 @@ const Dashboard = (): JSX.Element => {
 
 	return (
 		<div className={styles.background}>
-			<Header />
+			<Header>
+				<Link className={headerStyles.headerLink} to={'/search'}>
+					Search
+				</Link>
+			</Header>
 			<div className={styles.container}>
 				<h1 className={styles.title}>Hello, {userName}</h1>
 				<div className={styles.parties}>

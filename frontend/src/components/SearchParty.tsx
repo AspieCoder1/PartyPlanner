@@ -2,17 +2,17 @@ import styles from './SearchParty.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { Store } from '../redux/store';
 import React, { useEffect, useState } from 'react';
-import { filterParties, Party, publicParties} from '../redux/party-slice';
+import { filterParties, Party, publicParties } from '../redux/party-slice';
 import Header from './Header';
 import PublicParty from './PublicParty';
+import headerStyles from './Header.module.scss';
+import { Link } from 'react-router-dom';
 
 export const SearchParty = (): JSX.Element => {
 	const dispatch = useDispatch();
 	const [searchInput, setSearchInput] = useState<string>('');
 
-	const parties = useSelector((state: Store) =>
-		state.parties.filtered
-	);
+	const parties = useSelector((state: Store) => state.parties.filtered);
 	const error = useSelector((state: Store) => state.parties.publicPartyError);
 
 	useEffect(() => {
@@ -29,7 +29,11 @@ export const SearchParty = (): JSX.Element => {
 
 	return (
 		<>
-			<Header />
+			<Header>
+				<Link className={headerStyles.headerLink} to='/dashboard'>
+					Dashboard
+				</Link>
+			</Header>
 			<div className={styles.container}>
 				<div className={styles.searchBox}>
 					<input
@@ -44,7 +48,8 @@ export const SearchParty = (): JSX.Element => {
 					{error ? <p className={styles.error}>{error}</p> : null}
 					{parties.length > 0
 						? parties.map((party: Party) => (
-								<PublicParty key={party._id} party={party} />))
+								<PublicParty key={party._id} party={party} />
+						  ))
 						: null}
 				</div>
 			</div>

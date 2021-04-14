@@ -159,14 +159,31 @@ export const updateParty = createAsyncThunk(
 	}
 );
 
+export const joinParty = createAsyncThunk(
+	'party/joinParty',
+	async (partyObj: { partyId: string; userId: string }, thunkAPI) => {
+		const { partyId, userId } = partyObj;
+		try {
+			await axios.post(`${apiRoute}/api/parties/join/${partyId}`, {
+				attenderID: userId,
+			});
+			return partyId;
+		} catch (e) {
+			return thunkAPI.rejectWithValue('Unable to join the party');
+		}
+	}
+);
+
 const partySlice = createSlice({
 	name: 'party',
 	initialState,
 	reducers: {
 		filterParties: (state: PartyState, action: PayloadAction<string>) => {
-			const {payload} = action;
+			const { payload } = action;
 			const filter = state.publicParties;
-			state.filtered = filter.filter(({name}: Party) => name.toLowerCase().includes(payload));
+			state.filtered = filter.filter(({ name }: Party) =>
+				name.toLowerCase().includes(payload)
+			);
 		},
 		setParties: (state: PartyState, action: PayloadAction<Party[]>) => {
 			state.parties = action.payload;
@@ -243,6 +260,18 @@ const partySlice = createSlice({
 				(state: PartyState, action: PayloadAction<string>) => {
 					state.fetchingPublicParties = false;
 					state.publicPartyError = action.payload;
+				}
+			)
+			.addCase(
+				joinParty.fulfilled,
+				(state: PartyState, action: PayloadAction<string>) => {
+					state.parties.push(
+						<Party>(
+							state.publicParties.find(
+								({ _id }: Party) => _id === action.payload
+							)
+						)
+					);
 				}
 			);
 	},
