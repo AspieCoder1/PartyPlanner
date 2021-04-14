@@ -48,8 +48,8 @@ export const SearchParty = (): JSX.Element => {
 					{error ? <p className={styles.error}>{error}</p> : null}
 					{parties.length > 0
 						? parties.map((party: Party) => (
-								<PublicParty key={party._id} party={party} />
-						  ))
+							<PublicParty key={party._id} party={party} />
+						))
 						: null}
 				</div>
 			</div>
