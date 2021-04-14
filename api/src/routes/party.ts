@@ -1,7 +1,7 @@
 import * as express from 'express';
 import * as _ from 'lodash';
 import { IParty, Party } from '../models/party';
-import { validateNewParty } from '../validation/party-routes';
+import { validateNewParty, validateUpdates } from "../validation/party-routes";
 
 const partyRouter: express.Router = express.Router();
 
@@ -165,6 +165,12 @@ partyRouter.patch(
 
 	async (req: express.Request, res: express.Response) => {
 		const { updates } = req.body;
+
+		const errors = validateUpdates(updates);
+		if (!_.isEmpty(errors)) {
+			return res.status(400).json(errors);
+		}
+
 		try {
 			const idToUpdate = req.params.id;
 			const existing = await Party.findById(idToUpdate);
