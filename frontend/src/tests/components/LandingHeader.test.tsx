@@ -4,9 +4,7 @@ import { render, screen } from '@testing-library/react';
 
 describe('<LandingHeader/>', () => {
 	it('Should render component correctly', () => {
-		render(
-			<LandingHeader onClickLogin={jest.fn()} onClickRegister={jest.fn()} />
-		);
+		render(<LandingHeader onClickLogin={jest.fn()} onClickRegister={jest.fn()} />);
 		expect(screen.getByText('Login')).toBeTruthy();
 		expect(screen.getByText('Register')).toBeTruthy();
 	});
@@ -15,12 +13,7 @@ describe('<LandingHeader/>', () => {
 		const clickLogin = jest.fn();
 		const clickRegister = jest.fn();
 
-		render(
-			<LandingHeader
-				onClickLogin={clickLogin}
-				onClickRegister={clickRegister}
-			/>
-		);
+		render(<LandingHeader onClickLogin={clickLogin} onClickRegister={clickRegister} />);
 		screen.getByText('Login').click();
 		expect(clickLogin).toHaveBeenCalledTimes(1);
 	});
@@ -29,12 +22,7 @@ describe('<LandingHeader/>', () => {
 		const clickLogin = jest.fn();
 		const clickRegister = jest.fn();
 
-		render(
-			<LandingHeader
-				onClickLogin={clickLogin}
-				onClickRegister={clickRegister}
-			/>
-		);
+		render(<LandingHeader onClickLogin={clickLogin} onClickRegister={clickRegister} />);
 		screen.getByText('Register').click();
 		expect(clickRegister).toHaveBeenCalledTimes(1);
 	});

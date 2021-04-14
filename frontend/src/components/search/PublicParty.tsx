@@ -12,8 +12,7 @@ type Props = {
 const PublicParty = ({ party }: Props): JSX.Element => {
 	const dispatch = useDispatch();
 	const userName: string = useSelector((state: Store) => state.user.userName);
-	const buttonText: string =
-		party.attendeesID.indexOf(userName) === -1 ? 'Attend' : 'Attending';
+	const buttonText: string = party.attendeesID.indexOf(userName) === -1 ? 'Attend' : 'Attending';
 
 	const buttonDisabled = party.attendeesID.indexOf(userName) !== -1;
 
@@ -31,11 +30,7 @@ const PublicParty = ({ party }: Props): JSX.Element => {
 				{dayjs(party.date).format('DD MMMM, YYYY')} at {party.time}
 			</p>
 			<p className={styles.description}>{party.description}</p>
-			<button
-				className={styles.button}
-				onClick={onClick}
-				disabled={buttonDisabled}
-			>
+			<button className={styles.button} onClick={onClick} disabled={buttonDisabled}>
 				{buttonText}
 			</button>
 		</div>

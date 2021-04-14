@@ -54,10 +54,7 @@ const ViewParty = (): JSX.Element => {
 						Search
 					</Link>
 					{isOrganiser ? (
-						<button
-							className={headerStyles.headerLink}
-							onClick={openInviteModal}
-						>
+						<button className={headerStyles.headerLink} onClick={openInviteModal}>
 							Invite
 						</button>
 					) : (
@@ -73,44 +70,27 @@ const ViewParty = (): JSX.Element => {
 					<Link className={headerStyles.headerLink} to={`/chat/${party._id}`}>
 						Chat
 					</Link>
-					<Link
-						className={headerStyles.headerLink}
-						to={`/pictures/${party._id}`}
-					>
+					<Link className={headerStyles.headerLink} to={`/pictures/${party._id}`}>
 						Pictures
 					</Link>
 				</Header>
 				<div className={styles.container}>
 					<h1 className={styles.title}>Hi {userName},</h1>
 					<div className={styles.description}>{party.description}</div>
-					<div className={styles.spanThree}>
-						Date: {dayjs(party.date).format('MMMM D, YYYY')}
-					</div>
+					<div className={styles.spanThree}>Date: {dayjs(party.date).format('MMMM D, YYYY')}</div>
 					<div className={styles.spanThree}>Time: {party.time}</div>
-					<div className={styles.spanThree}>
-						Attendees: {party.attendeesID.length}
-					</div>
-					<div
-						className={isOrganiser ? styles.locationOrganiser : styles.location}
-					>
+					<div className={styles.spanThree}>Attendees: {party.attendeesID.length}</div>
+					<div className={isOrganiser ? styles.locationOrganiser : styles.location}>
 						<h2>Location:</h2>
 						<p>{party.location}</p>
 						<Map address={party.location} />
 					</div>
 					{isOrganiser ? <Attendees attendees={party.attendeesID} /> : null}
 				</div>
-				<ReactModal
-					className={styles.modal}
-					overlayClassName={styles.overlay}
-					isOpen={modalOpen}
-				>
+				<ReactModal className={styles.modal} overlayClassName={styles.overlay} isOpen={modalOpen}>
 					<EditParty closeModal={openModal} />
 				</ReactModal>
-				<ReactModal
-					isOpen={inviteModalOpen}
-					className={styles.modal}
-					overlayClassName={styles.overlay}
-				>
+				<ReactModal isOpen={inviteModalOpen} className={styles.modal} overlayClassName={styles.overlay}>
 					<Invite closeModal={openInviteModal} />
 				</ReactModal>
 			</div>

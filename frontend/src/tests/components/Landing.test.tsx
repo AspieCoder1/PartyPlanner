@@ -14,9 +14,7 @@ describe('<Landing/>', () => {
 			{ wrapper: MemoryRouter }
 		);
 
-		expect(
-			screen.getByText('Take the stress out of party planning')
-		).toBeTruthy();
+		expect(screen.getByText('Take the stress out of party planning')).toBeTruthy();
 		expect(screen.getByText('Login')).toBeTruthy();
 		expect(screen.getByText('Register')).toBeTruthy();
 	});

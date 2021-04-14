@@ -4,8 +4,7 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import styles from './Map.module.scss';
 import axios from 'axios';
 
-mapboxgl.accessToken =
-	'pk.eyJ1IjoiYXNwaWVjb2RlciIsImEiOiJja25kYWdpMWsxZmwyMm9tcmxwenRmazVuIn0.CFsA0MiNkPyNTas4op_Glw';
+mapboxgl.accessToken = 'pk.eyJ1IjoiYXNwaWVjb2RlciIsImEiOiJja25kYWdpMWsxZmwyMm9tcmxwenRmazVuIn0.CFsA0MiNkPyNTas4op_Glw';
 
 const Map = ({ address }: { address: string }): JSX.Element => {
 	const mapContainer = useRef<HTMLDivElement>(null);
@@ -24,9 +23,7 @@ const Map = ({ address }: { address: string }): JSX.Element => {
 				);
 				const location = data.results[0].geometry.location;
 				map.setCenter(new mapboxgl.LngLat(location.lng, location.lat));
-				new mapboxgl.Marker()
-					.setLngLat(new mapboxgl.LngLat(location.lng, location.lat))
-					.addTo(map);
+				new mapboxgl.Marker().setLngLat(new mapboxgl.LngLat(location.lng, location.lat)).addTo(map);
 			} catch (err) {
 				console.log('Something went wrong');
 				console.log(err);

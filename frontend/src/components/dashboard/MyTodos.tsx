@@ -3,12 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Task from './Task';
 import styles from './MyTodos.module.scss';
 import { Store } from '../../redux/store';
-import {
-	Task as TaskType,
-	getTasks,
-	deleteTask as deleteTaskAction,
-	toggleCompleted,
-} from '../../redux/task-slice';
+import { Task as TaskType, getTasks, deleteTask as deleteTaskAction, toggleCompleted } from '../../redux/task-slice';
 
 const MyTodos = (): JSX.Element => {
 	const userName = useSelector((state: Store) => state.user.userName);
@@ -34,16 +29,7 @@ const MyTodos = (): JSX.Element => {
 			{error ? <p className={styles.error}>{error}</p> : null}
 			{tasksLoading ? <p className={styles.loading}>Loading...</p> : null}
 			{tasks.length > 0
-				? tasks.map((task: TaskType) => {
-						return (
-							<Task
-								key={task.id}
-								task={task}
-								deleteTask={deleteTask}
-								toggle={toggle}
-							/>
-						);
-				  })
+				? tasks.map((task: TaskType) => <Task key={task.id} task={task} deleteTask={deleteTask} toggle={toggle} />)
 				: null}
 		</div>
 	);

@@ -10,11 +10,7 @@ const Attendees = ({ attendees }: Props): JSX.Element => {
 	return (
 		<div className={styles.locationOrganiser}>
 			<h2>Attendees</h2>
-			{attendees.length > 0
-				? attendees.map((attendee: string) => (
-						<p key={uniqueId()}>{attendee}</p>
-				  ))
-				: null}
+			{attendees.length > 0 ? attendees.map((attendee: string) => <p key={uniqueId()}>{attendee}</p>) : null}
 		</div>
 	);
 };

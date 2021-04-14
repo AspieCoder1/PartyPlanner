@@ -20,9 +20,7 @@ const MyParties = (): JSX.Element => {
 		<div className={styles.grid}>
 			{error ? <p className={styles.error}>{error}</p> : null}
 			{loading ? <p className={styles.loading}>Loading...</p> : null}
-			{parties.length > 0
-				? parties.map((party) => <Party key={party._id} party={party} />)
-				: null}
+			{parties.length > 0 ? parties.map((party) => <Party key={party._id} party={party} />) : null}
 		</div>
 	);
 };

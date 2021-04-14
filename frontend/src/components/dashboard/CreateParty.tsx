@@ -77,11 +77,7 @@ const CreateParty = (props: IProps): JSX.Element => {
 		<div>
 			<div className={styles.header}>
 				<h1>Create Party</h1>
-				<button
-					style={buttonStyles}
-					className={styles.closeModal}
-					onClick={props.closeModal}
-				>
+				<button style={buttonStyles} className={styles.closeModal} onClick={props.closeModal}>
 					&times;
 				</button>
 			</div>
@@ -94,9 +90,7 @@ const CreateParty = (props: IProps): JSX.Element => {
 					onChange={formik.handleChange}
 					value={formik.values.name}
 				/>
-				{formik.errors.name && formik.touched ? (
-					<p className={styles.error}>{formik.errors.name}</p>
-				) : null}
+				{formik.errors.name && formik.touched ? <p className={styles.error}>{formik.errors.name}</p> : null}
 				<textarea
 					className={styles.textarea}
 					name='description'
@@ -114,9 +108,7 @@ const CreateParty = (props: IProps): JSX.Element => {
 					onChange={formik.handleChange}
 					value={formik.values.location}
 				/>
-				{formik.errors.location && formik.touched ? (
-					<p className={styles.error}>{formik.errors.location}</p>
-				) : null}
+				{formik.errors.location && formik.touched ? <p className={styles.error}>{formik.errors.location}</p> : null}
 
 				<label>Date: &nbsp;</label>
 				<input
@@ -138,22 +130,12 @@ const CreateParty = (props: IProps): JSX.Element => {
 				/>
 				<div className={styles.toggleContainer}>
 					<label htmlFor='age-rate'>Over 18</label>
-					<Toggle
-						id='age-rate'
-						onChange={formik.handleChange}
-						name='ageRate'
-						icons={false}
-					/>
+					<Toggle id='age-rate' onChange={formik.handleChange} name='ageRate' icons={false} />
 				</div>
 
 				<div className={styles.toggleContainer}>
 					<label htmlFor='public-party'>Public party</label>
-					<Toggle
-						id='public-party'
-						onChange={formik.handleChange}
-						name='publicParty'
-						icons={false}
-					/>
+					<Toggle id='public-party' onChange={formik.handleChange} name='publicParty' icons={false} />
 				</div>
 
 				<button

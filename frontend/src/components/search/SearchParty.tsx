@@ -46,11 +46,7 @@ const SearchParty = (): JSX.Element => {
 				</div>
 				<div className={styles.grid}>
 					{error ? <p className={styles.error}>{error}</p> : null}
-					{parties.length > 0
-						? parties.map((party: Party) => (
-								<PublicParty key={party._id} party={party} />
-						  ))
-						: null}
+					{parties.length > 0 ? parties.map((party: Party) => <PublicParty key={party._id} party={party} />) : null}
 				</div>
 			</div>
 		</>

@@ -34,9 +34,7 @@ export const RegisterForm = (props: IProps): JSX.Element => {
 			.max(20, 'max username length is 20 characters')
 			.matches(/^[a-zA-Z0-9]+$/, 'Username must be alphanumeric')
 			.required('Required'),
-		password: Yup.string()
-			.min(8, 'Password must have a length of at least 8')
-			.required('Required'),
+		password: Yup.string().min(8, 'Password must have a length of at least 8').required('Required'),
 	});
 
 	const formik = useFormik({

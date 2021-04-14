@@ -89,12 +89,7 @@ export const LoginForm = (props: IProps): JSX.Element => {
 						</p>
 					)
 				)}
-				<button
-					data-testid='submitButton'
-					className={styles.buttonsubmit}
-					type='submit'
-					disabled={formik.isSubmitting}
-				>
+				<button data-testid='submitButton' className={styles.buttonsubmit} type='submit' disabled={formik.isSubmitting}>
 					Log In
 				</button>
 			</form>

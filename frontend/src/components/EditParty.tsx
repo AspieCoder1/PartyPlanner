@@ -98,11 +98,7 @@ const EditParty = (props: IProps): JSX.Element => {
 		<div>
 			<div className={styles.header}>
 				<h1>Edit Party</h1>
-				<button
-					style={buttonStyles}
-					className={styles.closeModal}
-					onClick={props.closeModal}
-				>
+				<button style={buttonStyles} className={styles.closeModal} onClick={props.closeModal}>
 					&times;
 				</button>
 			</div>
@@ -115,9 +111,7 @@ const EditParty = (props: IProps): JSX.Element => {
 					onChange={formik.handleChange}
 					value={formik.values.name}
 				/>
-				{formik.errors.name ? (
-					<p className={styles.error}>{formik.errors.name}</p>
-				) : null}
+				{formik.errors.name ? <p className={styles.error}>{formik.errors.name}</p> : null}
 				<textarea
 					className={styles.textarea}
 					name='description'
@@ -152,12 +146,7 @@ const EditParty = (props: IProps): JSX.Element => {
 					name='time'
 				/>
 				<div className='form-group'>
-					<Toggle
-						id='age-rate'
-						checked={formik.values.ageRate}
-						onChange={formik.handleChange}
-						name='ageRate'
-					/>
+					<Toggle id='age-rate' checked={formik.values.ageRate} onChange={formik.handleChange} name='ageRate' />
 					<label htmlFor='age-rate'>Over 18</label>
 				</div>
 

@@ -37,17 +37,12 @@ const Landing = (): JSX.Element => {
 
 	return (
 		<>
-			<LandingHeader
-				onClickLogin={openLoginModal}
-				onClickRegister={openRegisterModal}
-			/>
+			<LandingHeader onClickLogin={openLoginModal} onClickRegister={openRegisterModal} />
 			<div className={styles.container}>
 				<h2 className={styles.title}>Take the stress out of party planning</h2>
 				<p className={styles.paragraph}>
-					We all know party planning is hard. But it does not have to be.
-					PartyPlanner.io provides you with all the tools you need in order to
-					have a stress-free party. So relax, get a drink and give PartyPlanner
-					a try!
+					We all know party planning is hard. But it does not have to be. PartyPlanner.io provides you with all the
+					tools you need in order to have a stress-free party. So relax, get a drink and give PartyPlanner a try!
 				</p>
 				<button className={styles.button} onClick={openRegisterModal}>
 					Get PartyPlanner

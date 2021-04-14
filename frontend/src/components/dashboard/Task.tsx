@@ -15,17 +15,11 @@ type Props = {
 export const Task = ({ task, deleteTask, toggle }: Props): JSX.Element => {
 	const handleCompleted = (completed: boolean) => {
 		return completed ? (
-			<p
-				className={styles.taskCompleted}
-				onClick={() => toggle(task.id, task.taskcompleted)}
-			>
+			<p className={styles.taskCompleted} onClick={() => toggle(task.id, task.taskcompleted)}>
 				Completed
 			</p>
 		) : (
-			<p
-				className={styles.notCompleted}
-				onClick={() => toggle(task.id, task.taskcompleted)}
-			>
+			<p className={styles.notCompleted} onClick={() => toggle(task.id, task.taskcompleted)}>
 				Not completed
 			</p>
 		);
@@ -34,10 +28,7 @@ export const Task = ({ task, deleteTask, toggle }: Props): JSX.Element => {
 	return (
 		<div key={task.id} className={styles.taskContainer}>
 			<div className={styles.closeContainer}>
-				<button
-					className={styles.closeButton}
-					onClick={() => deleteTask(task.id)}
-				>
+				<button className={styles.closeButton} onClick={() => deleteTask(task.id)}>
 					&times;
 				</button>
 			</div>
@@ -46,11 +37,7 @@ export const Task = ({ task, deleteTask, toggle }: Props): JSX.Element => {
 				{handleCompleted(task.taskcompleted)}
 			</div>
 
-			<p className={styles.taskDate}>
-				{task.taskduedate
-					? `Due ${dayjs(task.taskduedate).from(Date.now())}`
-					: 'N/A'}
-			</p>
+			<p className={styles.taskDate}>{task.taskduedate ? `Due ${dayjs(task.taskduedate).from(Date.now())}` : 'N/A'}</p>
 			<p className={styles.taskDesc}>{task.taskdesc}</p>
 		</div>
 	);
