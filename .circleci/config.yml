@@ -33,7 +33,7 @@ jobs:
       # run tests!
       - run:
           name: Backend tests
-          command: cd api && yarn test
+          command: cd api && yarn test-ci
   test-frontend:
     docker:
       # specify the version you desire here
