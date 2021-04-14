@@ -167,7 +167,7 @@ export const joinParty = createAsyncThunk(
 			await axios.post(`${apiRoute}/api/parties/join/${partyId}`, {
 				attenderID: userId,
 			});
-			return partyId;
+			return { partyId, userId };
 		} catch (e) {
 			return thunkAPI.rejectWithValue('Unable to join the party');
 		}
@@ -264,14 +264,17 @@ const partySlice = createSlice({
 			)
 			.addCase(
 				joinParty.fulfilled,
-				(state: PartyState, action: PayloadAction<string>) => {
-					state.parties.push(
-						<Party>(
-							state.publicParties.find(
-								({ _id }: Party) => _id === action.payload
-							)
-						)
-					);
+				(
+					state: PartyState,
+					action: PayloadAction<{ partyId: string; userId: string }>
+				) => {
+					const { partyId, userId } = action.payload;
+					const joinedParty: Party = state.publicParties.find(({ _id }: Party) => _id === partyId)!;
+
+					if (joinedParty) {
+						state.parties.push(joinedParty);
+						state.filtered.find(({_id}: Party) => _id === partyId)?.attendeesID.push(userId);
+					}
 				}
 			);
 	},
