@@ -8,7 +8,7 @@ type Updates = {
 	time: string;
 	ageRate: boolean;
 	publicParty: boolean;
-}
+};
 
 interface newPartyObject {
 	name: string;
@@ -73,7 +73,7 @@ export const validateNewParty = (newParty: newPartyObject): Ierrors => {
 	return errors;
 };
 
-export const validateUpdates = (updates: Updates ): Ierrors => {
+export const validateUpdates = (updates: Updates): Ierrors => {
 	const errors: Ierrors = {};
 
 	if (validator.isEmpty(updates.name)) {

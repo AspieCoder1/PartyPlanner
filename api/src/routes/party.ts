@@ -1,9 +1,12 @@
 import * as express from 'express';
 import * as _ from 'lodash';
 import { IParty, Party } from '../models/party';
-import { validateNewParty, validateUpdates } from "../validation/party-routes";
+import { validateNewParty, validateUpdates } from '../validation/party-routes';
+import { EmailService } from '../email/EmailService';
+import { IUser, User } from '../models/user';
 
 const partyRouter: express.Router = express.Router();
+const emailService: EmailService = new EmailService();
 
 partyRouter.post(
 	'/create',
@@ -110,11 +113,15 @@ partyRouter.post(
 		try {
 			const attenderID: string = req.body.attenderID;
 			const updatingPartyID: string = req.params.id;
-			const foundParty = await Party.findByIdAndUpdate(updatingPartyID, {$addToSet: {attendeesID: attenderID}}, {new: true});
+			const foundParty = await Party.findByIdAndUpdate(
+				updatingPartyID,
+				{ $addToSet: { attendeesID: attenderID } },
+				{ new: true }
+			);
 			if (foundParty) {
-				res.status(200).send(foundParty);
+				res.status(200).json(foundParty);
 			} else {
-				res.status(404).send('This party cannot be joined/does not exists.');
+				res.status(404).json('This party cannot be joined/does not exists.');
 			}
 		} catch (e) {
 			res.status(500).json('Oops something went wrong');
@@ -122,7 +129,38 @@ partyRouter.post(
 	}
 );
 
-// gettning parties they are invited to
+partyRouter.post(
+	'/invite/:partyID',
+	async (req: express.Request, res: express.Response) => {
+		const partyID = req.params.partyID;
+		const userID = req.body.userID;
+		const user: IUser = await User.findOne({ username: userID });
+		try {
+			if (user) {
+				const msg = `Hi ${user.username}, you have been invited to the party with an id of ${partyID}.`;
+				emailService.sendMail(user.email, `Invite to part ${partyID}`, msg);
+				const foundParty = await Party.findByIdAndUpdate(
+					partyID,
+					{ $addToSet: { attendeesID: userID } },
+					{ new: true }
+				);
+				if (foundParty) {
+					res.status(200).json(foundParty);
+				} else {
+					res
+						.status(404)
+						.json('This party cannot be joined or does not exists.');
+				}
+			} else {
+				return res.status(404).json('User does not exist');
+			}
+		} catch (e) {
+			res.status(500).json('Oops something went wrong');
+		}
+	}
+);
+
+// getting parties they are invited to
 partyRouter.get(
 	'/invited-parties/:id',
 	async (req: express.Request, res: express.Response) => {
