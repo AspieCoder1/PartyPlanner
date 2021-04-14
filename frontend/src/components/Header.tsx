@@ -14,9 +14,9 @@ const Header = (props: Props): JSX.Element => {
 	const history = useHistory();
 	const dispatch = useDispatch();
 
-	const logout = () => {
-		dispatch(logOut());
-		localStorage.removeItem('token');
+	const logout = async () => {
+		await dispatch(logOut());
+		await localStorage.removeItem('token');
 		history.push('/');
 	};
 

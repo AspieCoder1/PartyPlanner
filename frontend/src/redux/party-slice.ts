@@ -225,6 +225,7 @@ const partySlice = createSlice({
 				(state: PartyState, action: PayloadAction<Party>) => {
 					state.parties.push(action.payload);
 					state.error = '';
+					state.party = action.payload;
 				}
 			)
 			.addCase(getParty.pending, (state: PartyState) => {

@@ -108,12 +108,10 @@ partyRouter.post(
 	'/join/:id',
 	async (req: express.Request, res: express.Response) => {
 		try {
-			const attenderID = req.body.attenderID;
-			const updatingPartyID = req.params.id;
-			const foundParty = await Party.findById(updatingPartyID);
+			const attenderID: string = req.body.attenderID;
+			const updatingPartyID: string = req.params.id;
+			const foundParty = await Party.findByIdAndUpdate(updatingPartyID, {$addToSet: {attendeesID: attenderID}}, {new: true});
 			if (foundParty) {
-				foundParty.attendeesID.push(attenderID);
-				await foundParty.save();
 				res.status(200).send(foundParty);
 			} else {
 				res.status(404).send('This party cannot be joined/does not exists.');
@@ -167,12 +165,6 @@ partyRouter.patch(
 
 	async (req: express.Request, res: express.Response) => {
 		const { updates } = req.body;
-
-		const errors = validateNewParty(updates);
-		if (!_.isEmpty(errors)) {
-			return res.status(400).json(errors);
-		}
-
 		try {
 			const idToUpdate = req.params.id;
 			const existing = await Party.findById(idToUpdate);

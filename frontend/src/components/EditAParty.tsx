@@ -6,9 +6,8 @@ import styles from './CreateParty.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { Store } from '../redux/store';
 import Toggle from 'react-toggle';
-import { updateParty, PartyUpdates } from '../redux/party-slice';
+import { PartyUpdates, updateParty } from '../redux/party-slice';
 import { useParams } from 'react-router';
-import { string } from 'yup';
 
 const buttonStyles: CSS.Properties = {
 	color: '#ddd9da',
@@ -43,30 +42,28 @@ interface UpdatePartyFormValues {
 const EditParty = (props: IProps): JSX.Element => {
 	const dispatch = useDispatch();
 	const errors = useSelector((state: Store) => state.parties.error);
+	const party = useSelector((state: Store) => state.parties.party);
 	const userName = useSelector((state: Store) => state.user.userName);
-	const parties = useSelector((state: Store) => state.parties.parties);
 	const { id } = useParams<{ id: string }>();
 
 	const initialValues: UpdatePartyFormValues = {
 		name: '',
 		description: '',
 		time: '',
-		date: '',
-		publicParty: Boolean(false),
-		ageRate: Boolean(true),
+		date: new Date().toISOString().substring(0, 10),
+		publicParty: false,
+		ageRate: true,
 		location: '',
 	};
 
-	for (const party of parties) {
-		if (party._id == id) {
-			initialValues.name = party.name;
-			initialValues.description = party.description;
-			initialValues.time = party.time;
-			initialValues.date = party.date;
-			initialValues.publicParty = party.publicParty;
-			initialValues.ageRate = party.ageRate;
-			initialValues.location = party.location;
-		}
+	if (party) {
+		initialValues.name = party.name;
+		initialValues.description = party.description;
+		initialValues.time = party.time;
+		initialValues.date = new Date(party.date).toISOString().substring(0, 10);
+		initialValues.publicParty = party.publicParty;
+		initialValues.ageRate = party.ageRate;
+		initialValues.location = party.location;
 	}
 
 	const UpdatePartySchema = Yup.object().shape({
@@ -79,7 +76,8 @@ const EditParty = (props: IProps): JSX.Element => {
 		initialValues: initialValues,
 		onSubmit: async (values: UpdatePartyFormValues, { setSubmitting }) => {
 			console.log('submitting');
-			const partyToUpdate: UpdatePartyFormValues = {
+
+			const updates: PartyUpdates = {
 				name: formik.values.name,
 				description: formik.values.description,
 				time: formik.values.time,
@@ -88,8 +86,9 @@ const EditParty = (props: IProps): JSX.Element => {
 				ageRate: formik.values.ageRate,
 				location: formik.values.location,
 			};
+
 			setSubmitting(true);
-			dispatch(updateParty({ _id: id, updates: partyToUpdate }));
+			dispatch(updateParty({ _id: id, updates }));
 			setSubmitting(false);
 		},
 		validationSchema: UpdatePartySchema,
@@ -114,7 +113,7 @@ const EditParty = (props: IProps): JSX.Element => {
 					name='name'
 					placeholder='Party Name'
 					onChange={formik.handleChange}
-					value={initialValues.name}
+					value={formik.values.name}
 				/>
 				{formik.errors.name ? (
 					<p className={styles.error}>{formik.errors.name}</p>
@@ -124,7 +123,7 @@ const EditParty = (props: IProps): JSX.Element => {
 					name='description'
 					placeholder='Party Description'
 					onChange={formik.handleChange}
-					value={initialValues.description}
+					value={formik.values.description}
 					minLength={7}
 				/>
 				<textarea
@@ -132,7 +131,7 @@ const EditParty = (props: IProps): JSX.Element => {
 					name='location'
 					placeholder='Party location'
 					onChange={formik.handleChange}
-					value={initialValues.location}
+					value={formik.values.location}
 				/>
 
 				<label>Date: &nbsp;</label>
@@ -142,20 +141,20 @@ const EditParty = (props: IProps): JSX.Element => {
 					name='date'
 					placeholder='Party Date'
 					onChange={formik.handleChange}
-					value={initialValues.date}
+					value={formik.values.date}
 				/>
 				<label>Time: &nbsp;</label>
 				<input
 					className={styles.input}
 					type='time'
-					value={initialValues.time}
+					value={formik.values.time}
 					onChange={formik.handleChange}
 					name='time'
 				/>
 				<div className='form-group'>
 					<Toggle
 						id='age-rate'
-						checked={initialValues.ageRate}
+						checked={formik.values.ageRate}
 						onChange={formik.handleChange}
 						name='ageRate'
 					/>
@@ -165,7 +164,7 @@ const EditParty = (props: IProps): JSX.Element => {
 				<div>
 					<Toggle
 						id='public-party'
-						checked={initialValues.publicParty}
+						checked={formik.values.publicParty}
 						onChange={formik.handleChange}
 						name='publicParty'
 					/>

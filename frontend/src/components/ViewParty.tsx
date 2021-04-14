@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import { Store } from '../redux/store';
@@ -9,6 +9,9 @@ import headerStyles from './Header.module.scss';
 import Map from './Map';
 import dayjs from 'dayjs';
 import { getParty, setParty } from '../redux/party-slice';
+import Attendees from './Attendees';
+import ReactModal from 'react-modal';
+import EditParty from './EditAParty';
 
 type Params = {
 	id: string;
@@ -19,6 +22,7 @@ const ViewParty = (): JSX.Element => {
 	const dispatch = useDispatch();
 	const party = useSelector((state: Store) => state.parties.party);
 	const userName = useSelector((state: Store) => state.user.userName);
+	const [modalOpen, setModalOpen] = useState<boolean>(false);
 
 	useEffect(() => {
 		dispatch(getParty(id));
@@ -28,18 +32,39 @@ const ViewParty = (): JSX.Element => {
 		};
 	}, []);
 
+	const openModal = () => {
+		setModalOpen((modalOpen: boolean) => !modalOpen);
+	};
+
 	if (party) {
+		const isOrganiser: boolean = party.organiser === userName;
 		return (
 			<div>
 				<Header>
+					<Link className={headerStyles.headerLink} to={'/dashboard'}>
+						Dashboard
+					</Link>
+					<Link className={headerStyles.headerLink} to={'/search'}>
+						Search
+					</Link>
+					{isOrganiser ? (
+						<button className={headerStyles.headerLink}>Invite</button>
+					) : (
+						<></>
+					)}
+					{isOrganiser ? (
+						<button className={headerStyles.headerLink} onClick={openModal}>Edit</button>
+					) : (
+						<></>
+					)}
 					<Link className={headerStyles.headerLink} to={`/chat/${party._id}`}>
-						chat
+						Chat
 					</Link>
 					<Link
 						className={headerStyles.headerLink}
 						to={`/pictures/${party._id}`}
 					>
-						pictures
+						Pictures
 					</Link>
 				</Header>
 				<div className={styles.container}>
@@ -52,12 +77,18 @@ const ViewParty = (): JSX.Element => {
 					<div className={styles.spanThree}>
 						Attendees: {party.attendeesID.length}
 					</div>
-					<div className={styles.location}>
+					<div
+						className={isOrganiser ? styles.locationOrganiser : styles.location}
+					>
 						<h2>Location:</h2>
 						<p>{party.location}</p>
 						<Map address={party.location} />
 					</div>
+					{isOrganiser ? <Attendees attendees={party.attendeesID} /> : null}
 				</div>
+				<ReactModal isOpen={modalOpen}>
+					<EditParty closeModal={openModal} />
+				</ReactModal>
 			</div>
 		);
 	} else {

@@ -39,6 +39,12 @@
   grid-row: auto / auto;
 }
 
+.locationOrganiser {
+  @extend .card;
+  grid-column: auto / span 6;
+  grid-row: auto / auto;
+}
+
 .addbutton {
   border: none;
   font-size: 24px;
