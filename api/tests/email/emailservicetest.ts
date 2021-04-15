@@ -1,8 +1,9 @@
-import {Emailservice} from '../../src/email/Emailservice'; 
- 
-let testEmail = new Emailservice(); 
+import { EmailService } from '../../src/email/EmailService';
 
-testEmail.sendMail( 
-  'sayed.sayed@student.manchester.ac.uk',  
-  'Hello',  
-  'Hello from gmailService'); 
+const testEmail: EmailService = new EmailService();
+
+testEmail.sendMail(
+	'sayed.sayed@student.manchester.ac.uk',
+	'Hello',
+	'Hello from gmailService'
+);

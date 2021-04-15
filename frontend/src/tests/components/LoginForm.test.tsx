@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { LoginForm } from '../../components/LoginForm';
+import { LoginForm } from '../../components/landing/LoginForm';
 import { Provider } from 'react-redux';
 import { setErrors } from '../../redux/user-slice';
 

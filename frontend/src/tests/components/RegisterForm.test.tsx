@@ -1,13 +1,7 @@
 import * as React from 'react';
-import {
-	render,
-	screen,
-	fireEvent,
-	waitFor,
-	act,
-} from '@testing-library/react';
+import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { RegisterForm } from '../../components/RegisterForm';
+import { RegisterForm } from '../../components/landing/RegisterForm';
 import { Provider } from 'react-redux';
 import store from '../../redux/store';
 import axios from 'axios';
@@ -47,9 +41,7 @@ describe('<RegisterForm/>', () => {
 
 		await waitFor(() => {
 			expect(screen.getAllByText('Required').length).toBe(2);
-			expect(
-				screen.getByText('username must have at least 5 characters')
-			).toBeTruthy();
+			expect(screen.getByText('username must have at least 5 characters')).toBeTruthy();
 		});
 	});
 
@@ -68,9 +60,7 @@ describe('<RegisterForm/>', () => {
 
 		await waitFor(() => {
 			expect(screen.getAllByText('Required').length).toBe(2);
-			expect(
-				screen.getByText('max username length is 20 characters')
-			).toBeTruthy();
+			expect(screen.getByText('max username length is 20 characters')).toBeTruthy();
 		});
 	});
 

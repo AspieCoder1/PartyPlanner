@@ -1,11 +1,4 @@
-import reducer, {
-	deleteTask,
-	getTasks,
-	initialState,
-	setErrors,
-	setTodos,
-	TaskState,
-} from '../../redux/task-slice';
+import reducer, { deleteTask, getTasks, initialState, setErrors, setTodos, TaskState } from '../../redux/task-slice';
 import { configureStore } from '@reduxjs/toolkit';
 import axios from 'axios';
 

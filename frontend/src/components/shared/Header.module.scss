@@ -1,0 +1,59 @@
+@import "../../styles/colours";
+
+.header {
+  border-bottom: $grey solid 1px;
+  margin-bottom: 0;
+  padding-top: 16px;
+  background: white;
+}
+
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-left: 140px;
+  margin-right: 140px;
+}
+
+.title {
+  font-size: 24px;
+  color: $dark-purple;
+  font-weight: 500;
+
+  img{
+    height: auto;
+    width: 200px;
+  }
+}
+
+.header-buttons {
+  display: flex;
+  align-content: center;
+  justify-content: space-between;
+}
+
+.logoutButton {
+  border: none;
+  color: $black;
+  background: none;
+  font-size: 16px;
+}
+
+.button {
+  color: $dark-purple;
+  font-size: 16px;
+  border: none;
+  background: none;
+}
+
+.headerLink {
+  text-decoration: none;
+  color: $black;
+  font-size: 16px;
+  margin-right: 16px;
+  background: none;
+  border: none;
+}

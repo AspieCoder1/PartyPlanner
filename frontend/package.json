@@ -14,7 +14,6 @@
     "jwt-decode": "^3.1.2",
     "lodash": "^4.17.21",
     "mapbox-gl": "^2.2.0",
-    "multer": "^1.4.2",
     "node-sass": "^4.0.0",
     "normalize.css": "^8.0.1",
     "react": "^17.0.1",
@@ -82,9 +81,8 @@
   },
   "browserslist": {
     "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
+      "defaults",
+      "not ie 11"
     ],
     "development": [
       "last 1 chrome version",

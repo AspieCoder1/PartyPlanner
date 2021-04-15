@@ -1,10 +1,9 @@
 import { Schema, Document, Model, model } from 'mongoose';
 
 export interface IImage extends Document {
-    userId: string;
-    partyId: string;
-    link: string;
-
+	userId: string;
+	partyId: string;
+	link: string;
 }
 
 const imageSchema: Schema = new Schema({
@@ -18,7 +17,6 @@ const imageSchema: Schema = new Schema({
         trim: true,
         required : true,
     },
-
 });
 
 export const Image: Model<IImage> = model('image', imageSchema);

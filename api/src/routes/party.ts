@@ -1,9 +1,12 @@
 import * as express from 'express';
 import * as _ from 'lodash';
 import { IParty, Party } from '../models/party';
-import { validateNewParty } from '../validation/party-routes';
+import { validateNewParty, validateUpdates } from '../validation/party-routes';
+import { EmailService } from '../email/EmailService';
+import { IUser, User } from '../models/user';
 
 const partyRouter: express.Router = express.Router();
+const emailService: EmailService = new EmailService();
 
 partyRouter.post(
 	'/create',
@@ -20,7 +23,7 @@ partyRouter.post(
 			? req.body.attendeesID
 			: [req.body.organiser];
 		req.body.todoID = req.body.todoID ? req.body.todoID : '';
-		req.body.publicParty = req.body.public ? req.body.public : false;
+		req.body.publicParty = req.body.publicParty ? req.body.publicParty : false;
 
 		const party = {
 			name: req.body.name,
@@ -108,15 +111,17 @@ partyRouter.post(
 	'/join/:id',
 	async (req: express.Request, res: express.Response) => {
 		try {
-			const attenderID = req.body.attenderID;
-			const updatingPartyID = req.params.id;
-			const foundParty = await Party.findById(updatingPartyID);
+			const attenderID: string = req.body.attenderID;
+			const updatingPartyID: string = req.params.id;
+			const foundParty = await Party.findByIdAndUpdate(
+				updatingPartyID,
+				{ $addToSet: { attendeesID: attenderID } },
+				{ new: true }
+			);
 			if (foundParty) {
-				foundParty.attendeesID.push(attenderID);
-				await foundParty.save();
-				res.status(200).send(foundParty);
+				res.status(200).json(foundParty);
 			} else {
-				res.status(404).send('This party cannot be joined/does not exists.');
+				res.status(404).json('This party cannot be joined/does not exists.');
 			}
 		} catch (e) {
 			res.status(500).json('Oops something went wrong');
@@ -124,7 +129,38 @@ partyRouter.post(
 	}
 );
 
-// gettning parties they are invited to
+partyRouter.post(
+	'/invite/:partyID',
+	async (req: express.Request, res: express.Response) => {
+		const partyID = req.params.partyID;
+		const userID = req.body.userID;
+		const user: IUser = await User.findOne({ username: userID });
+		try {
+			if (user) {
+				const msg = `Hi ${user.username}, you have been invited to the party with an id of ${partyID}.`;
+				emailService.sendMail(user.email, `Invite to part ${partyID}`, msg);
+				const foundParty = await Party.findByIdAndUpdate(
+					partyID,
+					{ $addToSet: { attendeesID: userID } },
+					{ new: true }
+				);
+				if (foundParty) {
+					res.status(200).json(foundParty);
+				} else {
+					res
+						.status(404)
+						.json('This party cannot be joined or does not exists.');
+				}
+			} else {
+				return res.status(404).json('User does not exist');
+			}
+		} catch (e) {
+			res.status(500).json('Oops something went wrong');
+		}
+	}
+);
+
+// getting parties they are invited to
 partyRouter.get(
 	'/invited-parties/:id',
 	async (req: express.Request, res: express.Response) => {
@@ -168,7 +204,7 @@ partyRouter.patch(
 	async (req: express.Request, res: express.Response) => {
 		const { updates } = req.body;
 
-		const errors = validateNewParty(updates);
+		const errors = validateUpdates(updates);
 		if (!_.isEmpty(errors)) {
 			return res.status(400).json(errors);
 		}
@@ -191,16 +227,19 @@ partyRouter.patch(
 );
 
 // Get a party by an ID
-partyRouter.get('/party/:id', async (req: express.Request, res: express.Response) => {
-	try {
-		const id = req.params.id;
-		const foundParty: IParty = await Party.findOne({_id: id});
-		if (foundParty) {
-			res.status(200).json(foundParty);
+partyRouter.get(
+	'/party/:id',
+	async (req: express.Request, res: express.Response) => {
+		try {
+			const id = req.params.id;
+			const foundParty: IParty = await Party.findOne({ _id: id });
+			if (foundParty) {
+				res.status(200).json(foundParty);
+			}
+		} catch (e) {
+			res.status(500).json('Oops something went wrong');
 		}
-	} catch (e) {
-		res.status(500).json('Oops something went wrong');
 	}
-});
+);
 
 export default partyRouter;
