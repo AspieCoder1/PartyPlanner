@@ -61,27 +61,31 @@ const Landing = (): JSX.Element => {
 				<div className={styles.person}>
 					<h2>Luke Braithwaite</h2>
 					<img className={styles.avatar} src={luke} alt='avatar' />
-					<p>Luke Braithwaite has experience with Server-side development and has had DevOps experience</p>
+					<p>I am Luke from Manchester, UK.
+						<br/>I have experience with Server-side development and has had DevOps experience</p>
 				</div>
 				<div className={styles.person}>
 					<h2>Jeremy Roe</h2>
 					<img className={styles.avatar} src={jeremy} alt='avatar' />
-					<p>Jeremy Roe has experience with Python and SQL</p>
+					<p>I am Jeremy from London, UK.
+						<br/>I have experience with Python and SQL.
+						<br/>In my spare time I learn Japanese and French.
+					</p>
 				</div>
 				<div className={styles.person}>
 					<h2>Divin Jacob</h2>
 					<img className={styles.avatar} src={divin} alt='avatar' />
-					<p>Divin Jacob has experience with .NET</p>
+					<p>I have experience with .NET</p>
 				</div>
 				<div className={styles.person}>
 					<h2>Abbas Sayed</h2>
 					<img className={styles.avatar} src={abbas} alt='avatar' />
-					<p>Abbas Sayed has experience with backend web development and data scraping</p>
+					<p>I have experience with backend web development and data scraping</p>
 				</div>
 				<div className={styles.person}>
 					<h2>Radu Pirlog</h2>
 					<img className={styles.avatar} src={avatar} alt='avatar' />
-					<p>Radu Pirlog has experience with C++ and Media editing</p>
+					<p>I have experience with C++ and Media editing</p>
 				</div>
 				<div className={styles.person}>
 					<h2>Andrew</h2>
