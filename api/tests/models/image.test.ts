@@ -1,5 +1,4 @@
-import { Image, IImage } from '../../src/models/image';
-import { ObjectId } from 'mongodb';
+import { IImage, Image } from '../../src/models/image';
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import * as mongoose from 'mongoose';
 
@@ -26,10 +25,9 @@ afterEach(async () => {
 describe('Image model tests', () => {
 	it('Should correctly add a image to the db', async () => {
 		const newImage = {
-			_id: new ObjectId(),
-            partyId: 'testpartyid',
-            link: 'testpartylink',
-			
+			_id: mongoose.Types.ObjectId(),
+			partyId: 'testpartyid',
+			link: 'testpartylink',
 		};
 		const image: IImage = new Image(newImage);
 		const savedImage = await image.save();
@@ -37,5 +35,4 @@ describe('Image model tests', () => {
 		const foundImage = await Image.findById(newImage._id);
 		expect(foundImage).toBeTruthy();
 	});
-
 });
