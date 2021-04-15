@@ -45,13 +45,18 @@ io.on('connection', (socket: Socket) => {
 
 	socket.on('new_msg', async ({ msg, room }: NewMessageEvent) => {
 		socket.to(room).emit('new_msg', msg);
-		const chat: ChatModel = await new Chat({
-			partyID: room,
-			message: msg.body,
-			userID: msg.user,
-		});
+		try {
+			const chat: ChatModel = await new Chat({
+				partyID: room,
+				message: msg.body,
+				userID: msg.user,
+			});
 
-		await chat.save();
+			await chat.save();
+		} catch (e) {
+			console.log(e.stackTrace());
+		}
+
 	});
 });
 
