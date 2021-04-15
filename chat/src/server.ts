@@ -27,8 +27,20 @@ io.on('connection', (socket: Socket) => {
 
 	socket.on('join', async (arg: string) => {
 		socket.join(arg);
-		const found = await Chat.find({ partyID: arg });
-		socket.to(socket.id).emit('get_messages', { parties: found });
+		try {
+			const found = await Chat.find({ partyID: arg });
+			const argToReturn = found.map(
+				(doc: ChatModel): Message => ({
+					body: doc.message,
+					user: doc.userID,
+				})
+			);
+			console.log(argToReturn);
+
+			io.to(socket.id).emit('get_messages', argToReturn);
+		} catch (e) {
+			console.log(e.stackTrace());
+		}
 	});
 
 	socket.on('new_msg', async ({ msg, room }: NewMessageEvent) => {
