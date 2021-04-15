@@ -20,9 +20,10 @@ const useChat = (chatID: string, userName: string): HookReturn => {
 		socketRef.current = io(`${socketURL}`);
 		socketRef.current?.emit('join', chatID);
 
-		// socketRef.current.on('hello', () => {
-		// 	console.log('hello from server');
-		// });
+		socketRef.current?.on('get_messages', (msgArr: Message[]) => {
+			console.log('recieving messages');
+			setMessages(msgArr);
+		});
 
 		socketRef.current?.on('new_msg', (msg: Message) => {
 			setMessages((messages) => [...messages, msg]);

@@ -13,11 +13,13 @@
   },
   "dependencies": {
     "@types/node": "^14.14.37",
+    "dotenv": "^8.2.0",
+    "mongoose": "^5.12.3",
     "socket.io": "^4.0.0"
   },
   "scripts": {
     "lint": "eslint",
-    "format": "prettier --write",
+    "format": "prettier --write ./src",
     "start": "node server.js",
     "build": "tsc"
   }

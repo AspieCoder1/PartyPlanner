@@ -87,7 +87,7 @@ export const deleteTask = createAsyncThunk('tasks/delete', async (id: string, th
 		await axios.delete(`${apiRoute}/api/todos/${id}`);
 		return id;
 	} catch (e) {
-		return thunkAPI.rejectWithValue("Couldn't delete the task");
+		return thunkAPI.rejectWithValue('Couldn\'t delete the task');
 	}
 });
 

@@ -16,8 +16,6 @@ app.use('/api/users', userRouter);
 app.use('/api/parties', partyRouter);
 app.use('/api/todos', todoRouter);
 
-console.log(`Node environment: ${process.env.NODE_ENV}`);
-
 app.get('/', (req: express.Request, res: express.Response): void => {
 	res.send('Hello world');
 });
