@@ -3,6 +3,7 @@ import * as bodyParser from 'body-parser';
 import userRouter from './routes/user';
 import partyRouter from './routes/party';
 import todoRouter from './routes/task';
+import imageRouter from './routes/image';
 import './db/mongoose';
 import * as cors from 'cors';
 
@@ -15,6 +16,7 @@ app.use(bodyParser.json());
 app.use('/api/users', userRouter);
 app.use('/api/parties', partyRouter);
 app.use('/api/todos', todoRouter);
+app.use('/api/images', imageRouter);
 
 app.get('/', (req: express.Request, res: express.Response): void => {
 	res.send('Hello world');
