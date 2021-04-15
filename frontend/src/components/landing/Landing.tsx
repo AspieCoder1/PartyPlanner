@@ -2,6 +2,12 @@ import React, { useEffect, useState } from 'react';
 import styles from './Landing.module.scss';
 import LandingHeader from './LandingHeader';
 import img from '../../img/landingImage.svg';
+import avatar from '../../img/avatar.svg';
+import luke from '../../img/luke.svg';
+import jeremy from '../../img/jeremy.svg';
+import abbas from '../../img/abbas.svg';
+import divin from '../../img/divin.svg';
+import andrew from '../../img/andrew.svg';
 import ReactModal from 'react-modal';
 import { LoginForm } from './LoginForm';
 import { RegisterForm } from './RegisterForm';
@@ -48,6 +54,40 @@ const Landing = (): JSX.Element => {
 					Get PartyPlanner
 				</button>
 				<img className={styles.img} src={img} alt='' />
+			</div>
+			<br/>
+			<div className={styles.about}>
+				<h1 className={styles.aboutUs}>About Us</h1>
+				<div className={styles.person}>
+					<h2>Luke Braithwaite</h2>
+					<img className={styles.avatar} src={luke} alt='avatar' />
+					<p>Luke Braithwaite has experience with Server-side development and has had DevOps experience</p>
+				</div>
+				<div className={styles.person}>
+					<h2>Jeremy Roe</h2>
+					<img className={styles.avatar} src={jeremy} alt='avatar' />
+					<p>Jeremy Roe has experience with Python and SQL</p>
+				</div>
+				<div className={styles.person}>
+					<h2>Divin Jacob</h2>
+					<img className={styles.avatar} src={divin} alt='avatar' />
+					<p>Divin Jacob has experience with .NET</p>
+				</div>
+				<div className={styles.person}>
+					<h2>Abbas Sayed</h2>
+					<img className={styles.avatar} src={abbas} alt='avatar' />
+					<p>Abbas Sayed has experience with backend web development and data scraping</p>
+				</div>
+				<div className={styles.person}>
+					<h2>Radu Pirlog</h2>
+					<img className={styles.avatar} src={avatar} alt='avatar' />
+					<p>Radu Pirlog has experience with C++ and Media editing</p>
+				</div>
+				<div className={styles.person}>
+					<h2>Andrew</h2>
+					<img className={styles.avatar} src={andrew} alt='avatar' />
+					<p>Insert info about Andrew here</p>
+				</div>
 			</div>
 			<ReactModal
 				overlayClassName={styles.overlay}
