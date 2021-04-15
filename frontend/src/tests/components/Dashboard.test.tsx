@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import * as React from 'react';
-import Dashboard from '../../components/Dashboard';
+import Dashboard from '../../components/dashboard/Dashboard';
 import { setUsername } from '../../redux/user-slice';
 import { MemoryRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';

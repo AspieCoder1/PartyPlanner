@@ -1,0 +1,66 @@
+@import "../../styles/colours";
+
+.container {
+  display: grid;
+  grid-template-columns: repeat(11, 1fr);
+  column-gap: 16px;
+  margin-left: 140px;
+  margin-right: 140px;
+  margin-top: 128px;
+}
+
+.title {
+  margin: 0px;
+  color: $black;
+  font-size: 48px;
+  grid-column: 1 / span 4;
+}
+
+.paragraph {
+  font-size: 16px;
+  grid-column: 1 / span 4;
+  grid-row: 2;
+  margin-top: 32px;
+  line-height: 1.5;
+}
+
+.button {
+  grid-column: 1 / span 2;
+  grid-row: 3;
+  background: $dark-purple;
+  border: none;
+  color: white;
+  padding: 8px;
+  border-radius: 15px;
+  margin-top: 16px;
+}
+
+.img {
+  grid-column-start: 5;
+  grid-column-end: 12;
+  grid-row: 1 / 6;
+  width: 100%;
+  height: auto;
+}
+
+.overlay {
+  display: flex;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  justify-content: center;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.75);
+}
+
+.modal {
+  border: 1px solid $grey;
+  background: #fff;
+  -webkit-overflow-scrolling: touch;
+  border-radius: 4px;
+  outline: none;
+  padding: 20px;
+  width: 20%;
+}

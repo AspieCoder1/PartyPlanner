@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
-
-const apiRoute = process.env.REACT_APP_BACKEND_URL || '';
+import { apiRoute } from '../utils/api';
 
 export interface UserErrors {
 	email?: string;
@@ -36,34 +35,25 @@ type LoginUser = {
 	password: string;
 };
 
-export const registerUser = createAsyncThunk(
-	'users/registerUser',
-	async (newUser: RegisterUser, thunkAPI) => {
-		try {
-			const { data } = await axios.post(
-				`${apiRoute}/api/users/register`,
-				newUser
-			);
-			return data;
-		} catch (err) {
-			const data: UserErrors = err.response.data as UserErrors;
-			return thunkAPI.rejectWithValue(data);
-		}
+export const registerUser = createAsyncThunk('users/registerUser', async (newUser: RegisterUser, thunkAPI) => {
+	try {
+		const { data } = await axios.post(`${apiRoute}/api/users/register`, newUser);
+		return data;
+	} catch (err) {
+		const data: UserErrors = err.response.data as UserErrors;
+		return thunkAPI.rejectWithValue(data);
 	}
-);
+});
 
-export const loginUser = createAsyncThunk(
-	'users/loginUser',
-	async (newUser: LoginUser, thunkAPI) => {
-		try {
-			const { data } = await axios.post(`${apiRoute}/api/users/login`, newUser);
-			return data;
-		} catch (err) {
-			const data: UserErrors = err.response.data as UserErrors;
-			return thunkAPI.rejectWithValue(data);
-		}
+export const loginUser = createAsyncThunk('users/loginUser', async (newUser: LoginUser, thunkAPI) => {
+	try {
+		const { data } = await axios.post(`${apiRoute}/api/users/login`, newUser);
+		return data;
+	} catch (err) {
+		const data: UserErrors = err.response.data as UserErrors;
+		return thunkAPI.rejectWithValue(data);
 	}
-);
+});
 
 const userSlice = createSlice({
 	name: 'user',
@@ -97,10 +87,7 @@ const userSlice = createSlice({
 			})
 			.addCase(
 				registerUser.fulfilled,
-				(
-					state: UserState,
-					action: PayloadAction<{ id: string; userName: string; token: string }>
-				) => {
+				(state: UserState, action: PayloadAction<{ id: string; userName: string; token: string }>) => {
 					state.status = 'success';
 					state.id = action.payload.id;
 					state.userName = action.payload.userName;
@@ -109,13 +96,10 @@ const userSlice = createSlice({
 					localStorage.setItem('token', action.payload.token);
 				}
 			)
-			.addCase(
-				registerUser.rejected,
-				(state: UserState, action: PayloadAction<UserErrors>) => {
-					state.status = 'failed';
-					state.errors = action.payload;
-				}
-			)
+			.addCase(registerUser.rejected, (state: UserState, action: PayloadAction<UserErrors>) => {
+				state.status = 'failed';
+				state.errors = action.payload;
+			})
 			.addCase(loginUser.pending, (state: UserState) => {
 				state.status = 'pending';
 			})
@@ -138,21 +122,12 @@ const userSlice = createSlice({
 					localStorage.setItem('token', action.payload.token);
 				}
 			)
-			.addCase(
-				loginUser.rejected,
-				(state: UserState, action: PayloadAction<UserErrors>) => {
-					state.status = 'failed';
-					state.errors = action.payload;
-				}
-			);
+			.addCase(loginUser.rejected, (state: UserState, action: PayloadAction<UserErrors>) => {
+				state.status = 'failed';
+				state.errors = action.payload;
+			});
 	},
 });
 
-export const {
-	setId,
-	setToken,
-	setUsername,
-	setErrors,
-	logOut,
-} = userSlice.actions;
+export const { setId, setToken, setUsername, setErrors, logOut } = userSlice.actions;
 export default userSlice.reducer;

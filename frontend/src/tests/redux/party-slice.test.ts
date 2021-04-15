@@ -1,9 +1,5 @@
 import axios from 'axios';
-import reducer, {
-	setParties,
-	getParties,
-	initialState,
-} from '../../redux/party-slice';
+import reducer, { setParties, getParties, initialState } from '../../redux/party-slice';
 import { configureStore } from '@reduxjs/toolkit';
 
 jest.mock('axios');

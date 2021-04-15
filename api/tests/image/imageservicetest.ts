@@ -1,4 +1,4 @@
-import {ImageService} from '../../src/image/Imageservice';
+import {ImageService} from '../../src/image/ImageService';
 import * as path from 'path';
 
 const testImage = new ImageService();
