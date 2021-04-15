@@ -1,6 +1,8 @@
 import * as express from 'express';
 import * as _ from 'lodash';
 import { IImage, Image } from '../models/image';
+import {ImageService} from '../image/Imageservice';
+import * as path from 'path';
 
 const imageRouter: express.Router = express.Router();
 
@@ -9,15 +11,20 @@ export default imageRouter;
 
 //Upload Image 
 imageRouter.post(
-    '/uploadimage/:uid/:pid/:link',
+    '/uploadimage/:pid',
 
     async (req: express.Request, res: express.Response) => {
 
         try {
+
+            const uploadImage = new ImageService();
+            const imagePath = path.join(__dirname, 'testimage.png');
+
+            const response =  await uploadImage.uploadImage(imagePath);
+            
             const ImageToAdd: IImage = new Image({
-                userId: req.params.uid,
                 partyId: req.params.pid,
-                link: req.params.link,
+                link: response.data.link,
             });
 
             const newImage: IImage = new Image(ImageToAdd);

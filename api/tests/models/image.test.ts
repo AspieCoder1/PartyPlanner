@@ -27,7 +27,6 @@ describe('Image model tests', () => {
 	it('Should correctly add a image to the db', async () => {
 		const newImage = {
 			_id: new ObjectId(),
-            userId: 'testuserid',
             partyId: 'testpartyid',
             link: 'testpartylink',
 			

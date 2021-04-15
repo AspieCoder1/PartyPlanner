@@ -8,11 +8,6 @@ export interface IImage extends Document {
 }
 
 const imageSchema: Schema = new Schema({
-    userId: {
-        type: String,
-        trim: true,
-        required : true,
-    },
     partyId: {
         type: String,
         trim: true,
