@@ -13,7 +13,6 @@
 .about{
   display: flex;
   flex-wrap: wrap;
-  background: white;
 
   .aboutUs{
     flex: 100%;
@@ -25,6 +24,9 @@
 .person{
   flex: 33%;
   text-align: center;
+  border-top: 2px solid white;
+  margin-bottom: 20px;
+
 
   h2{
     font-size: 40px;
@@ -33,6 +35,13 @@
     font-size: 20px;
     font-style: italic;
   }
+}
+
+.avatar {
+  width: 20%;
+  height: auto;
+  border: 5px solid $dark-purple;
+  border-radius: 50%;
 }
 
 .title {
@@ -66,11 +75,6 @@
   grid-column-end: 12;
   grid-row: 1 / 6;
   width: 100%;
-  height: auto;
-}
-
-.avatar {
-  width: 30%;
   height: auto;
 }
 
