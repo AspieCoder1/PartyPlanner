@@ -55,14 +55,15 @@ describe('GET /party-image/:id', () => {
 	it('should return 200 and party images if successful', async () => {
 
         const  {body}  = await request(app).post('/uploadimage/test123/test456/test789').send({});
-        expect(body).toBe(200);
+        //expect(body).toBe(200);
+    console.log(body._doc.partyId);
 		const { status } = await request(app).get(
-			`/party-image/${body.partyId}`
+			`/party-image/${body._doc.partyId}`
 		);
 		expect(status).toBe(200);
 
-		expect(body.length).toBe(1);
-		expect(body.partyId).toBe('test456');
+		//expect(body.length).toBe(1);
+		expect(body._doc.partyId).toBe('test456');
 	});
 });
 
@@ -70,7 +71,7 @@ describe('DELETE /:id', () => {
 	it('should successfully delete a image', async () => {
 
         const { body } = await request(app).post('/uploadimage/test123/test456/test789').send({});
-        expect(body).toBe(200);
+        //expect(body).toBe(200);
 		const { status } = await request(app).del(`/${body.id}`);
 		expect(status).toBe(200);
 
