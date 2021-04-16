@@ -75,7 +75,9 @@ const Landing = (): JSX.Element => {
 				<div className={styles.person}>
 					<h2>Divin Jacob</h2>
 					<img className={styles.avatar} src={divin} alt='avatar' />
-					<p>I have experience with .NET</p>
+					<p>Hi, my name is Divin, I am from Manchester.
+						<br/>In my spare time I enjoy playing badminton and watching football.
+						<br/>I have experience with .NET</p>
 				</div>
 				<div className={styles.person}>
 					<h2>Abbas Sayed</h2>
