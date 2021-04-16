@@ -9,6 +9,7 @@ import PageNotFound from '../components/404';
 import SearchParty from '../components/search/SearchParty';
 import PublicRoute from './PublicRoute';
 import PrivateRoute from './PrivateRoute';
+import ImageUpload from '../components/ImageUpload';
 
 const AppRouter = (): JSX.Element => (
 	<Router history={history}>
@@ -36,6 +37,11 @@ const AppRouter = (): JSX.Element => (
 			<Route exact path='/search'>
 				<PrivateRoute>
 					<SearchParty />
+				</PrivateRoute>
+			</Route>
+			<Route exact path='/pictures/:id'>
+				<PrivateRoute>
+					<ImageUpload/>
 				</PrivateRoute>
 			</Route>
 			<Route path='*'>

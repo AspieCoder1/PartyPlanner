@@ -8,6 +8,8 @@ import styles from './Chat.module.scss';
 import { useSelector } from 'react-redux';
 import { Store } from '../../redux/store';
 import Message from './Message';
+import { Link } from 'react-router-dom';
+import headerStyles from '../shared/Header.module.scss';
 
 const Chat = (): JSX.Element => {
 	const { userName } = useSelector((state: Store) => state.user);
@@ -29,7 +31,11 @@ const Chat = (): JSX.Element => {
 			<Helmet>
 				<title>Chat for {id}</title>
 			</Helmet>
-			<Header />
+			<Header>
+				<Link className={headerStyles.headerLink} to={'/dashboard'}>Dashboard</Link>
+				<Link className={headerStyles.headerLink} to={`/pictures/${id}`}>Pictures</Link>
+				<Link className={headerStyles.headerLink} to={`/party/${id}`}>Party</Link>
+			</Header>
 			<div className={styles.container}>
 				<div className={styles.chatArea}>
 					{messages.length > 0 ? (

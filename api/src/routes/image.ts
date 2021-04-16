@@ -57,7 +57,7 @@ imageRouter.get(
 			if (_.isEmpty(foundImages)) {
 				res.status(404).send('You have no parties');
 			} else {
-				res.status(200).json(foundImages); // send to  party image html page
+				res.status(200).json(foundImages.map((img: IImage) => img.link)); // send to  party image html page
 			}
 		} catch (e) {
 			res.status(500).json('Oops something went wrong');

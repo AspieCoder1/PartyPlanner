@@ -45,6 +45,7 @@
   overflow-y: auto;
   grid-template-columns: repeat(12, 1fr);
   column-gap: 16px;
+  grid-auto-rows: 1fr
 }
 
 .container {
