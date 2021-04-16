@@ -10,9 +10,18 @@
 
 }
 
+.aboutGrid {
+  margin-top: 16px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 16px;
+}
+
 .about{
   display: flex;
   flex-wrap: wrap;
+  margin-left: 140px;
+  margin-right: 140px;
 
   .aboutUs{
     flex: 100%;
@@ -24,12 +33,17 @@
 .person{
   flex: 33%;
   text-align: center;
-  border-top: 2px solid white;
+  background: white;
+  border: $grey 1pt solid;
   margin-bottom: 20px;
-
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8px;
 
   h2{
     font-size: 40px;
+    //margin: 8px;
   }
   p{
     font-size: 20px;
@@ -98,4 +112,8 @@
   outline: none;
   padding: 20px;
   width: 20%;
+}
+
+.heroContainer {
+  height: 100vh;
 }

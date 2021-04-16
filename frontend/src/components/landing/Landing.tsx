@@ -43,57 +43,71 @@ const Landing = (): JSX.Element => {
 
 	return (
 		<>
-			<LandingHeader onClickLogin={openLoginModal} onClickRegister={openRegisterModal} />
-			<div className={styles.container}>
-				<h2 className={styles.title}>Take the stress out of party planning</h2>
-				<p className={styles.paragraph}>
-					We all know party planning is hard. But it does not have to be. PartyPlanner.io provides you with all the
-					tools you need in order to have a stress-free party. So relax, get a drink and give PartyPlanner a try!
-				</p>
-				<button className={styles.button} onClick={openRegisterModal}>
-					Get PartyPlanner
-				</button>
-				<img className={styles.img} src={img} alt='' />
-			</div>
-			<br/>
-			<div className={styles.about}>
-				<h1 className={styles.aboutUs}>About Us</h1>
-				<div className={styles.person}>
-					<h2>Luke Braithwaite</h2>
-					<img className={styles.avatar} src={luke} alt='avatar' />
-					<p>I am Luke from Manchester, UK.
-						<br/>I have experience with Server-side development and has had DevOps experience</p>
-				</div>
-				<div className={styles.person}>
-					<h2>Jeremy Roe</h2>
-					<img className={styles.avatar} src={jeremy} alt='avatar' />
-					<p>I am Jeremy from London, UK.
-						<br/>I have experience with Python and SQL.
-						<br/>In my spare time I learn Japanese and French.
+			<div className={styles.heroContainer}>
+				<LandingHeader onClickLogin={openLoginModal} onClickRegister={openRegisterModal} />
+				<div className={styles.container}>
+					<h2 className={styles.title}>Take the stress out of party planning</h2>
+					<p className={styles.paragraph}>
+						We all know party planning is hard. But it does not have to be. PartyPlanner.io provides you with all the
+						tools you need in order to have a stress-free party. So relax, get a drink and give PartyPlanner a try!
 					</p>
+					<button className={styles.button} onClick={openRegisterModal}>
+						Get PartyPlanner
+					</button>
+					<img className={styles.img} src={img} alt='' />
 				</div>
-				<div className={styles.person}>
-					<h2>Divin Jacob</h2>
-					<img className={styles.avatar} src={divin} alt='avatar' />
-					<p>Hi, my name is Divin, I am from Manchester.
-						<br/>In my spare time I enjoy playing badminton and watching football.
-						<br/>I have experience with .NET</p>
-				</div>
-				<div className={styles.person}>
-					<h2>Abbas Sayed</h2>
-					<img className={styles.avatar} src={abbas} alt='avatar' />
-					<p>My name is Abbas, I am from Afghanistan.
-						<br/>I have experience with backend web development and data scraping</p>
-				</div>
-				<div className={styles.person}>
-					<h2>Radu Pirlog</h2>
-					<img className={styles.avatar} src={avatar} alt='avatar' />
-					<p>I have experience with C++ and Media editing</p>
-				</div>
-				<div className={styles.person}>
-					<h2>Andrew</h2>
-					<img className={styles.avatar} src={andrew} alt='avatar' />
-					<p>Insert info about Andrew here</p>
+			</div>
+
+			<br />
+			<div className={styles.about}>
+				<h1 className={styles.aboutUs}>Who are we?</h1>
+				<div className={styles.aboutGrid}>
+					<div className={styles.person}>
+						<h2>Luke Braithwaite</h2>
+						<img className={styles.avatar} src={luke} alt='avatar' />
+						<p>
+							I am Luke from Manchester, UK.
+							<br />I have experience with Server-side development and has had DevOps experience
+						</p>
+					</div>
+					<div className={styles.person}>
+						<h2>Jeremy Roe</h2>
+						<img className={styles.avatar} src={jeremy} alt='avatar' />
+						<p>
+							I am Jeremy from London, UK.
+							<br />I have experience with Python and SQL.
+							<br />
+							In my spare time I learn Japanese and French.
+						</p>
+					</div>
+					<div className={styles.person}>
+						<h2>Divin Jacob</h2>
+						<img className={styles.avatar} src={divin} alt='avatar' />
+						<p>
+							Hi, my name is Divin, I am from Manchester.
+							<br />
+							In my spare time I enjoy playing badminton and watching football.
+							<br />I have experience with .NET
+						</p>
+					</div>
+					<div className={styles.person}>
+						<h2>Abbas Sayed</h2>
+						<img className={styles.avatar} src={abbas} alt='avatar' />
+						<p>
+							My name is Abbas, I am from Afghanistan.
+							<br />I have experience with backend web development and data scraping
+						</p>
+					</div>
+					<div className={styles.person}>
+						<h2>Radu Pirlog</h2>
+						<img className={styles.avatar} src={avatar} alt='avatar' />
+						<p>I have experience with C++ and Media editing</p>
+					</div>
+					<div className={styles.person}>
+						<h2>Andrew</h2>
+						<img className={styles.avatar} src={andrew} alt='avatar' />
+						<p>Insert info about Andrew here</p>
+					</div>
 				</div>
 			</div>
 			<ReactModal
