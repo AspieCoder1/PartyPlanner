@@ -67,7 +67,8 @@ const Landing = (): JSX.Element => {
 						<img className={styles.avatar} src={luke} alt='avatar' />
 						<p>
 							I am Luke from Manchester, UK.
-							<br />I have experience with Server-side development and has had DevOps experience
+							<br/>I have experience with Server-side development and have done DevOps stuff.
+							<br/>When I am not programming I enjoy playing hockey and running.
 						</p>
 					</div>
 					<div className={styles.person}>
@@ -87,7 +88,7 @@ const Landing = (): JSX.Element => {
 							Hi, my name is Divin, I am from Manchester.
 							<br />
 							In my spare time I enjoy playing badminton and watching football.
-							<br />I have experience with .NET
+							<br />I have experience with .NET.
 						</p>
 					</div>
 					<div className={styles.person}>
@@ -95,7 +96,7 @@ const Landing = (): JSX.Element => {
 						<img className={styles.avatar} src={abbas} alt='avatar' />
 						<p>
 							My name is Abbas, I am from Afghanistan.
-							<br />I have experience with backend web development and data scraping
+							<br />I have experience with backend web development and data scraping.
 						</p>
 					</div>
 					<div className={styles.person}>

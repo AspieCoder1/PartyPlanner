@@ -6,6 +6,7 @@ import Header from './shared/Header';
 import styles from './Image.module.scss';
 import ReactModal from 'react-modal';
 import headerStyles from './shared/Header.module.scss';
+import { Link } from 'react-router-dom';
 
 // Using this component:   <ImageUpload partyID={'testParty'} />  partyID needs to be passed
 
@@ -49,6 +50,9 @@ const ImageUpload = (): JSX.Element => {
 	return (
 		<>
 			<Header>
+				<Link className={headerStyles.headerLink} to={'/dashboard'}>Dashboard</Link>
+				<Link className={headerStyles.headerLink} to={`/chat/${id}`}>Chat</Link>
+				<Link className={headerStyles.headerLink} to={`/party/${id}`}>Party</Link>
 				<button className={headerStyles.headerLink} onClick={openModal}>Add image</button>
 			</Header>
 			<div>
