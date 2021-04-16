@@ -82,13 +82,16 @@ const Landing = (): JSX.Element => {
 				<div className={styles.person}>
 					<h2>Abbas Sayed</h2>
 					<img className={styles.avatar} src={abbas} alt='avatar' />
-					<p>My name is Abbas, I am from Afghanistan.
-						<br/>I have experience with backend web development and data scraping</p>
+					<p>My name is Abbas and I am from Afghanistan!
+						<br/>I am experienced in Web and Android/iOS Development.
+						<br/>Unlike Luke, I love PHP so much &lt;3</p>
 				</div>
 				<div className={styles.person}>
 					<h2>Radu Pirlog</h2>
 					<img className={styles.avatar} src={avatar} alt='avatar' />
-					<p>I have experience with C++ and Media editing</p>
+					<p>Hello! I am Radu from Romania!
+						<br/>I have experience with C++ and Media editing.
+						<br/>In my free time, I like to go for a drive and relax. </p>
 				</div>
 				<div className={styles.person}>
 					<h2>Andrew</h2>
