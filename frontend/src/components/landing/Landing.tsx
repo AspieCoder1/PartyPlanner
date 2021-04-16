@@ -65,49 +65,42 @@ const Landing = (): JSX.Element => {
 					<div className={styles.person}>
 						<h2>Luke Braithwaite</h2>
 						<img className={styles.avatar} src={luke} alt='avatar' />
-						<p>
-							I am Luke from Manchester, UK.
-							<br/>I have experience with Server-side development and have done DevOps stuff.
-							<br/>When I am not programming I enjoy playing hockey and running.
-						</p>
+						<p>Hi, I am Luke from Manchester!
+							<br/>I have experience with Server-side development and have had DevOps experience.</p>
 					</div>
 					<div className={styles.person}>
 						<h2>Jeremy Roe</h2>
 						<img className={styles.avatar} src={jeremy} alt='avatar' />
-						<p>
-							I am Jeremy from London, UK.
-							<br />I have experience with Python and SQL.
-							<br />
-							In my spare time I learn Japanese and French.
+						<p>こんにちは, I am Jeremy  and I am from London!
+							<br/>I have experience with Python and SQL.
+							<br/>In my spare time I learn Japanese and French.
 						</p>
 					</div>
 					<div className={styles.person}>
 						<h2>Divin Jacob</h2>
 						<img className={styles.avatar} src={divin} alt='avatar' />
-						<p>
-							Hi, my name is Divin, I am from Manchester.
-							<br />
-							In my spare time I enjoy playing badminton and watching football.
-							<br />I have experience with .NET.
-						</p>
+						<p>Hi, my name is Divin, I am from Manchester.
+							<br/>In my spare time I enjoy playing badminton and watching football.
+							<br/>I have experience with .NET</p>
 					</div>
 					<div className={styles.person}>
 						<h2>Abbas Sayed</h2>
 						<img className={styles.avatar} src={abbas} alt='avatar' />
-						<p>
-							My name is Abbas, I am from Afghanistan.
-							<br />I have experience with backend web development and data scraping.
-						</p>
+						<p>My name is Abbas and I am from Afghanistan!
+							<br/>I am experienced in Web and Android/iOS Development.
+							<br/>Unlike Luke, I love PHP so much &lt;3 &lt;3</p>
 					</div>
 					<div className={styles.person}>
 						<h2>Radu Pirlog</h2>
 						<img className={styles.avatar} src={avatar} alt='avatar' />
-						<p>I have experience with C++ and Media editing</p>
+						<p>Hello! I am Radu from Romania!
+							<br/>I have experience with C++ and Media editing.
+							<br/>In my free time, I like to go for a drive and relax.</p>
 					</div>
 					<div className={styles.person}>
-						<h2>Andrew</h2>
+						<h2>Andrew Forsyth</h2>
 						<img className={styles.avatar} src={andrew} alt='avatar' />
-						<p>Insert info about Andrew here</p>
+						<p>Insert info about Andrew here... :p</p>
 					</div>
 				</div>
 			</div>
