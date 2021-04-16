@@ -82,8 +82,9 @@ const Landing = (): JSX.Element => {
 				<div className={styles.person}>
 					<h2>Abbas Sayed</h2>
 					<img className={styles.avatar} src={abbas} alt='avatar' />
-					<p>My name is Abbas, I am from Afghanistan.
-						<br/>I have experience with backend web development and data scraping</p>
+					<p>My name is Abbas and I am from Afghanistan!
+						<br/>I am experienced in Web and Android/iOS Development.
+						<br/>Unlike Luke, I love PHP so much <3</p>
 				</div>
 				<div className={styles.person}>
 					<h2>Radu Pirlog</h2>
