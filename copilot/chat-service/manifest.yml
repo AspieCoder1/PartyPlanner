@@ -1,23 +1,23 @@
-# The manifest for the "api-service" service.
+# The manifest for the "chat-service" service.
 # Read the full specification for the "Load Balanced Web Service" type at:
 #  https://aws.github.io/copilot-cli/docs/manifest/lb-web-service/
 
 # Your service name will be used in naming your resources like log groups, ECS services, etc.
-name: api-service
+name: chat-service
 type: Load Balanced Web Service
 
 # Distribute traffic to your service.
 http:
   # Requests to this path will be forwarded to your service.
   # To match all requests you can use the "/" path.
-  path: 'api'
+  path: 'chat-service'
   # You can specify a custom health check path. The default is "/".
   healthcheck: '/api'
 
 # Configuration for your containers and service.
 image:
   # Docker build arguments. For additional overrides: https://aws.github.io/copilot-cli/docs/manifest/lb-web-service/#image-build
-  build: api/Dockerfile
+  build: chat/Dockerfile
   # Port exposed through your container to route traffic to it.
   port: 5000
 
@@ -33,7 +33,6 @@ exec: true     # Enable running commands in your container.
 
 secrets:                      # Pass secrets from AWS Systems Manager (SSM) Parameter Store.
   DB_URL: DB_PROD_URL  # The key is the name of the environment variable, the value is the name of the SSM parameter.
-  jwt_key: JWT_SECRET
 
 # You can override any of the values defined above by environment.
 #environments:

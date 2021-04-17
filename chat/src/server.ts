@@ -8,6 +8,7 @@ const io = new Server(httpServer, {
 	cors: {
 		origin: true,
 	},
+	path: 'chat-service'
 });
 
 type Message = {
