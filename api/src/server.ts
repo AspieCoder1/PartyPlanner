@@ -18,7 +18,7 @@ app.use('/api/parties', partyRouter);
 app.use('/api/todos', todoRouter);
 app.use('/api/images', imageRouter);
 
-app.get('/', (req: express.Request, res: express.Response): void => {
+app.get('/api', (req: express.Request, res: express.Response): void => {
 	res.send('Hello world');
 });
 

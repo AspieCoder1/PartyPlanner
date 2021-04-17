@@ -37,7 +37,7 @@ type LoginUser = {
 
 export const registerUser = createAsyncThunk('users/registerUser', async (newUser: RegisterUser, thunkAPI) => {
 	try {
-		const { data } = await axios.post(`${apiRoute}/api/users/register`, newUser);
+		const { data } = await axios.post(`${apiRoute}/users/register`, newUser);
 		return data;
 	} catch (err) {
 		const data: UserErrors = err.response.data as UserErrors;
@@ -47,7 +47,7 @@ export const registerUser = createAsyncThunk('users/registerUser', async (newUse
 
 export const loginUser = createAsyncThunk('users/loginUser', async (newUser: LoginUser, thunkAPI) => {
 	try {
-		const { data } = await axios.post(`${apiRoute}/api/users/login`, newUser);
+		const { data } = await axios.post(`${apiRoute}/users/login`, newUser);
 		return data;
 	} catch (err) {
 		const data: UserErrors = err.response.data as UserErrors;

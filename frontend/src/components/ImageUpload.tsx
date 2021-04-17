@@ -7,14 +7,12 @@ import styles from './Image.module.scss';
 import ReactModal from 'react-modal';
 import headerStyles from './shared/Header.module.scss';
 import { Link } from 'react-router-dom';
-
+import {apiRoute} from '../utils/api';
 // Using this component:   <ImageUpload partyID={'testParty'} />  partyID needs to be passed
 
 type Params = {
 	id: string;
 };
-
-const apiRoute = process.env.REACT_APP_BACKEND_URL || '';
 
 const ImageUpload = (): JSX.Element => {
 	const { id } = useParams<Params>();
@@ -38,7 +36,7 @@ const ImageUpload = (): JSX.Element => {
 		const formData = new FormData();
 		if (file) {
 			formData.append('image', file);
-			await axios.post(`${apiRoute}/api/images/uploadimage/${id}`, formData, {
+			await axios.post(`${apiRoute}/images/uploadimage/${id}`, formData, {
 				headers: {
 					'Content-Type': 'multipart/form-data',
 				},

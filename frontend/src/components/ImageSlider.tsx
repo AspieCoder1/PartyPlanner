@@ -5,8 +5,7 @@ import axios from 'axios';
 import { useParams } from 'react-router';
 import styles from './Image.module.scss';
 import * as _ from 'lodash';
-
-const apiRoute = process.env.REACT_APP_BACKEND_URL || '';
+import {apiRoute} from '../utils/api';
 
 type Params = {
 	id: string;
@@ -18,7 +17,7 @@ const ImageSlider = (): JSX.Element => {
 
 	const fetchData = async () => {
 		try {
-			const { data } = await axios.get(`${apiRoute}/api/images/party-image/${id}`);
+			const { data } = await axios.get(`${apiRoute}/images/party-image/${id}`);
 			setSlides(data);
 		} catch (e) {
 			console.error(e);

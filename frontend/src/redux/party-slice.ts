@@ -83,7 +83,7 @@ export const initialState: PartyState = {
 
 export const createParty = createAsyncThunk('parties/createParty', async (newParty: NewPartyState, thunkAPI) => {
 	try {
-		const { data } = await axios.post(`${apiRoute}/api/parties/create`, newParty);
+		const { data } = await axios.post(`${apiRoute}/parties/create`, newParty);
 		return data;
 	} catch (err) {
 		const data: PartyErrors = err.response.data as PartyErrors;
@@ -93,7 +93,7 @@ export const createParty = createAsyncThunk('parties/createParty', async (newPar
 
 export const getParty = createAsyncThunk('parties/getParty', async (id: string, thunkAPI) => {
 	try {
-		const { data } = await axios.get(`${apiRoute}/api/parties/party/${id}`);
+		const { data } = await axios.get(`${apiRoute}/parties/party/${id}`);
 		return data;
 	} catch (err) {
 		let msg = 'Oops something went wrong';
@@ -106,7 +106,7 @@ export const getParty = createAsyncThunk('parties/getParty', async (id: string, 
 
 export const getParties = createAsyncThunk('parties/getParties', async (id: string, thunkAPI) => {
 	try {
-		const { data } = await axios.get(`${apiRoute}/api/parties/invited-parties/${id}`);
+		const { data } = await axios.get(`${apiRoute}/parties/invited-parties/${id}`);
 		return data;
 	} catch (err) {
 		let msg = 'Oops something went wrong';
@@ -119,7 +119,7 @@ export const getParties = createAsyncThunk('parties/getParties', async (id: stri
 
 export const publicParties = createAsyncThunk('parties/publicParties', async (random: string, thunkAPI) => {
 	try {
-		const { data } = await axios.get(`${apiRoute}/api/parties/public-parties/`);
+		const { data } = await axios.get(`${apiRoute}/parties/public-parties/`);
 		return data;
 	} catch (err) {
 		let msg = 'Oops something went wrong';
@@ -134,7 +134,7 @@ export const updateParty = createAsyncThunk(
 	'parties/updateParty',
 	async (updateParty: { _id: string; updates: PartyUpdates }, thunkAPI) => {
 		try {
-			const { data } = await axios.patch(`${apiRoute}/api/parties/update/${updateParty._id}`, updateParty);
+			const { data } = await axios.patch(`${apiRoute}/parties/update/${updateParty._id}`, updateParty);
 			return data;
 		} catch (err) {
 			const data: PartyErrors = err.response.data as PartyErrors;
@@ -148,7 +148,7 @@ export const joinParty = createAsyncThunk(
 	async (partyObj: { partyId: string; userId: string }, thunkAPI) => {
 		const { partyId, userId } = partyObj;
 		try {
-			await axios.post(`${apiRoute}/api/parties/join/${partyId}`, {
+			await axios.post(`${apiRoute}/parties/join/${partyId}`, {
 				attenderID: userId,
 			});
 			return { partyId, userId };
@@ -161,7 +161,7 @@ export const joinParty = createAsyncThunk(
 export const invite = createAsyncThunk('party/invite', async (inviteObject: InviteObject, thunkAPI) => {
 	const { id, userID } = inviteObject;
 	try {
-		await axios.post(`${apiRoute}/api/parties/invite/${id}`, { userID });
+		await axios.post(`${apiRoute}/parties/invite/${id}`, { userID });
 	} catch (e) {
 		return thunkAPI.rejectWithValue(e.response.data);
 	}

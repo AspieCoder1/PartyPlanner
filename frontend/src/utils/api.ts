@@ -1,1 +1,1 @@
-export const apiRoute = process.env.REACT_APP_BACKEND_URL || '';
+export const apiRoute = process.env.REACT_APP_BACKEND_URL || '/api';

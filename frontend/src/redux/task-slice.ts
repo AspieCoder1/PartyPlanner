@@ -48,7 +48,7 @@ export const toggleCompleted = createAsyncThunk('tasks/toggleCompleted', async (
 	};
 
 	try {
-		await axios.patch(`${apiRoute}/api/todos/update/${id}`, { updates });
+		await axios.patch(`${apiRoute}/todos/update/${id}`, { updates });
 		return { toggle, id };
 	} catch (e) {
 		return thunkAPI.rejectWithValue('Oops something went wrong');
@@ -57,7 +57,7 @@ export const toggleCompleted = createAsyncThunk('tasks/toggleCompleted', async (
 
 export const getTasks = createAsyncThunk('tasks/getTasks', async (id: string, thunkAPI) => {
 	try {
-		const { data } = await axios.get(`${apiRoute}/api/todos/my-tasks/${id}`);
+		const { data } = await axios.get(`${apiRoute}/todos/my-tasks/${id}`);
 		return data;
 	} catch (err) {
 		let msg = 'Oops something went wrong';
@@ -70,7 +70,7 @@ export const getTasks = createAsyncThunk('tasks/getTasks', async (id: string, th
 
 export const addTask = createAsyncThunk('tasks/createTask', async (taskToAdd: TaskToAdd, thunkAPI) => {
 	try {
-		const { data } = await axios.post(`${apiRoute}/api/todos/create`, taskToAdd);
+		const { data } = await axios.post(`${apiRoute}/todos/create`, taskToAdd);
 		return data;
 	} catch (err) {
 		let msg = 'Oops something went wrong';
@@ -84,7 +84,7 @@ export const addTask = createAsyncThunk('tasks/createTask', async (taskToAdd: Ta
 
 export const deleteTask = createAsyncThunk('tasks/delete', async (id: string, thunkAPI) => {
 	try {
-		await axios.delete(`${apiRoute}/api/todos/${id}`);
+		await axios.delete(`${apiRoute}/todos/${id}`);
 		return id;
 	} catch (e) {
 		return thunkAPI.rejectWithValue('Couldn\'t delete the task');
