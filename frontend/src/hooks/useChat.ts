@@ -18,7 +18,7 @@ const useChat = (chatID: string, userName: string): HookReturn => {
 	useEffect(() => {
 		const socketURL = process.env.REACT_APP_CHAT_URL || '';
 		socketRef.current = io(`${socketURL}`, {
-			path: '/chat-service/'
+			path: '/chat-service/socket/'
 		});
 		socketRef.current?.emit('join', chatID);
 

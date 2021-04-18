@@ -2,13 +2,15 @@ import { createServer } from 'http';
 import { Server, Socket } from 'socket.io';
 import './db';
 import { Chat, ChatModel } from './chat';
+import * as express from 'express';
 
-const httpServer = createServer();
+const app: express.Application = express();
+const httpServer = createServer(app);
 const io = new Server(httpServer, {
 	cors: {
 		origin: true,
 	},
-	path: '/chat-service/'
+	path: '/chat-service/socket/'
 });
 
 type Message = {
@@ -22,6 +24,10 @@ type NewMessageEvent = {
 };
 
 const port = process.env.PORT || 9001;
+
+app.get('/chat-service/healthcheck', (req: express.Request, res: express.Response) => {
+	res.status(200).json('Health check passed');
+});
 
 io.on('connection', (socket: Socket) => {
 	console.log(`Connected to socket ${socket.id}`);
