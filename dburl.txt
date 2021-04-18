@@ -1,1 +1,0 @@
-mongodb+srv://prod_access:oM11ZTcOBwGnMluq@partyplannerdata.3ef8g.mongodb.net/myFirstDatabase?retryWrites=true&w=majority
