@@ -1,7 +1,7 @@
 # PartyPlanner.io
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/a8270273-c66b-419e-9906-53700823fa34/deploy-status)](https://app.netlify.com/sites/pedantic-volhard-92b910/deploys)
-[![sia109](https://circleci.com/gh/sai109/PartyPlanner.svg?style=svg)](https://app.circleci.com/pipelines/github/sai109/PartyPlanner)
+[![sia109](https://circleci.com/gh/AspieCoder1/PartyPlanner.svg?style=svg)](https://app.circleci.com/pipelines/github/sai109/PartyPlanner)
 
 Link the [backend docs](https://pedantic-volhard-92b910.netlify.app)
 
